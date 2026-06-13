@@ -54,13 +54,6 @@ function parseFrontmatter(fileContent) {
   return { data, content: markdownContent };
 }
 
-// Transform WikiLinks: [[path|text]] -> <span ...>text</span>
-function transformWikiLinks(content) {
-  return content.replace(/\[\[(.*?)\|(.*?)\]\]/g, (match, p1, p2) => {
-    return `<span class="text-gray-500 text-sm bg-gray-100 px-1 py-0.5 rounded border border-gray-200" data-original-path="${p1.trim()}">📄 ${p2.trim()}</span>`;
-  });
-}
-
 // Find all markdown files recursively
 function findMarkdownFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);
@@ -81,52 +74,93 @@ function syncArticles() {
   console.log('Starting article synchronization...');
   
   // Load existing JSON
-  let issuesData = [];
+  let existingIssues = [];
   if (fs.existsSync(ISSUES_JSON_PATH)) {
     try {
-      issuesData = JSON.parse(fs.readFileSync(ISSUES_JSON_PATH, 'utf-8'));
+      existingIssues = JSON.parse(fs.readFileSync(ISSUES_JSON_PATH, 'utf-8'));
     } catch (e) {
       console.error('Failed to parse existing issues_data.json', e);
-      issuesData = [];
+      existingIssues = [];
     }
   }
 
   const markdownFiles = findMarkdownFiles(SOURCE_DIR);
-  let updatedCount = 0;
-  let addedCount = 0;
+  
+  // First pass: build mapping of basename -> id
+  const articleMap = {};
+  const processedFiles = [];
 
   for (const filePath of markdownFiles) {
     const rawContent = fs.readFileSync(filePath, 'utf-8');
     const { data, content } = parseFrontmatter(rawContent);
-    
-    // Skip if it doesn't have a title (probably not an article)
     if (!data.title) continue;
 
-    // Process Content
+    const basename = path.basename(filePath, '.md');
+    const existingIndex = existingIssues.findIndex(item => item.title === data.title || item.title === `"${data.title}"`);
+    const id = existingIndex >= 0 ? existingIssues[existingIndex].id : crypto.randomBytes(6).toString('hex');
+
+    articleMap[basename] = id;
+    processedFiles.push({ filePath, basename, id, data, content, existingIndex });
+  }
+
+  // Transform WikiLinks using the articleMap
+  function transformWikiLinks(content) {
+    // Process both [[path|text]] and [[path]]
+    return content.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
+      let linkPath = inner;
+      let linkText = '';
+
+      if (inner.includes('|')) {
+        const parts = inner.split('|');
+        linkPath = parts[0].trim();
+        linkText = parts[1].trim();
+      } else {
+        linkPath = inner.trim();
+        linkText = linkPath.split('/').pop().replace('.md', ''); // Extract filename
+      }
+
+      const linkBasename = linkPath.split('/').pop().replace('.md', '');
+
+      // Check if it links to another article
+      if (articleMap[linkBasename]) {
+        // It's a link to another issue article. Convert to an actual hyperlink.
+        return `[${linkText}](/issues/${articleMap[linkBasename]})`;
+      } else {
+        // Not a mobile article (e.g. 議事録 or 議員名鑑). Display as a styled text box.
+        // If it had a file icon emoji from the pipe, keep it, otherwise just wrap in brackets as requested.
+        const displayText = inner.includes('|') ? linkText : `[${linkText}]`;
+        return `<span class="text-gray-500 text-sm bg-gray-100 px-1 py-0.5 rounded border border-gray-200" data-original-path="${linkPath}">${displayText}</span>`;
+      }
+    });
+  }
+
+  let updatedCount = 0;
+  let addedCount = 0;
+  const newIssuesData = [];
+
+  // Second pass: Process content and generate final data
+  for (const fileObj of processedFiles) {
+    const { filePath, id, data, content, existingIndex } = fileObj;
+
+    // Process Content Links
     let processedContent = transformWikiLinks(content);
     
-    // Process Images (match standard markdown images: ![alt](path))
+    // Process Images
     processedContent = processedContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, imgPath) => {
-      // If it's a relative path to an image (e.g. ../../assets/images/xxx.png or similar)
       if (!imgPath.startsWith('http') && !imgPath.startsWith('/')) {
         const absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
         if (fs.existsSync(absoluteImgPath)) {
           const fileName = path.basename(absoluteImgPath);
           const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
-          // Copy image
           fs.copyFileSync(absoluteImgPath, destPath);
-          // Return new markdown image tag with path relative to mobile root
           return `![${alt}](/images/${fileName})`;
         }
       }
-      return match; // Keep original if not found or already absolute/web URL
+      return match;
     });
 
-    // Find if article exists in JSON
-    const existingIndex = issuesData.findIndex(item => item.title === data.title || item.title === `"${data.title}"`);
-    
     const issueEntry = {
-      id: existingIndex >= 0 ? issuesData[existingIndex].id : crypto.randomBytes(6).toString('hex'),
+      id: id,
       title: data.title,
       date: data.date || '',
       tags: Array.isArray(data.tags) ? data.tags : (data.tags ? [data.tags] : []),
@@ -134,16 +168,16 @@ function syncArticles() {
     };
 
     if (existingIndex >= 0) {
-      issuesData[existingIndex] = issueEntry;
+      existingIssues[existingIndex] = issueEntry;
       updatedCount++;
     } else {
-      issuesData.push(issueEntry);
+      existingIssues.push(issueEntry);
       addedCount++;
     }
   }
 
   // Write back to JSON
-  fs.writeFileSync(ISSUES_JSON_PATH, JSON.stringify(issuesData, null, 2), 'utf-8');
+  fs.writeFileSync(ISSUES_JSON_PATH, JSON.stringify(existingIssues, null, 2), 'utf-8');
   console.log(`Sync complete! Updated: ${updatedCount}, Added: ${addedCount}`);
 }
 
