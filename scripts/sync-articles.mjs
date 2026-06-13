@@ -159,7 +159,7 @@ function syncArticles() {
 
     let processedContent = transformWikiLinks(content);
     
-    // Process Images
+    // Process standard Markdown Images: ![alt](path)
     processedContent = processedContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, imgPath) => {
       // Ignore external HTTP images
       if (imgPath.startsWith('http')) return match;
@@ -167,13 +167,13 @@ function syncArticles() {
       let absoluteImgPath = '';
       
       if (!imgPath.startsWith('/')) {
-        // Relative path case (e.g. ./image.jpg or ../image.jpg)
+        // Relative path case
         absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
       }
       
       const fileName = path.basename(imgPath);
       
-      // If path resolution failed or file doesn't exist at relative path, fallback to Attachments folder
+      // Fallback to Attachments folder
       if (!absoluteImgPath || !fs.existsSync(absoluteImgPath)) {
          const attachmentsFallbackPath = path.join(ROOT_DIR, '00.open-iruma/Attachments', fileName);
          if (fs.existsSync(attachmentsFallbackPath)) {
@@ -181,11 +181,38 @@ function syncArticles() {
          }
       }
 
-      // If we finally found an existing file, copy it
       if (absoluteImgPath && fs.existsSync(absoluteImgPath)) {
         const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
         fs.copyFileSync(absoluteImgPath, destPath);
         return `![${alt}](/images/${fileName})`;
+      }
+
+      return match;
+    });
+
+    // Process Obsidian Images: ![[path]]
+    processedContent = processedContent.replace(/!\[\[([^\]]+)\]\]/g, (match, imgPath) => {
+      if (imgPath.startsWith('http')) return match;
+
+      let absoluteImgPath = '';
+      
+      if (!imgPath.startsWith('/')) {
+        absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
+      }
+      
+      const fileName = path.basename(imgPath);
+      
+      if (!absoluteImgPath || !fs.existsSync(absoluteImgPath)) {
+         const attachmentsFallbackPath = path.join(ROOT_DIR, '00.open-iruma/Attachments', fileName);
+         if (fs.existsSync(attachmentsFallbackPath)) {
+           absoluteImgPath = attachmentsFallbackPath;
+         }
+      }
+
+      if (absoluteImgPath && fs.existsSync(absoluteImgPath)) {
+        const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
+        fs.copyFileSync(absoluteImgPath, destPath);
+        return `![${fileName}](/images/${fileName})`;
       }
 
       return match;
