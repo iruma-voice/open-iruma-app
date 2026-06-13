@@ -161,15 +161,33 @@ function syncArticles() {
     
     // Process Images
     processedContent = processedContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, imgPath) => {
-      if (!imgPath.startsWith('http') && !imgPath.startsWith('/')) {
-        const absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
-        if (fs.existsSync(absoluteImgPath)) {
-          const fileName = path.basename(absoluteImgPath);
-          const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
-          fs.copyFileSync(absoluteImgPath, destPath);
-          return `![${alt}](/images/${fileName})`;
-        }
+      // Ignore external HTTP images
+      if (imgPath.startsWith('http')) return match;
+
+      let absoluteImgPath = '';
+      
+      if (!imgPath.startsWith('/')) {
+        // Relative path case (e.g. ./image.jpg or ../image.jpg)
+        absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
       }
+      
+      const fileName = path.basename(imgPath);
+      
+      // If path resolution failed or file doesn't exist at relative path, fallback to Attachments folder
+      if (!absoluteImgPath || !fs.existsSync(absoluteImgPath)) {
+         const attachmentsFallbackPath = path.join(ROOT_DIR, '00.open-iruma/Attachments', fileName);
+         if (fs.existsSync(attachmentsFallbackPath)) {
+           absoluteImgPath = attachmentsFallbackPath;
+         }
+      }
+
+      // If we finally found an existing file, copy it
+      if (absoluteImgPath && fs.existsSync(absoluteImgPath)) {
+        const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
+        fs.copyFileSync(absoluteImgPath, destPath);
+        return `![${alt}](/images/${fileName})`;
+      }
+
       return match;
     });
 

@@ -100,8 +100,80 @@ export default function MarkdownRenderer({ content }: { content: string }) {
           return <p className="mb-6 last:mb-0 leading-relaxed" {...props}>{children}</p>;
         },
         blockquote: ({node, children, ...props}) => {
+          const getChildrenText = (childNode: any): string => {
+             if (typeof childNode === 'string') return childNode;
+             if (Array.isArray(childNode)) return childNode.map(getChildrenText).join('');
+             if (childNode?.props?.children) return getChildrenText(childNode.props.children);
+             return '';
+          };
+          
+          const textContent = getChildrenText(children);
+          
+          let alertType = '';
+          if (textContent.includes('[!TIP]')) alertType = 'tip';
+          else if (textContent.includes('[!WARNING]')) alertType = 'warning';
+          else if (textContent.includes('[!IMPORTANT]')) alertType = 'important';
+          else if (textContent.includes('[!NOTE]')) alertType = 'note';
+          else if (textContent.includes('[!CAUTION]')) alertType = 'caution';
+
+          if (alertType) {
+            let bgColor = 'bg-blue-50/40';
+            let borderColor = 'border-blue-500';
+            let icon = '💡';
+            let title = 'TIP';
+
+            if (alertType === 'warning' || alertType === 'caution') {
+               bgColor = 'bg-yellow-50/50';
+               borderColor = 'border-yellow-500';
+               icon = '⚠️';
+               title = alertType === 'warning' ? 'WARNING' : 'CAUTION';
+            } else if (alertType === 'important') {
+               bgColor = 'bg-purple-50/40';
+               borderColor = 'border-purple-500';
+               icon = '✨';
+               title = 'IMPORTANT';
+            } else if (alertType === 'note') {
+               bgColor = 'bg-slate-50';
+               borderColor = 'border-slate-500';
+               icon = 'ℹ️';
+               title = 'NOTE';
+            }
+
+            const cleanAlertText = (child: any): any => {
+              if (typeof child === 'string') {
+                 return child.replace(/\[!(?:TIP|WARNING|IMPORTANT|NOTE|CAUTION)\]/g, '').trimStart();
+              }
+              if (Array.isArray(child)) {
+                 return child.map(cleanAlertText);
+              }
+              if (child && child.props && child.props.children) {
+                 return {
+                    ...child,
+                    props: {
+                       ...child.props,
+                       children: cleanAlertText(child.props.children)
+                    }
+                 };
+              }
+              return child;
+            };
+
+            const cleanedChildren = cleanAlertText(children);
+
+            return (
+              <div className={`border-l-4 ${borderColor} ${bgColor} px-5 py-4 my-8 rounded-r-xl text-slate-800 shadow-sm [&_p]:before:content-none [&_p]:after:content-none`} {...props}>
+                 <div className="font-bold flex items-center gap-2 mb-2">
+                    <span>{icon}</span> {title}
+                 </div>
+                 <div className="[&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+                   {cleanedChildren}
+                 </div>
+              </div>
+            );
+          }
+
           return (
-            <blockquote className="border-l-4 border-blue-500 bg-blue-50/40 px-5 py-4 my-8 rounded-r-xl text-slate-700 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)] not-italic [&_p]:before:content-none [&_p]:after:content-none" {...props}>
+            <blockquote className="border-l-4 border-slate-300 bg-slate-50/50 px-5 py-4 my-8 rounded-r-xl text-slate-700 shadow-sm not-italic [&_p]:before:content-none [&_p]:after:content-none" {...props}>
               {children}
             </blockquote>
           );
