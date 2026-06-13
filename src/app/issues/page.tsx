@@ -23,19 +23,16 @@ export default function Home() {
         {issues.map((issue: any) => (
           <Link href={`/issues/${issue.id}`} key={issue.id}>
             <div className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow bg-white cursor-pointer group">
-              <div className="flex flex-wrap gap-2 mb-2">
-                {issue.tags?.slice(0, 2).map((tag: string) => (
-                  <span key={tag} className="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-medium rounded-full">
-                    {tag.replace('issue/', '')}
+              <div className="flex flex-wrap gap-2 mb-3">
+                {issue.tags?.map((tag: string) => (
+                  <span key={tag} className="px-2.5 py-1 bg-slate-100 text-slate-600 text-[11px] font-bold rounded-md tracking-wider border border-slate-200/80 shadow-sm">
+                    {tag.replace('issue/', '').replace('カテゴリ/', '')}
                   </span>
                 ))}
               </div>
-              <h2 className="text-lg font-semibold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors">
+              <h2 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors">
                 {issue.title}
               </h2>
-              {issue.date && (
-                <p className="text-xs text-gray-400 mt-2">{issue.date}</p>
-              )}
             </div>
           </Link>
         ))}
