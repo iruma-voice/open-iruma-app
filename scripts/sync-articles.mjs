@@ -157,23 +157,17 @@ function syncArticles() {
   for (const fileObj of processedFiles) {
     const { filePath, id, data, content, existingIndex } = fileObj;
 
-    let processedContent = transformWikiLinks(content);
-    
-    // Process standard Markdown Images: ![alt](path)
-    processedContent = processedContent.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, imgPath) => {
-      // Ignore external HTTP images
+    // 1. Process standard Markdown Images: ![alt](path)
+    let processedContent = content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, imgPath) => {
       if (imgPath.startsWith('http')) return match;
 
       let absoluteImgPath = '';
-      
       if (!imgPath.startsWith('/')) {
-        // Relative path case
         absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
       }
       
       const fileName = path.basename(imgPath);
       
-      // Fallback to Attachments folder
       if (!absoluteImgPath || !fs.existsSync(absoluteImgPath)) {
          const attachmentsFallbackPath = path.join(ROOT_DIR, '00.open-iruma/Attachments', fileName);
          if (fs.existsSync(attachmentsFallbackPath)) {
@@ -184,18 +178,17 @@ function syncArticles() {
       if (absoluteImgPath && fs.existsSync(absoluteImgPath)) {
         const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
         fs.copyFileSync(absoluteImgPath, destPath);
-        return `![${alt}](/images/${fileName})`;
+        return `<img src="/images/${fileName}" alt="${alt || fileName}" class="w-full h-auto rounded-xl shadow-md my-6" loading="lazy" />`;
       }
 
       return match;
     });
 
-    // Process Obsidian Images: ![[path]]
+    // 2. Process Obsidian Images: ![[path]]
     processedContent = processedContent.replace(/!\[\[([^\]]+)\]\]/g, (match, imgPath) => {
       if (imgPath.startsWith('http')) return match;
 
       let absoluteImgPath = '';
-      
       if (!imgPath.startsWith('/')) {
         absoluteImgPath = path.resolve(path.dirname(filePath), imgPath);
       }
@@ -212,11 +205,14 @@ function syncArticles() {
       if (absoluteImgPath && fs.existsSync(absoluteImgPath)) {
         const destPath = path.join(PUBLIC_IMAGES_DIR, fileName);
         fs.copyFileSync(absoluteImgPath, destPath);
-        return `![${fileName}](/images/${fileName})`;
+        return `<img src="/images/${fileName}" alt="${fileName}" class="w-full h-auto rounded-xl shadow-md my-6" loading="lazy" />`;
       }
 
       return match;
     });
+
+    // 3. Transform WikiLinks using the articleMap
+    processedContent = transformWikiLinks(processedContent);
 
     const issueEntry = {
       id: id,
