@@ -80,7 +80,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
           }
 
           if (isSpeakerBlock) {
-            speakerName = speakerName.replace(/^[🗣️🏛️🏢]\s*/, '');
+            speakerName = speakerName.replace(/^(?:🗣️|🏛️|🏢)\s*/, '');
             
             return (
               <div className="mb-10 first:mt-2">
@@ -104,6 +104,17 @@ export default function MarkdownRenderer({ content }: { content: string }) {
             <blockquote className="border-l-4 border-blue-500 bg-blue-50/40 px-5 py-4 my-8 rounded-r-xl text-slate-700 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)] not-italic [&_p]:before:content-none [&_p]:after:content-none" {...props}>
               {children}
             </blockquote>
+          );
+        },
+        img: ({node, ...props}) => {
+          return (
+            <span className="block my-8">
+              <img 
+                {...props} 
+                className="max-w-full h-auto rounded-xl shadow-md border border-slate-200" 
+                loading="lazy"
+              />
+            </span>
           );
         }
       }}
