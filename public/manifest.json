@@ -1,0 +1,16 @@
+{
+  "name": "いるまオープン議会",
+  "short_name": "オープン議会",
+  "description": "入間市の地域課題と議論をわかりやすく",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
