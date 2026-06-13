@@ -99,7 +99,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
           return <p className="mb-6 last:mb-0 leading-relaxed" {...props}>{children}</p>;
         },
-        blockquote: ({node, children, ...props}) => {
+        blockquote: ({node, ref, children, ...props}: any) => {
           const getChildrenText = (childNode: any): string => {
              if (typeof childNode === 'string') return childNode;
              if (Array.isArray(childNode)) return childNode.map(getChildrenText).join('');
