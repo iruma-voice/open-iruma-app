@@ -104,6 +104,12 @@ function syncArticles() {
     if (!data.title) continue;
 
     const basename = path.basename(filePath, '.md');
+
+    // Skip files that are not explicitly marked as published
+    if (data.status !== 'published') {
+      console.log(`Skipping ${basename}: status is not published (current: ${data.status || 'undefined'})`);
+      continue;
+    }
     
     // Determine ID: check Markdown frontmatter first
     let id = data.id;
