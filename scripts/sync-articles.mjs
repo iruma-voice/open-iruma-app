@@ -22,7 +22,7 @@ if (!fs.existsSync(PUBLIC_IMAGES_DIR)) {
 function parseFrontmatter(fileContent) {
   const match = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!match) {
-    return { data: {}, content: fileContent.trim() };
+    return { data: {}, content: fileContent.trim(), rawYaml: '' };
   }
 
   const yamlStr = match[1];
@@ -35,14 +35,9 @@ function parseFrontmatter(fileContent) {
       const key = line.slice(0, colonIdx).trim();
       let value = line.slice(colonIdx + 1).trim();
       
-      // Remove quotes if present
-      if (value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1);
-      } else if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1);
-      }
+      if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+      else if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
       
-      // Handle array format like [tag1, tag2]
       if (value.startsWith('[') && value.endsWith(']')) {
         value = value.slice(1, -1).split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(s => s);
       }
@@ -51,7 +46,20 @@ function parseFrontmatter(fileContent) {
     }
   });
 
-  return { data, content: markdownContent };
+  return { data, content: markdownContent, rawYaml: yamlStr };
+}
+
+// Write ID back to Markdown file
+function writeIdToMarkdown(filePath, rawContent, rawYaml, newId) {
+  // If id already exists, do nothing
+  if (rawYaml.match(/^id:/m)) return;
+  
+  // Replace the closing of frontmatter with the new id line
+  const newYaml = rawYaml + `\nid: "${newId}"`;
+  const newContent = rawContent.replace(/^---\r?\n[\s\S]*?\r?\n---/, `---\n${newYaml}\n---`);
+  
+  fs.writeFileSync(filePath, newContent, 'utf-8');
+  console.log(`Assigned new ID ${newId} to ${path.basename(filePath)}`);
 }
 
 // Find all markdown files recursively
@@ -71,7 +79,7 @@ function findMarkdownFiles(dir, fileList = []) {
 
 // Main sync function
 function syncArticles() {
-  console.log('Starting article synchronization...');
+  console.log('Starting article synchronization with permanent ID assignment...');
   
   // Load existing JSON
   let existingIssues = [];
@@ -86,18 +94,29 @@ function syncArticles() {
 
   const markdownFiles = findMarkdownFiles(SOURCE_DIR);
   
-  // First pass: build mapping of basename -> id
+  // First pass: build mapping and assign IDs to Markdowns
   const articleMap = {};
   const processedFiles = [];
 
   for (const filePath of markdownFiles) {
     const rawContent = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = parseFrontmatter(rawContent);
+    const { data, content, rawYaml } = parseFrontmatter(rawContent);
     if (!data.title) continue;
 
     const basename = path.basename(filePath, '.md');
-    const existingIndex = existingIssues.findIndex(item => item.title === data.title || item.title === `"${data.title}"`);
-    const id = existingIndex >= 0 ? existingIssues[existingIndex].id : crypto.randomBytes(6).toString('hex');
+    
+    // Determine ID: check Markdown frontmatter first
+    let id = data.id;
+    let existingIndex = existingIssues.findIndex(item => item.id === id);
+
+    // If no ID in markdown, try to match by title from JSON, otherwise generate new
+    if (!id) {
+      existingIndex = existingIssues.findIndex(item => item.title === data.title || item.title === `"${data.title}"`);
+      id = existingIndex >= 0 ? existingIssues[existingIndex].id : crypto.randomBytes(6).toString('hex');
+      
+      // Permanently write this ID back to the Markdown file
+      writeIdToMarkdown(filePath, rawContent, rawYaml, id);
+    }
 
     articleMap[basename] = id;
     processedFiles.push({ filePath, basename, id, data, content, existingIndex });
@@ -105,7 +124,6 @@ function syncArticles() {
 
   // Transform WikiLinks using the articleMap
   function transformWikiLinks(content) {
-    // Process both [[path|text]] and [[path]]
     return content.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
       let linkPath = inner;
       let linkText = '';
@@ -116,18 +134,14 @@ function syncArticles() {
         linkText = parts[1].trim();
       } else {
         linkPath = inner.trim();
-        linkText = linkPath.split('/').pop().replace('.md', ''); // Extract filename
+        linkText = linkPath.split('/').pop().replace('.md', '');
       }
 
       const linkBasename = linkPath.split('/').pop().replace('.md', '');
 
-      // Check if it links to another article
       if (articleMap[linkBasename]) {
-        // It's a link to another issue article. Convert to an actual hyperlink.
         return `[${linkText}](/issues/${articleMap[linkBasename]})`;
       } else {
-        // Not a mobile article (e.g. 議事録 or 議員名鑑). Display as a styled text box.
-        // If it had a file icon emoji from the pipe, keep it, otherwise just wrap in brackets as requested.
         const displayText = inner.includes('|') ? linkText : `[${linkText}]`;
         return `<span class="text-gray-500 text-sm bg-gray-100 px-1 py-0.5 rounded border border-gray-200" data-original-path="${linkPath}">${displayText}</span>`;
       }
@@ -136,13 +150,13 @@ function syncArticles() {
 
   let updatedCount = 0;
   let addedCount = 0;
-  const newIssuesData = [];
 
-  // Second pass: Process content and generate final data
+  // Second pass: Process content and generate final JSON
+  const finalIssuesData = [];
+
   for (const fileObj of processedFiles) {
     const { filePath, id, data, content, existingIndex } = fileObj;
 
-    // Process Content Links
     let processedContent = transformWikiLinks(content);
     
     // Process Images
@@ -167,18 +181,19 @@ function syncArticles() {
       content: processedContent
     };
 
-    if (existingIndex >= 0) {
-      existingIssues[existingIndex] = issueEntry;
-      updatedCount++;
+    // Replace or push based on JSON array tracking
+    const existingFinalIndex = finalIssuesData.findIndex(item => item.id === id);
+    if (existingFinalIndex >= 0) {
+       finalIssuesData[existingFinalIndex] = issueEntry;
+       updatedCount++;
     } else {
-      existingIssues.push(issueEntry);
-      addedCount++;
+       finalIssuesData.push(issueEntry);
+       if (existingIndex < 0) addedCount++; else updatedCount++;
     }
   }
 
-  // Write back to JSON
-  fs.writeFileSync(ISSUES_JSON_PATH, JSON.stringify(existingIssues, null, 2), 'utf-8');
-  console.log(`Sync complete! Updated: ${updatedCount}, Added: ${addedCount}`);
+  fs.writeFileSync(ISSUES_JSON_PATH, JSON.stringify(finalIssuesData, null, 2), 'utf-8');
+  console.log(`Sync complete! Final entry count: ${finalIssuesData.length} (Added new: ${addedCount})`);
 }
 
 syncArticles();
