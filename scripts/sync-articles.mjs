@@ -27,22 +27,40 @@ function parseFrontmatter(fileContent) {
 
   const yamlStr = match[1];
   const markdownContent = match[2].trim();
+  const lines = match[1].split('\n');
   const data = {};
+  let currentKey = null;
 
-  yamlStr.split('\n').forEach(line => {
+  lines.forEach(line => {
+    const trimmedLine = line.trim();
+    if (trimmedLine.startsWith('- ') && currentKey) {
+      if (!Array.isArray(data[currentKey])) {
+        data[currentKey] = [];
+      }
+      let val = trimmedLine.slice(2).trim();
+      if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
+      else if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
+      data[currentKey].push(val);
+      return;
+    }
+
     const colonIdx = line.indexOf(':');
     if (colonIdx !== -1) {
       const key = line.slice(0, colonIdx).trim();
+      currentKey = key;
       let value = line.slice(colonIdx + 1).trim();
       
-      if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
-      else if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
-      
-      if (value.startsWith('[') && value.endsWith(']')) {
-        value = value.slice(1, -1).split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(s => s);
+      if (value) {
+        if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+        else if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
+        
+        if (value.startsWith('[') && value.endsWith(']')) {
+          value = value.slice(1, -1).split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(s => s);
+        }
+        data[key] = value;
+      } else {
+        data[key] = [];
       }
-
-      data[key] = value;
     }
   });
 
