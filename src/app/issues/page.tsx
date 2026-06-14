@@ -20,7 +20,7 @@ export default function Home() {
       </header>
 
       <div className="flex flex-col gap-4">
-        {issues.map((issue: any) => (
+        {issues.filter((issue: any) => issue.status === 'published').map((issue: any) => (
           <Link href={`/issues/${issue.id}`} key={issue.id}>
             <div className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow bg-white cursor-pointer group">
               <div className="flex flex-wrap gap-2 mb-3">

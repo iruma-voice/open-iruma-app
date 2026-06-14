@@ -123,9 +123,9 @@ function syncArticles() {
 
     const basename = path.basename(filePath, '.md');
 
-    // Skip files that are not explicitly marked as published
-    if (data.status !== 'published') {
-      console.log(`Skipping ${basename}: status is not published (current: ${data.status || 'undefined'})`);
+    // Process files marked as published, archive, or unlisted
+    if (!['published', 'archive', 'unlisted'].includes(data.status)) {
+      console.log(`Skipping ${basename}: status is ${data.status || 'undefined'}`);
       continue;
     }
     
@@ -243,6 +243,7 @@ function syncArticles() {
       title: data.title,
       date: data.date || '',
       tags: Array.isArray(data.tags) ? data.tags : (data.tags ? [data.tags] : []),
+      status: data.status || 'draft',
       content: processedContent
     };
 
