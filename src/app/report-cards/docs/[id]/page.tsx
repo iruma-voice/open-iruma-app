@@ -80,8 +80,10 @@ export default async function ReportCardDocPage(props: { params: Promise<{ id: s
           </div>
         </div>
         
-        {/* Tally Feedback Form */}
-        <TallyFeedback title={decodeURIComponent(params.id)} />
+        {/* Tally Feedback Form (Only for Disclaimer/Feedback doc) */}
+        {decodeURIComponent(params.id).includes('免責事項とフィードバック窓口') && (
+          <TallyFeedback title={decodeURIComponent(params.id)} />
+        )}
       </main>
     </div>
   );
