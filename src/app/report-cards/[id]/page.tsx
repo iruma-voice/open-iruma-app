@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Target, CheckCircle2, Circle, Clock, MessageSquare } from 'lucide-react';
 import ExpandableImage from '../../../components/ExpandableImage';
+import TallyFeedback from '../../../components/TallyFeedback';
 import fs from 'fs';
 import path from 'path';
 import reportData from '../../../data/report-cards.json';
@@ -190,6 +191,9 @@ export default async function MemberReportCardPage(props: { params: Promise<{ id
             </div>
           </section>
         )}
+
+        {/* Feedback Form */}
+        <TallyFeedback title={`議員通信簿: ${member.name}`} />
 
       </div>
     </div>

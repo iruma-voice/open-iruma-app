@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import fs from 'fs';
 import path from 'path';
 import MarkdownRenderer from '../../../../components/MarkdownRenderer';
+import TallyFeedback from '../../../../components/TallyFeedback';
 
 export function generateStaticParams() {
   const docsDir = path.join(process.cwd(), 'src/data/docs');
@@ -45,8 +46,8 @@ export default async function ReportCardDocPage(props: { params: Promise<{ id: s
   let content = await getDocContent(params.id);
   
   if (content) {
-    // Strip YAML frontmatter (lines between --- at the very start)
-    content = content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
+    // Strip YAML frontmatter (lines between --- at the very start) accounting for BOM and whitespace
+    content = content.replace(/^\uFEFF?\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
   }
 
   if (!content) {
@@ -78,6 +79,9 @@ export default async function ReportCardDocPage(props: { params: Promise<{ id: s
             <MarkdownRenderer content={content} />
           </div>
         </div>
+        
+        {/* Tally Feedback Form */}
+        <TallyFeedback title={decodeURIComponent(params.id)} />
       </main>
     </div>
   );
