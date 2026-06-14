@@ -41,14 +41,14 @@ export default function ReportCardsPage() {
 
       {/* Docs Links */}
       <div className="px-4 mt-4 flex flex-col gap-2">
-        <Link href={`/report-cards/docs/${encodeURIComponent('01_評価基準とAIプロンプト')}`} className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
+        <Link href="/report-cards/docs/01_評価基準とAIプロンプト" className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
           <span className="text-sm font-bold text-gray-700 flex items-center gap-2">
             <span className="bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-md text-[10px]">AI</span>
             評価基準とAIプロンプトについて
           </span>
           <ArrowRight className="w-4 h-4 text-gray-400" />
         </Link>
-        <Link href={`/report-cards/docs/${encodeURIComponent('02_免責事項とフィードバック窓口')}`} className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
+        <Link href="/report-cards/docs/02_免責事項とフィードバック窓口" className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
           <span className="text-sm font-bold text-gray-700 flex items-center gap-2">
             <span className="bg-red-100 text-red-600 px-1.5 py-0.5 rounded-md text-[10px]">注意</span>
             免責事項とフィードバック窓口

@@ -12,7 +12,7 @@ export function generateStaticParams() {
   
   const files = fs.readdirSync(docsDir).filter(f => f.endsWith('.md'));
   return files.map(file => ({
-    id: encodeURIComponent(file.replace('.md', ''))
+    id: file.replace('.md', '').normalize('NFC')
   }));
 }
 
@@ -29,10 +29,11 @@ async function getDocContent(id: string) {
   // Robust fallback
   if (fs.existsSync(docsDir)) {
     const files = fs.readdirSync(docsDir);
+    const normalizedDecodedId = decodedId.normalize('NFC');
     for (const file of files) {
       if (!file.endsWith('.md')) continue;
-      const baseName = file.replace('.md', '');
-      if (baseName === id || baseName === decodedId || encodeURIComponent(baseName) === id) {
+      const baseName = file.replace('.md', '').normalize('NFC');
+      if (baseName === normalizedDecodedId || encodeURIComponent(baseName) === id) {
         return fs.readFileSync(path.join(docsDir, file), 'utf8');
       }
     }
@@ -81,7 +82,7 @@ export default async function ReportCardDocPage(props: { params: Promise<{ id: s
         </div>
         
         {/* Tally Feedback Form (Only for Disclaimer/Feedback doc) */}
-        {decodeURIComponent(params.id).includes('免責事項とフィードバック窓口') && (
+        {decodeURIComponent(params.id).normalize('NFC').includes('免責事項とフィードバック窓口') && (
           <TallyFeedback title={decodeURIComponent(params.id)} />
         )}
       </main>
