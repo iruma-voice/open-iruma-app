@@ -14,12 +14,15 @@ if (!fs.existsSync(membersDestDir)) fs.mkdirSync(membersDestDir, { recursive: tr
 if (!fs.existsSync(docsDestDir)) fs.mkdirSync(docsDestDir, { recursive: true });
 if (!fs.existsSync(publicImagesDir)) fs.mkdirSync(publicImagesDir, { recursive: true });
 
+const mapping = require(path.join(destDir, 'member_mapping.json'));
+
 const files = fs.readdirSync(srcDir).filter(f => /^\d{2}_通信簿_.*\.md$/.test(f));
 const reportCards = [];
 
 files.forEach(f => {
   const content = fs.readFileSync(path.join(srcDir, f), 'utf8');
   const id = f.replace(/^\d{2}_通信簿_/, '').replace('.md', '');
+  const slug = mapping[id] || id;
   
   // Extract progress
   const rateMatch = content.match(/progress_rate:\s*(\d+)/);
@@ -134,7 +137,7 @@ files.forEach(f => {
   timeline.reverse();
 
   const memberData = {
-    id,
+    id: slug,
     name: id,
     seatNumber,
     faction,
@@ -150,11 +153,11 @@ files.forEach(f => {
   };
   
   // Save individual json
-  fs.writeFileSync(path.join(membersDestDir, `${id}.json`), JSON.stringify(memberData, null, 2));
+  fs.writeFileSync(path.join(membersDestDir, `${slug}.json`), JSON.stringify(memberData, null, 2));
 
   // Add summary data to reportCards list
   reportCards.push({
-    id,
+    id: slug,
     name: id,
     seatNumber,
     faction,

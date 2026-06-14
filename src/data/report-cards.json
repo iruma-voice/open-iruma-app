@@ -1,7 +1,7 @@
 {
   "members": [
     {
-      "id": "佐藤匡",
+      "id": "sato-tadashi",
       "name": "佐藤匡",
       "seatNumber": 1,
       "faction": "日本共産党入間市議団",
@@ -24,7 +24,7 @@
       ]
     },
     {
-      "id": "安道佳子",
+      "id": "ando-yoshiko",
       "name": "安道佳子",
       "seatNumber": 2,
       "faction": "日本共産党入間市議団",
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "id": "田山雅子",
+      "id": "tayama-masako",
       "name": "田山雅子",
       "seatNumber": 3,
       "faction": "日本共産党入間市議団",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "id": "町田健治",
+      "id": "machida-kenji",
       "name": "町田健治",
       "seatNumber": 4,
       "faction": "市民の声",
@@ -93,7 +93,7 @@
       ]
     },
     {
-      "id": "山川さおり",
+      "id": "yamakawa-saori",
       "name": "山川さおり",
       "seatNumber": 5,
       "faction": "市民の声",
@@ -112,7 +112,7 @@
       ]
     },
     {
-      "id": "益田英主",
+      "id": "masuda-hidetoshi",
       "name": "益田英主",
       "seatNumber": 6,
       "faction": "市民の声",
@@ -129,7 +129,7 @@
       ]
     },
     {
-      "id": "末次正",
+      "id": "suetsugu-tadashi",
       "name": "末次正",
       "seatNumber": 7,
       "faction": "公明党入間市議団",
@@ -151,7 +151,7 @@
       ]
     },
     {
-      "id": "向口文恵",
+      "id": "mukaiguchi-fumie",
       "name": "向口文恵",
       "seatNumber": 8,
       "faction": "公明党入間市議団",
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "id": "吉田賢一",
+      "id": "yoshida-kenichi",
       "name": "吉田賢一",
       "seatNumber": 9,
       "faction": "自由民主党入間市議団",
@@ -197,7 +197,7 @@
       ]
     },
     {
-      "id": "大野勉",
+      "id": "ono-tsutsumu",
       "name": "大野勉",
       "seatNumber": 10,
       "faction": "自由民主党入間市議団",
@@ -220,7 +220,7 @@
       ]
     },
     {
-      "id": "池畠司",
+      "id": "ikehata-tsukasa",
       "name": "池畠司",
       "seatNumber": 11,
       "faction": "自由民主党入間市議団",
@@ -238,7 +238,7 @@
       ]
     },
     {
-      "id": "双木小百合",
+      "id": "namiki-sayuri",
       "name": "双木小百合",
       "seatNumber": 12,
       "faction": "自由民主党入間市議団",
@@ -261,7 +261,7 @@
       ]
     },
     {
-      "id": "細田智也",
+      "id": "hosoda-tomoya",
       "name": "細田智也",
       "seatNumber": 13,
       "faction": "無所属の会",
@@ -284,7 +284,7 @@
       ]
     },
     {
-      "id": "永澤美恵子",
+      "id": "nagasawa-mieko",
       "name": "永澤美恵子",
       "seatNumber": 14,
       "faction": "公明党入間市議団",
@@ -307,7 +307,7 @@
       ]
     },
     {
-      "id": "栗山英美",
+      "id": "kuriyama-hidemi",
       "name": "栗山英美",
       "seatNumber": 15,
       "faction": "公明党入間市議団",
@@ -330,7 +330,7 @@
       ]
     },
     {
-      "id": "長谷川渉",
+      "id": "hasegawa-wataru",
       "name": "長谷川渉",
       "seatNumber": 16,
       "faction": "自由民主党入間市議団",
@@ -348,7 +348,7 @@
       ]
     },
     {
-      "id": "古仲リカ",
+      "id": "konaka-rika",
       "name": "古仲リカ",
       "seatNumber": 17,
       "faction": "自由民主党入間市議団",
@@ -360,7 +360,7 @@
       "categories": []
     },
     {
-      "id": "内村忠久",
+      "id": "uchimura-tadahisa",
       "name": "内村忠久",
       "seatNumber": 18,
       "faction": "自由民主党入間市議団",
@@ -383,7 +383,7 @@
       ]
     },
     {
-      "id": "野口哲次",
+      "id": "noguchi-tetsuji",
       "name": "野口哲次",
       "seatNumber": 19,
       "faction": "市民フォーラム",
@@ -406,7 +406,7 @@
       ]
     },
     {
-      "id": "横田淳一",
+      "id": "yokota-junichi",
       "name": "横田淳一",
       "seatNumber": 20,
       "faction": "自由民主党入間市議団",
@@ -418,7 +418,7 @@
       "categories": []
     },
     {
-      "id": "小島清人",
+      "id": "kojima-kiyoto",
       "name": "小島清人",
       "seatNumber": 21,
       "faction": "自由民主党入間市議団",
@@ -430,7 +430,7 @@
       "categories": []
     },
     {
-      "id": "宮岡治郎",
+      "id": "miyaoka-jiro",
       "name": "宮岡治郎",
       "seatNumber": 22,
       "faction": "自由民主党入間市議団",

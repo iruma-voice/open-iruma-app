@@ -18,23 +18,9 @@ async function getMemberData(id: string) {
   const membersDir = path.join(process.cwd(), 'src/data/members');
   if (!fs.existsSync(membersDir)) return null;
 
-  const decodedId = decodeURIComponent(id);
-  
-  // Direct file check
-  const filePath1 = path.join(membersDir, `${id}.json`);
-  const filePath2 = path.join(membersDir, `${decodedId}.json`);
-  
-  if (fs.existsSync(filePath1)) return JSON.parse(fs.readFileSync(filePath1, 'utf8'));
-  if (fs.existsSync(filePath2)) return JSON.parse(fs.readFileSync(filePath2, 'utf8'));
-  
-  // Robust fallback: list all files and check if base name matches (case insensitive / decoded)
-  const files = fs.readdirSync(membersDir);
-  for (const file of files) {
-    if (!file.endsWith('.json')) continue;
-    const baseName = file.replace('.json', '');
-    if (baseName === id || baseName === decodedId || encodeURIComponent(baseName) === id) {
-      return JSON.parse(fs.readFileSync(path.join(membersDir, file), 'utf8'));
-    }
+  const filePath = path.join(membersDir, `${id}.json`);
+  if (fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
   
   console.log(`[DEBUG] Member data not found for id=${id}.`);
