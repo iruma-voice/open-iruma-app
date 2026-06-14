@@ -3,12 +3,15 @@ const path = require('path');
 
 const srcDir = path.resolve(__dirname, '../../00.open-iruma/06_市議会議員通信簿');
 const membersDir = path.resolve(__dirname, '../../00.open-iruma/01_議員名鑑_Members');
+const docsSrcDir = path.resolve(__dirname, '../../00.open-iruma/06_市議会議員通信簿/docs');
 const destDir = path.resolve(__dirname, '../src/data');
 const membersDestDir = path.join(destDir, 'members');
+const docsDestDir = path.join(destDir, 'docs');
 const publicImagesDir = path.resolve(__dirname, '../public/images/manifestos');
 
 if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
 if (!fs.existsSync(membersDestDir)) fs.mkdirSync(membersDestDir, { recursive: true });
+if (!fs.existsSync(docsDestDir)) fs.mkdirSync(docsDestDir, { recursive: true });
 if (!fs.existsSync(publicImagesDir)) fs.mkdirSync(publicImagesDir, { recursive: true });
 
 const files = fs.readdirSync(srcDir).filter(f => /^\d{2}_通信簿_.*\.md$/.test(f));
@@ -172,5 +175,14 @@ reportCards.sort((a, b) => {
 // Save summary json
 const destFile = path.join(destDir, 'report-cards.json');
 fs.writeFileSync(destFile, JSON.stringify({ members: reportCards }, null, 2));
+
+// Copy docs
+if (fs.existsSync(docsSrcDir)) {
+  const docFiles = fs.readdirSync(docsSrcDir).filter(f => f.endsWith('.md'));
+  docFiles.forEach(f => {
+    fs.copyFileSync(path.join(docsSrcDir, f), path.join(docsDestDir, f));
+  });
+  console.log(`Successfully copied ${docFiles.length} docs.`);
+}
 
 console.log(`Successfully generated summary and ${reportCards.length} detailed member JSON files.`);

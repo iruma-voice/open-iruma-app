@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Award, Target, MessageCircle, ChevronRight } from 'lucide-react';
+import { Award, Target, MessageCircle, ChevronRight, ArrowRight } from 'lucide-react';
 import reportData from '../../data/report-cards.json';
 
 export default function ReportCardsPage() {
@@ -37,6 +37,24 @@ export default function ReportCardsPage() {
             一般質問とは、議員が市の行政全般に対して疑問や方針を問いただす場です。各議員は定例会ごとに、年間最大4回登壇して質問する機会があります。本ページでは各議員の実績や公約の進捗状況を可視化しています。
           </p>
         </div>
+      </div>
+
+      {/* Docs Links */}
+      <div className="px-4 mt-4 flex flex-col gap-2">
+        <Link href="/report-cards/docs/01_評価基準とAIプロンプト" className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
+          <span className="text-sm font-bold text-gray-700 flex items-center gap-2">
+            <span className="bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded-md text-[10px]">AI</span>
+            評価基準とAIプロンプトについて
+          </span>
+          <ArrowRight className="w-4 h-4 text-gray-400" />
+        </Link>
+        <Link href="/report-cards/docs/02_免責事項とフィードバック窓口" className="flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-sm border border-gray-100 active:scale-[0.98] transition-transform">
+          <span className="text-sm font-bold text-gray-700 flex items-center gap-2">
+            <span className="bg-red-100 text-red-600 px-1.5 py-0.5 rounded-md text-[10px]">注意</span>
+            免責事項とフィードバック窓口
+          </span>
+          <ArrowRight className="w-4 h-4 text-gray-400" />
+        </Link>
       </div>
 
       {/* List Area */}
