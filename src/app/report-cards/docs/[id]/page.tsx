@@ -42,7 +42,12 @@ async function getDocContent(id: string) {
 
 export default async function ReportCardDocPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const content = await getDocContent(params.id);
+  let content = await getDocContent(params.id);
+  
+  if (content) {
+    // Strip YAML frontmatter (lines between --- at the very start)
+    content = content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
+  }
 
   if (!content) {
     return (
