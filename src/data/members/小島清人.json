@@ -1,0 +1,28 @@
+{
+  "id": "小島清人",
+  "name": "小島清人",
+  "seatNumber": 21,
+  "faction": "自由民主党入間市議団",
+  "progressRate": 0,
+  "manifestoTotal": 3,
+  "manifestoProgressed": 0,
+  "questionCount": 0,
+  "themes": [],
+  "categories": [],
+  "manifestoImage": "/images/manifestos/Pasted image 20260607161741.png",
+  "checklist": [
+    {
+      "completed": false,
+      "text": "市民の声を聞き市政に反映させる"
+    },
+    {
+      "completed": false,
+      "text": "行政の監視役（チェック機能）"
+    },
+    {
+      "completed": false,
+      "text": "条例を提言する"
+    }
+  ],
+  "timeline": []
+}
