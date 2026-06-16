@@ -13,9 +13,10 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         h2: ({node, ...props}) => {
           const text = String(props.children);
           let id = "";
-          if (text.includes('要約') || text.includes('1.')) id = 'summary';
+          if (text.includes('要約') || text.includes('1.') || text.includes('まとめ')) id = 'summary';
           else if (text.includes('時系列') || text.includes('バトン') || text.includes('2.')) id = 'timeline';
-          else if (text.includes('証拠') || text.includes('生引用') || text.includes('3.')) id = 'evidence';
+          else if (text.includes('深く知る') || text.includes('3.')) id = 'deepdive';
+          else if (text.includes('議論のために') || text.includes('4.')) id = 'future';
           
           return <h2 id={id} className="scroll-mt-[120px] text-xl font-bold border-b border-gray-200 pb-2 mt-10 mb-4" {...props} />;
         },
