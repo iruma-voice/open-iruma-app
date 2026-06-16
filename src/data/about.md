@@ -34,4 +34,10 @@
    新庁舎、学童、財政といった重要テーマから、身近な地域課題まで、入間市のすべての議論をインデックス化します。
 
 > **【免責事項】**
-> 本サイトは入間市の公式ウェブサイトではありません。市民有志による非公式プロジェクトです。要約や構成には生成AIを活用しています。情報の正確性には細心の注意を払っておりますが、最終的な事実確認は入間市公式の議事録等をご参照ください。
+> 本サイトは入間市の公式ウェブサイトではありません。市民有志による非公式プロジェクトです。要約や構成には生成AIを活用しています。情報の正確性には細心の注意を払っておりますが、最終的な事実確認は、必ず入間市議会の議事録などをご確認ください。
+
+<div style="margin-top: 1rem;">
+  <a href="https://www3.city.iruma.saitama.jp/voices/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 0.5rem 1rem; background-color: #2563eb; color: white; font-weight: bold; border-radius: 0.5rem; text-decoration: none;">
+    入間市議会HP（議事録検索）へ
+  </a>
+</div>
