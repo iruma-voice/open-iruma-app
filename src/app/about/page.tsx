@@ -28,7 +28,7 @@ export default function AboutPage() {
       className="min-h-screen transition-colors duration-500 overflow-hidden"
     >
       {/* 1. Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center px-6">
+      <section className="relative h-[100dvh] flex flex-col items-center justify-center px-6 pb-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ export default function AboutPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-24 flex flex-col items-center"
+          className="absolute bottom-32 flex flex-col items-center"
         >
           <span className="text-sm text-gray-500 mb-3 tracking-widest uppercase font-semibold">Scroll to explore</span>
           <motion.div
