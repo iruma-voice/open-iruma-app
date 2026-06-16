@@ -84,12 +84,14 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700"
+              className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700"
             >
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6">
-                <item.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 shrink-0 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mr-4">
+                  <item.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{item.title}</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
@@ -106,9 +108,11 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
             className="bg-white dark:bg-gray-900 rounded-3xl p-8 md:p-16 shadow-xl border border-gray-200 dark:border-gray-800 text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">情報の「翻訳」と「直結」</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white leading-tight">
+              情報の「翻訳」と<br className="md:hidden" />「直結」
+            </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              最新の生成AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br className="hidden md:block" />
+              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br className="hidden md:block" />
               そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる透明性を実現しました。
             </p>
             
@@ -151,7 +155,9 @@ export default function AboutPage() {
       {/* 4. The Experience Section */}
       <section className="py-24 px-6 max-w-5xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">段階的に深掘りできる4つの構成</h2>
+          <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
+            段階的に深掘りできる<br />4つの構成
+          </h2>
           <p className="text-gray-600 dark:text-gray-400">読者の関心度に合わせて、浅くから深くへと情報を展開します。</p>
         </div>
 
