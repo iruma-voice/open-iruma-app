@@ -8,27 +8,20 @@ import Link from 'next/link';
 export default function AboutPage() {
   const { scrollYProgress } = useScroll();
 
-  // Dark to Light background transition
-  // We transition from bg-gray-900 (dark) to bg-white around 15-25% scroll
-  const backgroundColor = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.25],
-    ['#111827', '#111827', '#ffffff']
-  );
-
-  const textColor = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.25],
-    ['#ffffff', '#ffffff', '#111827']
-  );
+  // Hero background fades out on scroll to reveal the theme background
+  const heroBgOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
-    <motion.main 
-      style={{ backgroundColor, color: textColor }} 
-      className="min-h-screen transition-colors duration-500 overflow-hidden"
-    >
+    <main className="min-h-screen overflow-hidden relative text-gray-900 dark:text-white">
+      {/* Fixed Background Layers for smooth transition without breaking Dark Mode */}
+      <div className="fixed inset-0 bg-white dark:bg-gray-900 -z-20 transition-colors duration-300" />
+      <motion.div 
+        style={{ opacity: heroBgOpacity }} 
+        className="fixed inset-0 bg-gray-900 -z-10" 
+      />
+
       {/* 1. Hero Section */}
-      <section className="relative h-[100dvh] flex flex-col items-center justify-center px-6 pb-24">
+      <section className="relative h-[100dvh] flex flex-col items-center justify-center px-6 pb-24 text-white">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -244,6 +237,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </motion.main>
+    </main>
   );
 }
