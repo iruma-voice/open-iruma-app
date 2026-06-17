@@ -6,9 +6,9 @@ export default function AboutPage() {
     <main className="min-h-screen bg-white pb-36 font-sans">
       
       {/* 1. Header (Inverted Block) */}
-      <section className="bg-black text-white px-6 pt-24 pb-20">
+      <section className="bg-black text-white px-6 pt-24 pb-16">
         <div className="max-w-3xl mx-auto">
-          <span className="font-mono text-xs font-black uppercase tracking-widest text-white/70 mb-4 block border-b-2 border-white/30 pb-2">
+          <span className="font-mono text-xs font-black uppercase tracking-widest text-white/70 mb-4 block border-b border-white/30 pb-2">
             [ THE MANIFESTO ]
           </span>
           <h1 className="text-5xl md:text-6xl font-serif font-black tracking-tighter leading-[1.1] mb-8">
@@ -28,7 +28,7 @@ export default function AboutPage() {
       <div className="px-4 md:px-8 max-w-3xl mx-auto">
         
         {/* 2. The Problem Section (3つの壁) */}
-        <section className="pt-20 pb-16 border-t-[12px] border-black mt-8">
+        <section className="pt-20 pb-16 border-t-4 border-black mt-8">
           <div className="mb-16">
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ BACKGROUND ]
@@ -44,11 +44,11 @@ export default function AboutPage() {
 
           <div className="flex flex-col gap-16">
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-gray-300 z-0 select-none">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
                 01
               </div>
               <div className="relative z-10 pt-4">
-                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-4 border-black inline-block pb-1">作業量の壁</h3>
+                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">作業量の壁</h3>
                 <p className="font-sans font-medium text-lg leading-[1.8] text-slate-900">
                   年間数千ページに及ぶ議事録の読解と構造化は、人力では限界でした。
                 </p>
@@ -56,11 +56,11 @@ export default function AboutPage() {
             </div>
             
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-gray-300 z-0 select-none">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
                 02
               </div>
               <div className="relative z-10 pt-4">
-                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-4 border-black inline-block pb-1">文脈の壁</h3>
+                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">文脈の壁</h3>
                 <p className="font-sans font-medium text-lg leading-[1.8] text-slate-900">
                   点在する過去の議事録を遡り、<span className="bg-yellow-300 px-1 font-bold text-black">方針転換のストーリー</span>を追うのは困難でした。
                 </p>
@@ -68,13 +68,13 @@ export default function AboutPage() {
             </div>
 
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-gray-300 z-0 select-none">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
                 03
               </div>
               <div className="relative z-10 pt-4">
-                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-4 border-black inline-block pb-1">証拠の壁</h3>
+                <h3 className="font-sans font-bold text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">証拠の壁</h3>
                 <p className="font-sans font-medium text-lg leading-[1.8] text-slate-900">
-                  要約者の解釈だけでなく、市民が自ら<span className="bg-yellow-300 text-black px-1 font-bold">「一次情報」</span>を確かめる術がありませんでした。
+                  要約者の解釈だけでなく、市民が自ら<span className="bg-black text-white px-1 font-bold">「一次情報」</span>を確かめる術がありませんでした。
                 </p>
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function AboutPage() {
         </section>
 
         {/* 3. The Solution Section (情報の「翻訳」と「直結」) */}
-        <section className="py-16 border-t-[12px] border-black">
+        <section className="py-16 border-t-4 border-black">
           <div className="mb-10">
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ OUR MISSION ]
@@ -92,14 +92,14 @@ export default function AboutPage() {
               <span className="block ml-8 md:ml-12 mt-2">「翻訳」と「直結」</span>
             </h2>
             <p className="font-sans font-bold text-lg leading-[1.8] text-black mt-8">
-              AIを活用し、数年間にわたる議論のバトンを<span className="bg-yellow-300 text-black px-1 font-bold">1本の線</span>で繋ぎます。<br/>
-              そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる<span className="bg-yellow-300 text-black px-1 font-bold">透明性</span>を実現しました。
+              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br/>
+              そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる<span className="border-b-4 border-black">透明性</span>を実現しました。
             </p>
           </div>
         </section>
 
         {/* 4. The Experience Section (段階的に深掘りできる4つの構成) */}
-        <section className="py-16 border-t-[12px] border-black">
+        <section className="py-16 border-t-4 border-black">
           <div className="mb-16">
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ STRUCTURE ]
@@ -114,7 +114,7 @@ export default function AboutPage() {
           </div>
 
           <div className="flex flex-col gap-12">
-            <div className="flex items-start border-l-[6px] border-black pl-4">
+            <div className="flex items-start border-l-4 border-black pl-4">
               <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">01</div>
               <div>
                 <h3 className="font-sans font-bold text-xl text-black mb-2 uppercase tracking-widest">要約 / Summary</h3>
@@ -123,7 +123,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start border-l-[6px] border-black pl-4">
+            <div className="flex items-start border-l-4 border-black pl-4">
               <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">02</div>
               <div>
                 <h3 className="font-sans font-bold text-xl text-black mb-2 uppercase tracking-widest">時系列 / Timeline</h3>
@@ -132,7 +132,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start border-l-[6px] border-black pl-4">
+            <div className="flex items-start border-l-4 border-black pl-4">
               <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">03</div>
               <div>
                 <h3 className="font-sans font-bold text-xl text-black mb-2 uppercase tracking-widest">深掘り / Deep Dive</h3>
@@ -141,7 +141,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start border-l-[6px] border-black pl-4">
+            <div className="flex items-start border-l-4 border-black pl-4">
               <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">04</div>
               <div>
                 <h3 className="font-sans font-bold text-xl text-black mb-2 uppercase tracking-widest">今後 / Future</h3>
@@ -152,7 +152,7 @@ export default function AboutPage() {
             </div>
           </div>
           
-          <div className="mt-12 border-4 border-black p-4 bg-gray-50">
+          <div className="mt-12 border-2 border-black p-4 bg-gray-50">
              <p className="font-sans font-bold leading-[1.8] text-slate-900 text-sm">
                ※さらに詳しい一次情報（議事録の生発言など）は<span className="bg-yellow-300 px-1 text-black">「出典資料アーカイブ」</span>として個別に整理し、透明性を確保しています。
              </p>
@@ -164,7 +164,7 @@ export default function AboutPage() {
       {/* 5. Future Section (Inverted Block) */}
       <section className="bg-black text-white px-6 py-16 mt-8">
         <div className="max-w-3xl mx-auto">
-          <div className="mb-12 border-b-4 border-white/30 pb-6">
+          <div className="mb-12 border-b-2 border-white/30 pb-6">
             <span className="font-mono text-sm font-black uppercase tracking-widest text-white/70 mb-2 block">
               [ ROADMAP ]
             </span>
@@ -202,9 +202,8 @@ export default function AboutPage() {
 
       {/* 6. The Disclaimer */}
       <section className="py-16 px-4 md:px-8 max-w-3xl mx-auto">
-        {/* brutal shadow */}
-        <div className="border-[6px] border-black p-6 md:p-10 bg-white" style={{ boxShadow: '8px 8px 0px 0px rgba(0,0,0,1)' }}>
-          <h3 className="font-mono text-xl font-black uppercase tracking-widest mb-6 border-b-[6px] border-black pb-4 inline-block">
+        <div className="border-4 border-black p-6 md:p-10 bg-white">
+          <h3 className="font-mono text-xl font-black uppercase tracking-widest mb-6 border-b-4 border-black pb-4 inline-block">
             [ DISCLAIMER ]
           </h3>
           <p className="font-sans font-medium leading-[1.8] text-slate-900 text-sm mb-8">
@@ -214,14 +213,14 @@ export default function AboutPage() {
             href="https://www3.city.iruma.saitama.jp/voices/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="inline-block border-[4px] border-black px-6 py-4 font-mono text-sm font-black uppercase tracking-widest bg-black text-white hover:bg-white hover:text-black transition-colors"
+            className="inline-block border-2 border-black px-6 py-4 font-mono text-sm font-black uppercase tracking-widest bg-black text-white hover:bg-white hover:text-black transition-colors"
           >
             入間市議会HP（議事録検索）へ
           </a>
         </div>
 
         <div className="mt-16 text-center">
-          <Link href="/" className="inline-block border-[4px] border-black px-12 py-5 font-mono text-base font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white transition-colors">
+          <Link href="/" className="inline-block border-4 border-black px-12 py-5 font-mono text-base font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white transition-colors">
             課題一覧へ戻る
           </Link>
         </div>
