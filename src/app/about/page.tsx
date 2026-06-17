@@ -1,248 +1,211 @@
-'use client';
-
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, Database, Cpu, Search, FileText, BarChart3, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AboutPage() {
-  const { scrollYProgress } = useScroll();
-
-  // Dark to Light background transition
-  const backgroundColor = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.25],
-    ['#111827', '#111827', '#ffffff']
-  );
-
-  const textColor = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.25],
-    ['#ffffff', '#ffffff', '#111827']
-  );
-
   return (
-    <motion.main 
-      style={{ backgroundColor, color: textColor }} 
-      className="min-h-screen transition-colors duration-500 overflow-hidden"
-    >
-      {/* 1. Hero Section */}
-      <section className="relative h-[100dvh] flex flex-col items-center justify-center px-6 pb-24 text-white">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="text-center"
-        >
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-            議会のリアルを、<br className="md:hidden" />市民の手に。
+    <main className="min-h-screen bg-white pb-36 font-sans">
+      {/* 1. Header (Inverted Block) */}
+      <section className="bg-black text-white px-6 pt-24 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <span className="font-mono text-xs font-black uppercase tracking-widest text-white/70 mb-4 block border-b border-white/30 pb-2">
+            [ THE MANIFESTO ]
+          </span>
+          <h1 className="text-5xl md:text-6xl font-serif font-black tracking-tighter leading-[1.1] mb-8">
+            <span className="inline-block whitespace-nowrap">議会のリアルを、</span>
+            <br />
+            <span className="inline-block whitespace-nowrap">市民の手に。</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            「いるまオープン議会」は、膨大な議会議論をAIとオープンデータで整理し、
-            誰もが街の未来を判断できる「武器」を提供するための有志プロジェクトです。
+          <p className="font-serif leading-relaxed text-xl md:text-2xl font-bold opacity-90 mb-8">
+            「いるまオープン議会」は、膨大な議会議論をAIとオープンデータで整理し、誰もが街の未来を判断できる
+            <span className="bg-yellow-300 text-black px-1 mx-1">「武器」</span>
+            を提供するための有志プロジェクトです。
           </p>
-        </motion.div>
-        
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-32 flex flex-col items-center"
-        >
-          <span className="text-sm text-gray-500 mb-3 tracking-widest uppercase font-semibold">Scroll to explore</span>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          >
-            <ChevronDown className="w-6 h-6 text-gray-500" />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* 2. The Problem Section (3つの壁) */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl font-bold mb-4">立ちはだかる「3つの壁」</h2>
-          <p className="text-gray-500">これまで、市民へ正確な情報を届ける上で以下の課題がありました。</p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { title: "作業量の壁", desc: "年間数千ページに及ぶ議事録の読解と構造化は、人力では限界でした。", icon: Database },
-            { title: "文脈の壁", desc: "点在する過去の議事録を遡り、方針転換のストーリーを追うのは困難でした。", icon: Search },
-            { title: "証拠の壁", desc: "要約者の解釈だけでなく、市民が自ら「一次情報」を確かめる術がありませんでした。", icon: FileText },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 shrink-0 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                  <item.icon className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
-              </div>
-              <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-            </motion.div>
-          ))}
+          <p className="leading-loose text-base md:text-lg opacity-80">
+            私たちは、行政や議会の透明性を高め、市民が自らの意志で事実を確認できるプラットフォームを目指しています。
+          </p>
         </div>
       </section>
 
-      {/* 3. The Solution Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-white rounded-3xl p-8 md:p-16 shadow-xl border border-gray-200 text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 leading-tight">
-              情報の「翻訳」と<br className="md:hidden" />「直結」
+      <div className="px-4 md:px-8 max-w-3xl mx-auto">
+        {/* 2. The Problem Section (3つの壁) */}
+        <section className="pt-20 pb-16 border-t-4 border-black mt-8">
+          <div className="mb-16">
+            <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
+              [ BACKGROUND ]
+            </span>
+            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
+              立ちはだかる<br />
+              <span className="block ml-12 text-[1.1em] mt-1">「3つの壁」</span>
             </h2>
-            <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br className="hidden md:block" />
-              そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる透明性を実現しました。
+            <p className="font-bold text-lg leading-relaxed text-black mt-6">
+              これまで、市民へ正確な情報を届ける上で以下の課題がありました。
             </p>
-            
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-              <div className="flex flex-col items-center p-6 bg-gray-50 rounded-xl w-full md:w-64">
-                <Database className="w-10 h-10 text-gray-400 mb-3" />
-                <span className="font-bold text-gray-700">膨大な生データ<br/>(公式議事録)</span>
-              </div>
-              
-              <motion.div
-                animate={{ x: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="rotate-90 md:rotate-0"
-              >
-                <ArrowRight className="w-8 h-8 text-blue-500" />
-              </motion.div>
-
-              <div className="flex flex-col items-center p-6 bg-blue-50 rounded-xl w-full md:w-64 border border-blue-100">
-                <Cpu className="w-10 h-10 text-blue-600 mb-3" />
-                <span className="font-bold text-blue-800">AIによる文脈可視化<br/>と構造化</span>
-              </div>
-
-              <motion.div
-                animate={{ x: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2, delay: 0.2 }}
-                className="rotate-90 md:rotate-0"
-              >
-                <ArrowRight className="w-8 h-8 text-blue-500" />
-              </motion.div>
-
-              <div className="flex flex-col items-center p-6 bg-green-50 rounded-xl w-full md:w-64 border border-green-100">
-                <BarChart3 className="w-10 h-10 text-green-600 mb-3" />
-                <span className="font-bold text-green-800">スマホで読める<br/>多層的な記事</span>
+          </div>
+          <div className="flex flex-col gap-16">
+            <div className="relative">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">01</div>
+              <div className="relative z-10 pt-4">
+                <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">作業量の壁</h3>
+                <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
+                  年間数千ページに及ぶ議事録の読解と構造化は、人力では限界でした。
+                </p>
               </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 4. The Experience Section */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4 text-gray-900 leading-tight">
-            段階的に深掘りできる<br />4つの構成
-          </h2>
-          <p className="text-gray-600">読者の関心度に合わせて、浅くから深くへと情報を展開します。</p>
-        </div>
-
-        <div className="space-y-6">
-          {[
-            { step: "01", title: "要約", desc: "3分で現状と論点を把握する。素早く要点を知りたい全市民向け。", color: "bg-blue-50 text-blue-600 border-blue-200" },
-            { step: "02", title: "時系列", desc: "議論の変遷とストーリーを追う。経緯や行政の姿勢を知りたい方向け。", color: "bg-indigo-50 text-indigo-600 border-indigo-200" },
-            { step: "03", title: "深掘り", desc: "実態・比較・構造などの詳細を知る。より深く課題を理解したい方向け。", color: "bg-purple-50 text-purple-600 border-purple-200" },
-            { step: "04", title: "今後", desc: "今後のスケジュールや未解決の問いを確認する。継続的に動向を注視したい方向け。", color: "bg-emerald-50 text-emerald-600 border-emerald-200" },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.15, duration: 0.5 }}
-              className={`flex items-start p-6 md:p-8 rounded-2xl border ${item.color.split(' ')[2]} ${item.color.split(' ')[0]}`}
-            >
-              <div className={`text-2xl font-black mr-6 ${item.color.split(' ')[1]} opacity-80`}>
-                {item.step}
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-2 text-gray-900">{item.title}</h3>
-                <p className="text-gray-700">{item.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        <div className="mt-12 p-6 bg-gray-100 rounded-xl text-center">
-           <p className="text-sm text-gray-600">
-             ※さらに詳しい一次情報（議事録の生発言など）は「出典資料アーカイブ」として個別に整理し、透明性を確保しています。
-           </p>
-        </div>
-      </section>
-
-      {/* 5. Future & CTA Section */}
-      <section className="py-24 bg-white border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-10 text-center text-gray-900">今後の展望とロードマップ</h2>
-          <div className="space-y-8 mb-16 text-gray-700">
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold shrink-0">1</div>
-              <div>
-                <h4 className="font-bold text-lg mb-1 text-gray-900">双方向のファクトチェック</h4>
-                <p>市民からの感想や専門的なファクトチェックをフォーム経由で受け付け、フィードバックに基づきリアルタイムでアップデートします。</p>
+            <div className="relative">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">02</div>
+              <div className="relative z-10 pt-4">
+                <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">文脈の壁</h3>
+                <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
+                  点在する過去の議事録を遡り、<span className="bg-yellow-300 px-1">方針転換のストーリー</span>を追うのは困難でした。
+                </p>
               </div>
             </div>
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold shrink-0">2</div>
-              <div>
-                <h4 className="font-bold text-lg mb-1 text-gray-900">議員・会派名鑑の拡充</h4>
-                <p>「誰が」「いつ」「何を」発言したかを抽出した発言ログを強化し、市民活動の判断材料となるデータベースを構築します。</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold shrink-0">3</div>
-              <div>
-                <h4 className="font-bold text-lg mb-1 text-gray-900">地域課題の網羅</h4>
-                <p>新庁舎、学童、財政といった重要テーマから、身近な地域課題まで、入間市のすべての議論をインデックス化します。</p>
+            <div className="relative">
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">03</div>
+              <div className="relative z-10 pt-4">
+                <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">証拠の壁</h3>
+                <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
+                  要約者の解釈だけでなく、市民が自ら<span className="bg-black text-white px-1">「一次情報」</span>を確かめる術がありませんでした。
+                </p>
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="p-8 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-xl mb-12 shadow-sm">
-            <h3 className="font-bold text-yellow-800 mb-2">【免責事項】</h3>
-            <p className="text-sm text-yellow-800 leading-relaxed mb-4">
-              本サイトは入間市の公式ウェブサイトではありません。市民有志による非公式プロジェクトです。要約や構成には生成AIを活用しています。情報の正確性には細心の注意を払っておりますが、最終的な事実確認は、必ず入間市議会の議事録などをご確認ください。
+        {/* 3. The Solution Section (情報の「翻訳」と「直結」) */}
+        <section className="py-16 border-t-4 border-black">
+          <div className="mb-10">
+            <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
+              [ OUR MISSION ]
+            </span>
+            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
+              情報の「翻訳」と<br />
+              <span className="block ml-8 text-[1.1em] mt-1">「直結」</span>
+            </h2>
+            <p className="font-bold text-lg leading-[1.8] text-black mt-8">
+              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br />
+              そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる<span className="border-b-4 border-black">透明性</span>を実現しました。
             </p>
-            <a 
-              href="https://www3.city.iruma.saitama.jp/voices/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors text-sm shadow"
-            >
-              入間市議会HP（議事録検索）へ
-            </a>
           </div>
+        </section>
 
-          <div className="text-center pb-10">
-            <Link href="/" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gray-900 rounded-full hover:bg-gray-800 transition-transform hover:scale-105 active:scale-95 shadow-lg">
-              課題一覧を見てみる
-            </Link>
+        {/* 4. The Experience Section (段階的に深掘りできる構成) */}
+        <section className="py-16 border-t-4 border-black">
+          <div className="mb-16">
+            <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
+              [ STRUCTURE ]
+            </span>
+            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
+              段階的に深掘りできる<br />
+              <span className="block ml-12 text-[1.1em] mt-1">構成</span>
+            </h2>
+            <p className="font-bold text-lg leading-[1.8] text-black mt-6">
+              読者の関心度に合わせて、浅くから深くへと情報を展開します。
+            </p>
+          </div>
+          <div className="flex flex-col gap-12">
+            <div className="flex items-start border-l-4 border-black pl-4">
+              <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">01</div>
+              <div>
+                <h3 className="font-black text-xl text-black mb-2 uppercase tracking-widest">要約 / Summary</h3>
+                <p className="font-serif font-bold text-base leading-[1.8] text-gray-800">
+                  <span className="bg-yellow-300 px-1">3分で現状と論点を把握する。</span>素早く要点を知りたい全市民向け。
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start border-l-4 border-black pl-4">
+              <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">02</div>
+              <div>
+                <h3 className="font-black text-xl text-black mb-2 uppercase tracking-widest">時系列 / Timeline</h3>
+                <p className="font-serif font-bold text-base leading-[1.8] text-gray-800">
+                  議論の変遷とストーリーを追う。経緯や行政の姿勢を知りたい方向け。
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start border-l-4 border-black pl-4">
+              <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">03</div>
+              <div>
+                <h3 className="font-black text-xl text-black mb-2 uppercase tracking-widest">深掘り / Deep Dive</h3>
+                <p className="font-serif font-bold text-base leading-[1.8] text-gray-800">
+                  実態・比較・構造などの詳細を知る。より深く課題を理解したい方向け。
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start border-l-4 border-black pl-4">
+              <div className="font-mono text-5xl font-black text-black mr-6 leading-none pt-1">04</div>
+              <div>
+                <h3 className="font-black text-xl text-black mb-2 uppercase tracking-widest">今後 / Future</h3>
+                <p className="font-serif font-bold text-base leading-[1.8] text-gray-800">
+                  今後のスケジュールや未解決の問いを確認する。継続的に動向を注視したい方向け。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 border-2 border-black p-4 bg-gray-50">
+            <p className="font-bold leading-[1.8] text-black text-sm">
+              ※さらに詳しい一次情報（議事録の生発言など）は<span className="bg-yellow-300 px-1">「出典資料アーカイブ」</span>として個別に整理し、透明性を確保しています。
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* 5. Future Section (Inverted Block) */}
+      <section className="bg-black text-white px-6 py-16 mt-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-12 border-b-2 border-white/30 pb-6">
+            <span className="font-mono text-sm font-black uppercase tracking-widest text-white/70 mb-2 block">
+              [ ROADMAP ]
+            </span>
+            <h2 className="font-serif font-black leading-none tracking-tighter text-white text-3xl md:text-4xl">
+              今後の展望と<br />
+              <span className="block ml-8 text-[1.1em] mt-1">ロードマップ</span>
+            </h2>
+          </div>
+          <div className="flex flex-col gap-10">
+            <div>
+              <div className="font-mono text-3xl font-black text-yellow-300 mb-2">#01</div>
+              <h3 className="font-black text-xl text-white mb-3">双方向のファクトチェック</h3>
+              <p className="font-serif text-base leading-[1.8] text-gray-300">
+                市民からの感想や専門的なファクトチェックをフォーム経由で受け付け、フィードバックに基づきリアルタイムでアップデートします。
+              </p>
+            </div>
+            <div>
+              <div className="font-mono text-3xl font-black text-yellow-300 mb-2">#02</div>
+              <h3 className="font-black text-xl text-white mb-3">議員・会派名会派名鑑の拡充</h3>
+              <p className="font-serif text-base leading-[1.8] text-gray-300">
+                「誰が」「いつ」「何を」発言したかを抽出した発言ログを強化し、市民活動の判断材料となるデータベースを構築します。
+              </p>
+            </div>
+            <div>
+              <div className="font-mono text-3xl font-black text-yellow-300 mb-2">#03</div>
+              <h3 className="font-black text-xl text-white mb-3">地域課題の網羅</h3>
+              <p className="font-serif text-base leading-[1.8] text-gray-300">
+                新庁舎、学童、財政といった重要テーマから、身近な地域課題まで、入間市のすべての議論をインデックス化します。
+              </p>
+            </div>
           </div>
         </div>
       </section>
-    </motion.main>
+
+      {/* 6. The Disclaimer */}
+      <section className="py-16 px-4 md:px-8 max-w-3xl mx-auto">
+        <div className="border-4 border-black p-6 md:p-10 bg-white">
+          <h3 className="font-mono text-xl font-black uppercase tracking-widest mb-6 border-b-4 border-black pb-4 inline-block">
+            [ DISCLAIMER ]
+          </h3>
+          <p className="font-serif font-bold leading-[1.8] text-black text-sm mb-8">
+            本サイトは入間市の公式ウェブサイトではありません。市民有志による非公式プロジェクトです。要約や構成には生成AIを活用しています。情報の正確性には細心の注意を払っておりますが、最終的な事実確認は、必ず入間市議会の議事録などをご確認ください。
+          </p>
+          <a href="https://www3.city.iruma.saitama.jp/voices/" target="_blank" rel="noopener noreferrer" className="inline-block border-2 border-black px-6 py-4 font-mono text-sm font-black uppercase tracking-widest bg-black text-white hover:bg-white hover:text-black transition-colors">
+            入間市議会HP（議事録検索）へ
+          </a>
+        </div>
+        <div className="mt-16 text-center">
+          <Link href="/" className="inline-block border-4 border-black px-12 py-5 font-mono text-base font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white transition-colors">
+            課題一覧へ戻る
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
