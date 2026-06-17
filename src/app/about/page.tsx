@@ -33,7 +33,7 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ BACKGROUND ]
             </span>
-            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
+            <h2 className="font-serif font-black leading-none tracking-widest text-black text-4xl md:text-5xl">
               立ちはだかる<br />
               <span className="block ml-8 md:ml-12 text-[1.1em] mt-2">「3つの壁」</span>
             </h2>
@@ -87,7 +87,7 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ OUR MISSION ]
             </span>
-            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
+            <h2 className="font-serif font-black leading-none tracking-widest text-black text-4xl md:text-5xl">
               情報の<br />
               <span className="block ml-8 md:ml-12 mt-2">「翻訳」と「直結」</span>
             </h2>
@@ -104,7 +104,7 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ STRUCTURE ]
             </span>
-            <h2 className="font-serif font-black text-3xl md:text-4xl text-black leading-tight tracking-tighter">
+            <h2 className="font-serif font-black text-4xl md:text-5xl text-black leading-tight tracking-widest">
               段階的に<br />
               <span className="block ml-8 md:ml-12 mt-2">深掘りできる構成</span>
             </h2>
@@ -168,7 +168,7 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-white/70 mb-2 block">
               [ ROADMAP ]
             </span>
-            <h2 className="font-serif font-black text-3xl md:text-4xl text-white leading-tight tracking-tighter">
+            <h2 className="font-serif font-black text-4xl md:text-5xl text-white leading-tight tracking-widest">
               これからの展望と<br/>
               <span className="block ml-8 md:ml-12 mt-2">ロードマップ</span>
             </h2>
