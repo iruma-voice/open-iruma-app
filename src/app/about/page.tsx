@@ -13,12 +13,10 @@ export default function AboutPage() {
           <h1 className="text-5xl md:text-6xl font-serif font-black tracking-tighter leading-[1.1] mb-8">
             <span className="inline-block whitespace-nowrap">議会のリアルを、</span>
             <br />
-            <span className="inline-block whitespace-nowrap">市民の手に。</span>
+            <span className="block text-right whitespace-nowrap">市民の手に。</span>
           </h1>
           <p className="font-serif leading-relaxed text-xl md:text-2xl font-bold opacity-90 mb-8">
-            「いるまオープン議会」は、膨大な議会議論をAIとオープンデータで整理し、誰もが街の未来を判断できる
-            <span className="bg-yellow-300 text-black px-1 mx-1">「武器」</span>
-            を提供するための有志プロジェクトです。
+            「いるまオープン議会」は、膨大な議会議論をAIとオープンデータで整理し、誰もが街の未来を判断できる<span className="bg-yellow-300 text-black px-1 mx-1">「武器」</span>を提供するための有志プロジェクトです。
           </p>
           <p className="leading-loose text-base md:text-lg opacity-80">
             私たちは、行政や議会の透明性を高め、市民が自らの意志で事実を確認できるプラットフォームを目指しています。
@@ -43,7 +41,9 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-col gap-16">
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">01</div>
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
+                01
+              </div>
               <div className="relative z-10 pt-4">
                 <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">作業量の壁</h3>
                 <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
@@ -52,7 +52,9 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">02</div>
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
+                02
+              </div>
               <div className="relative z-10 pt-4">
                 <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">文脈の壁</h3>
                 <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
@@ -61,7 +63,9 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">03</div>
+              <div className="absolute -top-12 -left-4 text-[7rem] md:text-[9rem] leading-none font-mono font-black text-slate-100 z-0 select-none">
+                03
+              </div>
               <div className="relative z-10 pt-4">
                 <h3 className="font-black text-2xl text-black mb-3 border-b-2 border-black inline-block pb-1">証拠の壁</h3>
                 <p className="font-serif font-bold text-lg leading-[1.8] text-gray-800">
@@ -79,11 +83,11 @@ export default function AboutPage() {
               [ OUR MISSION ]
             </span>
             <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
-              情報の「翻訳」と<br />
-              <span className="block ml-8 text-[1.1em] mt-1">「直結」</span>
+              情報の<br />
+              <span className="block text-center">「翻訳」と「直結」</span>
             </h2>
             <p className="font-bold text-lg leading-[1.8] text-black mt-8">
-              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br />
+              AIを活用し、数年間にわたる議論のバトンを1本の線で繋ぎます。<br/>
               そして、誰かの解釈だけで終わらせず、常に市民自身が事実関係を確認できる<span className="border-b-4 border-black">透明性</span>を実現しました。
             </p>
           </div>
@@ -95,9 +99,9 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-black mb-2 block">
               [ STRUCTURE ]
             </span>
-            <h2 className="font-serif font-black leading-none tracking-tighter text-black text-3xl md:text-4xl">
-              段階的に深掘りできる<br />
-              <span className="block ml-12 text-[1.1em] mt-1">構成</span>
+            <h2 className="text-3xl md:text-4xl font-black text-black leading-tight tracking-tighter">
+              段階的に<br />
+              <span className="block text-center">深掘りできる構成</span>
             </h2>
             <p className="font-bold text-lg leading-[1.8] text-black mt-6">
               読者の関心度に合わせて、浅くから深くへと情報を展開します。
@@ -156,9 +160,9 @@ export default function AboutPage() {
             <span className="font-mono text-sm font-black uppercase tracking-widest text-white/70 mb-2 block">
               [ ROADMAP ]
             </span>
-            <h2 className="font-serif font-black leading-none tracking-tighter text-white text-3xl md:text-4xl">
-              今後の展望と<br />
-              <span className="block ml-8 text-[1.1em] mt-1">ロードマップ</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tighter">
+              これからの展望と<br />
+              <span className="block text-center">ロードマップ</span>
             </h2>
           </div>
           <div className="flex flex-col gap-10">
