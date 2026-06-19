@@ -212,10 +212,10 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
           let rows: React.ReactNode[][] = [];
           const childrenArray = React.Children.toArray(children);
-          const tbodyElem = childrenArray.find((c: any) => React.isValidElement(c) && (c.props.node?.tagName === 'tbody' || c.type === 'tbody')) as React.ReactElement;
+          const tbodyElem = childrenArray.find((c: any) => React.isValidElement<{ node?: { tagName?: string } }>(c) && (c.props.node?.tagName === 'tbody' || c.type === 'tbody')) as React.ReactElement<any>;
           
           if (tbodyElem && tbodyElem.props && tbodyElem.props.children) {
-            const trElems = React.Children.toArray(tbodyElem.props.children).filter((c: any) => React.isValidElement(c) && (c.props.node?.tagName === 'tr' || c.type === 'tr'));
+            const trElems = React.Children.toArray(tbodyElem.props.children).filter((c: any) => React.isValidElement<{ node?: { tagName?: string } }>(c) && (c.props.node?.tagName === 'tr' || c.type === 'tr'));
             rows = trElems.map((tr: any) => {
               return React.Children.toArray(tr.props.children)
                 .filter((c: any) => React.isValidElement(c))
