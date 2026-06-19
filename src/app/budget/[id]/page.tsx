@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import AnchorNav from '../../../components/AnchorNav';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
@@ -32,18 +31,18 @@ export default async function BudgetDetailPage({ params }: { params: Promise<{ i
   }
 
   return (
-    <main className="min-h-screen bg-white pb-[160px]">
-      {/* Header */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100/50 h-[60px] flex items-center shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
-        <div className="flex items-center p-2 w-full">
-          <Link href="/budget" className="mr-2 flex items-center justify-center min-w-[44px] min-h-[44px] p-2 rounded-full hover:bg-gray-100 transition-transform active:scale-[0.92]">
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
+    <main className="min-h-screen bg-[#FAF9F5] pb-[160px] font-sans text-slate-900">
+      {/* 帳簿ヘッダー（ミシン目の区切り） */}
+      <div className="sticky top-0 z-50 bg-[#FAF9F5]/90 backdrop-blur-md border-b border-dashed border-slate-300 h-[64px] flex items-center">
+        <div className="flex items-center px-4 w-full justify-between">
+          <Link href="/budget" className="mr-3 flex items-center justify-center w-9 h-9 border border-slate-300 rounded-none bg-white hover:bg-slate-50 transition-all duration-150 active:scale-[0.96]">
+            <span className="text-xs font-mono font-bold text-slate-800">◀</span>
           </Link>
-          <div className="flex-1 min-w-0 pr-4">
-            <div className="text-xs font-medium text-blue-600 mb-0.5 truncate">
-              予算・財政
+          <div className="flex-1 min-w-0 pr-2">
+            <div className="text-[9px] font-mono font-bold text-blue-700 tracking-wider mb-0.5 uppercase">
+              Ledger // Record
             </div>
-            <h1 className="text-sm font-bold text-gray-900 truncate">{budget.title}</h1>
+            <h1 className="text-xs font-bold text-slate-900 truncate">{budget.title}</h1>
           </div>
         </div>
       </div>
@@ -51,9 +50,11 @@ export default async function BudgetDetailPage({ params }: { params: Promise<{ i
       {/* Anchor Navigation */}
       <AnchorNav />
 
-      {/* Content Area */}
-      <div className="p-5 prose prose-slate prose-blockquote:not-italic prose-blockquote:font-normal max-w-none text-gray-800 text-base leading-relaxed space-y-6 break-words">
-        <MarkdownRenderer content={budget.content || "データがありません。"} />
+      {/* コンテンツエリア（ルーズリーフ・ノートの1ページを表現した白いフラットな紙） */}
+      <div className="px-4 mt-6">
+        <div className="bg-white border border-slate-300 rounded-none p-5 md:p-8 space-y-6 break-words">
+          <MarkdownRenderer content={budget.content || "データがありません。"} />
+        </div>
       </div>
     </main>
   );
