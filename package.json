@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync": "node scripts/sync-articles.mjs && node scripts/sync-budget.mjs",
+    "sync-articles": "node scripts/sync-articles.mjs",
+    "sync-budget": "node scripts/sync-budget.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
