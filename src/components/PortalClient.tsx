@@ -147,13 +147,7 @@ export default function PortalClient({ data }: { data: any }) {
           </div>
         )}
 
-        {/* 課題一覧への導線 */}
-        <div className="mt-8">
-          <Link href="/issues" className="flex items-center justify-center w-full bg-blue-50/70 hover:bg-blue-100/80 text-blue-700 font-bold py-4 rounded-2xl transition-all active:scale-[0.98]">
-            <FileText className="w-5 h-5 mr-2" />
-            すべての課題を一覧で見る
-          </Link>
-        </div>
+
       </div>
     </div>
   );

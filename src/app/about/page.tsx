@@ -220,8 +220,8 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16 text-center">
-          <Link href="/" className="inline-block border-4 border-black px-12 py-5 font-mono text-base font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white transition-colors">
-            課題一覧へ戻る
+          <Link href="/" className="inline-block border-[4px] border-black px-12 py-5 font-mono text-base font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white transition-colors">
+            トップへ戻る
           </Link>
         </div>
       </section>
