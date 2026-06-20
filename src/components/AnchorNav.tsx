@@ -19,22 +19,22 @@ export default function AnchorNav() {
         要約
       </button>
       <button
-        onClick={() => scrollTo('timeline')}
+        onClick={() => scrollTo('impact')}
         className="flex-1 py-3 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 active:bg-gray-100 transition-colors border-r border-gray-100"
       >
-        時系列
+        生活影響
       </button>
       <button
         onClick={() => scrollTo('deepdive')}
         className="flex-1 py-3 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 active:bg-gray-100 transition-colors border-r border-gray-100"
       >
-        深掘り
+        賛否・議論
       </button>
       <button
         onClick={() => scrollTo('future')}
         className="flex-1 py-3 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 active:bg-gray-100 transition-colors"
       >
-        今後
+        今後の課題
       </button>
     </div>
   );

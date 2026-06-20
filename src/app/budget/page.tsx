@@ -102,10 +102,17 @@ export default function BudgetPage() {
           // プレースホルダー用の年号計算
           const nextYearNum = parseInt(year.match(/\d+/)?.[0] || '0') + 1;
 
+          // ステータスバッジの判定
+          const isCompleted = !!group.settlement;
+          const statusBadge = isCompleted 
+            ? <span className="ml-auto bg-white border border-slate-300 text-slate-500 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>⚪️</span> 決算認定済</span>
+            : <span className="ml-auto bg-white border border-emerald-200 text-emerald-700 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>🟢</span> 執行中</span>;
+
           return (
             <div key={year} className="px-5 mt-8 mb-12">
-              <h2 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+              <h2 className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <span>■</span> {fyStr} // {year} 予算トラッカー
+                {statusBadge}
               </h2>
 
               <div className="relative flex flex-col gap-0">
