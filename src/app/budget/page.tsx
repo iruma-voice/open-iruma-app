@@ -2,8 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-
 export default function BudgetPage() {
   const dataPath = path.join(process.cwd(), 'src/data/budget_data.json');
   let budgets: any[] = [];
