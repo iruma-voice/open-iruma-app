@@ -62,11 +62,21 @@ export default function BudgetPage() {
 
   // 年度で降順ソート
   const sortedYears = Object.keys(groupedBudgets).sort((a, b) => {
-    const getNum = (str: string) => {
-      const match = str.match(/\d+/);
-      return match ? parseInt(match[0], 10) : 0;
+    const getYearNum = (str: string) => {
+      if (str.includes('令和元') || str.includes('令和1')) return 2019;
+      
+      const reiwaMatch = str.match(/令和(\d+)年度?/);
+      if (reiwaMatch) return 2018 + parseInt(reiwaMatch[1], 10);
+      
+      const heiseiMatch = str.match(/平成(\d+)年度?/);
+      if (heiseiMatch) return 1988 + parseInt(heiseiMatch[1], 10);
+      
+      const seirekiMatch = str.match(/(\d{4})年度?/);
+      if (seirekiMatch) return parseInt(seirekiMatch[1], 10);
+      
+      return 0;
     };
-    return getNum(b) - getNum(a);
+    return getYearNum(b) - getYearNum(a);
   });
 
   return (
@@ -108,9 +118,14 @@ export default function BudgetPage() {
 
           // ステータスバッジの判定
           const isCompleted = !!group.settlement;
+          const isExecuting = !isCompleted && !!group.supplementary;
+          const isPlanning = !isCompleted && !isExecuting;
+
           const statusBadge = isCompleted 
             ? <span className="ml-auto bg-white border border-slate-300 text-slate-500 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>⚪️</span> 決算認定済</span>
-            : <span className="ml-auto bg-white border border-emerald-200 text-emerald-700 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>🟢</span> 執行中</span>;
+            : isExecuting
+              ? <span className="ml-auto bg-white border border-emerald-200 text-emerald-700 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>🟢</span> 執行中</span>
+              : <span className="ml-auto bg-white border border-blue-200 text-blue-700 font-bold px-2 py-0.5 rounded-full text-[9px] shadow-sm flex items-center gap-1"><span>🔵</span> 計画段階</span>;
 
           return (
             <div key={year} className="px-5 mt-8 mb-12">
@@ -122,22 +137,44 @@ export default function BudgetPage() {
               {/* 1年間のまとめ（メインカード） */}
               {group.summary ? (
                 <Link className="block group outline-none mb-6" href={`/budget/${group.summary.id}`}>
-                  <article className="border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all">
-                    <div className="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
-                      <span className="text-white font-bold text-sm">1年間の財政まとめ（総括）</span>
-                      <span className="text-slate-300 text-[9px] font-mono border border-slate-600 px-2 py-0.5 rounded-full">ANNUAL REPORT</span>
-                    </div>
-                    <div className="p-4.5">
-                      <h3 className="text-[15px] font-extrabold text-slate-900 leading-snug mb-2">{group.summary.title}</h3>
-                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                        {group.summary.content.replace(/<[^>]*>/g, '').replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
-                      </p>
-                      <div className="mt-4 flex items-center text-blue-600 text-xs font-bold gap-1">
-                        <span>記事を読む</span>
-                        <span>→</span>
+                  {isCompleted ? (
+                    // 決算済（確定）のカードスタイル
+                    <article className="border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all">
+                      <div className="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+                        <span className="text-white font-bold text-sm">1年間の財政まとめ（総括）</span>
+                        <span className="text-slate-300 text-[9px] font-mono border border-slate-600 px-2 py-0.5 rounded-full">ANNUAL REPORT</span>
                       </div>
-                    </div>
-                  </article>
+                      <div className="p-4.5">
+                        <h3 className="text-[15px] font-extrabold text-slate-900 leading-snug mb-2">{group.summary.title}</h3>
+                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                          {group.summary.content.replace(/<[^>]*>/g, '').replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
+                        </p>
+                        <div className="mt-4 flex items-center text-blue-600 text-xs font-bold gap-1">
+                          <span>記事を読む</span>
+                          <span>→</span>
+                        </div>
+                      </div>
+                    </article>
+                  ) : (
+                    // 進行中・計画段階（未確定）のカードスタイル
+                    <article className="border-2 border-dashed border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all relative">
+                      <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,0,0,0.02)_10px,rgba(0,0,0,0.02)_20px)] pointer-events-none"></div>
+                      <div className="bg-slate-600 px-4 py-3 border-b border-slate-500 flex justify-between items-center relative z-10">
+                        <span className="text-white font-bold text-sm">今年度の財政計画（見込み）</span>
+                        <span className="text-slate-200 text-[9px] font-mono border border-slate-400 px-2 py-0.5 rounded-full bg-slate-700">PLAN IN PROGRESS</span>
+                      </div>
+                      <div className="p-4.5 relative z-10">
+                        <h3 className="text-[15px] font-extrabold text-slate-900 leading-snug mb-2">{group.summary.title}</h3>
+                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                          {group.summary.content.replace(/<[^>]*>/g, '').replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
+                        </p>
+                        <div className="mt-4 flex items-center text-blue-600 text-xs font-bold gap-1">
+                          <span>計画を読む</span>
+                          <span>→</span>
+                        </div>
+                      </div>
+                    </article>
+                  )}
                 </Link>
               ) : null}
 
