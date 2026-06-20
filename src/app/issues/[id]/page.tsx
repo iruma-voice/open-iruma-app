@@ -34,6 +34,23 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
     notFound();
   }
 
+  const contentStr = issue.content || "データがありません。";
+  
+  // Extract H2 headings dynamically
+  const headingRegex = /^##\s+(.*)$/gm;
+  const headings = [];
+  let match;
+  while ((match = headingRegex.exec(contentStr)) !== null) {
+    const rawText = match[1].trim();
+    // Clean label
+    let label = rawText.replace(/[【】]/g, '');
+    if (label.includes('：')) {
+      label = label.split('：')[0].trim();
+    }
+    const id = encodeURIComponent(rawText);
+    headings.push({ id, label, rawText });
+  }
+
   return (
     <main className="min-h-screen bg-white pb-[160px]">
       {/* Header */}
@@ -52,11 +69,11 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
       </div>
 
       {/* Anchor Navigation */}
-      <AnchorNav />
+      {headings.length > 0 && <AnchorNav headings={headings} />}
 
       {/* Content Area */}
       <div className="p-5 prose prose-slate prose-blockquote:not-italic prose-blockquote:font-normal max-w-none text-gray-800 text-base leading-relaxed space-y-6 break-words">
-        <MarkdownRenderer content={issue.content || "データがありません。"} />
+        <MarkdownRenderer content={contentStr} />
       </div>
     </main>
   );

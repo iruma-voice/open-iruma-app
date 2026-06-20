@@ -25,6 +25,7 @@ export default function BudgetPage() {
     if (!groupedBudgets[year]) {
       groupedBudgets[year] = {
         year,
+        summary: null,
         initial: null,
         initialArchive: null,
         supplementary: null,
@@ -38,11 +39,14 @@ export default function BudgetPage() {
     const isArchive = b.tags.includes('archive/情報収集') || b.title.includes('情報収集');
     const isSettlement = b.title.includes('決算');
     const isSupplementary = b.title.includes('補正');
+    const isSummary = b.title.includes('財政まとめ') || b.title.includes('財政のまとめ');
     
-    // 当初予算の判定（補正・決算が含まれず、まとめ記事であること）
-    const isInitial = (!isSettlement && !isSupplementary && (b.tags.includes('budget/まとめ') || b.title.includes('当初予算') || b.title.includes('予算')));
+    // 当初予算の判定（まとめ記事・補正・決算が含まれないこと）
+    const isInitial = (!isSummary && !isSettlement && !isSupplementary && (b.tags.includes('budget/まとめ') || b.title.includes('当初予算') || b.title.includes('予算')));
 
-    if (isSettlement) {
+    if (isSummary) {
+      groupedBudgets[year].summary = b;
+    } else if (isSettlement) {
       if (isArchive) groupedBudgets[year].settlementArchive = b;
       else groupedBudgets[year].settlement = b;
     } else if (isSupplementary) {
@@ -77,11 +81,11 @@ export default function BudgetPage() {
         </h1>
       </section>
 
-      {/* 説明文（ファイリングされた帳簿のメタファー） */}
+      {/* 説明文 */}
       <div className="px-5 mt-6 mb-6">
         <div className="border-l-2 border-slate-400 pl-3.5 py-1">
           <p className="text-xs text-slate-600 leading-relaxed">
-            入間市の予算規模、市の財政状況（市債・基金の推移）、大型事業の集中による影響、そして議会での主な対立点について、市民の視点からフラットに整理した記録帳です。
+            行政の財政サイクル（計画・軌道修正・評価）と、市民生活への影響や負担増、議会での対立点について、市民の視点からフラットに整理した記録帳です。
           </p>
         </div>
       </div>
@@ -111,90 +115,133 @@ export default function BudgetPage() {
           return (
             <div key={year} className="px-5 mt-8 mb-12">
               <h2 className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <span>■</span> {fyStr} // {year} 予算トラッカー
+                <span>■</span> {fyStr} // {year} 財政レポート
                 {statusBadge}
               </h2>
 
-              <div className="relative flex flex-col gap-0">
-                {/* タイムラインの縦線 */}
-                <div className="absolute left-[11px] top-4 bottom-4 w-[2px] bg-slate-200 z-0"></div>
-
-                {/* --- 1. 当初予算 --- */}
-                {group.initial && (
-                  <div className="relative z-10 mb-5">
-                    <Link className="block group outline-none" href={`/budget/${group.initial.id}`}>
-                      <article className="border-2 border-slate-400 rounded-none p-4.5 bg-white shadow-sm hover:shadow-md transition-all">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="bg-amber-400 text-black font-mono font-bold text-[9px] px-2 py-0.5 rounded-none tracking-wider">
-                            当初予算
-                          </span>
-                        </div>
-                        <h3 className="text-sm font-bold text-slate-900 mb-1">{group.initial.title}</h3>
-                        <p className="text-[10px] text-slate-500 mt-1 line-clamp-1">過去最大の予算規模と、議会での主な論点</p>
-                      </article>
-                    </Link>
-                    {group.initialArchive && (
-                      <Link href={`/budget/${group.initialArchive.id}`} className="flex items-center gap-2 mt-1.5 ml-4 text-[10px] font-mono text-slate-500 hover:text-blue-600 transition-colors">
-                        <span>↳ 📂 議事録・情報収集アーカイブを開く</span>
-                      </Link>
-                    )}
-                  </div>
-                )}
-
-                {/* --- 2. 補正予算 --- */}
-                {group.supplementary ? (
-                  <div className="relative z-10 mb-5 ml-6">
-                    <Link className="block group outline-none" href={`/budget/${group.supplementary.id}`}>
-                      <article className="border border-slate-300 border-l-4 border-l-amber-400 p-3 bg-white/60 hover:bg-white transition-all shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-800">{group.supplementary.title}</h3>
-                        <p className="text-[9px] text-slate-500 mt-1 line-clamp-1">期中の追加事業・減額の記録</p>
-                      </article>
-                    </Link>
-                    {group.supplementaryArchive && (
-                      <Link href={`/budget/${group.supplementaryArchive.id}`} className="flex items-center gap-2 mt-1.5 ml-2 text-[9px] font-mono text-slate-400 hover:text-blue-600 transition-colors">
-                        <span>↳ 📂 情報収集アーカイブを開く</span>
-                      </Link>
-                    )}
-                  </div>
-                ) : (
-                  // 補正予算のプレースホルダー
-                  group.initial && (
-                    <div className="relative z-10 mb-5 ml-6 opacity-50">
-                      <div className="border border-dashed border-slate-300 p-3 bg-slate-50/50 flex items-center justify-center">
-                        <span className="text-[9px] font-mono text-slate-400">[ 期中の補正予算 記録待ち ]</span>
+              {/* 1年間のまとめ（メインカード） */}
+              {group.summary ? (
+                <Link className="block group outline-none mb-6" href={`/budget/${group.summary.id}`}>
+                  <article className="border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all">
+                    <div className="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+                      <span className="text-white font-bold text-sm">1年間の財政まとめ（総括）</span>
+                      <span className="text-slate-300 text-[9px] font-mono border border-slate-600 px-2 py-0.5 rounded-full">ANNUAL REPORT</span>
+                    </div>
+                    <div className="p-4.5">
+                      <h3 className="text-[15px] font-extrabold text-slate-900 leading-snug mb-2">{group.summary.title}</h3>
+                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                        {group.summary.content.replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
+                      </p>
+                      <div className="mt-4 flex items-center text-blue-600 text-xs font-bold gap-1">
+                        <span>記事を読む</span>
+                        <span>→</span>
                       </div>
                     </div>
-                  )
-                )}
+                  </article>
+                </Link>
+              ) : null}
 
-                {/* --- 3. 決算 --- */}
-                {group.settlement ? (
-                  <div className="relative z-10 mt-2">
-                    <Link className="block group outline-none" href={`/budget/${group.settlement.id}`}>
-                      <article className="border-2 border-slate-800 rounded-none p-4.5 bg-slate-50 hover:bg-white transition-all shadow-sm">
-                        <div className="flex items-center gap-2.5 mb-2.5">
-                          <span className="bg-slate-800 text-white font-mono font-bold text-[9px] px-2 py-0.5 tracking-wider">決算・通信簿</span>
-                        </div>
-                        <h3 className="text-sm font-bold text-slate-900 mb-1">{group.settlement.title}</h3>
-                        <p className="text-[10px] text-slate-500 mt-1 line-clamp-1">当初計画の達成度と、未執行の課題</p>
-                      </article>
-                    </Link>
-                    {group.settlementArchive && (
-                      <Link href={`/budget/${group.settlementArchive.id}`} className="flex items-center gap-2 mt-1.5 ml-4 text-[10px] font-mono text-slate-500 hover:text-blue-600 transition-colors">
-                        <span>↳ 📂 情報収集アーカイブを開く</span>
-                      </Link>
-                    )}
-                  </div>
-                ) : (
-                  // 決算のプレースホルダー
-                  group.initial && (
-                    <div className="relative z-10 mt-2 opacity-50">
-                      <div className="border-2 border-dashed border-slate-300 p-4.5 bg-slate-50 flex items-center justify-center">
-                        <span className="text-[10px] font-mono text-slate-400">[ 令和{nextYearNum}年秋 議会認定予定 ]</span>
+              {/* プロセス（サブタイムライン） */}
+              <div className="bg-white border border-slate-300 rounded-xl p-5 shadow-sm">
+                <h3 className="text-xs font-bold text-slate-800 mb-5 border-b border-dashed border-slate-300 pb-2 flex items-center gap-2">
+                  <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-sm font-mono">PROCESS</span>
+                  詳細な財政プロセス
+                </h3>
+                
+                <div className="relative flex flex-col gap-0 pl-2">
+                  {/* タイムラインの縦線 */}
+                  <div className="absolute left-[4px] top-3 bottom-3 w-[2px] bg-slate-200 z-0"></div>
+
+                  {/* --- 1. 当初予算 --- */}
+                  {group.initial && (
+                    <div className="relative z-10 mb-6 flex gap-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400 mt-1.5 shrink-0 shadow-sm border border-white"></div>
+                      <div className="flex-1">
+                        <Link className="block group outline-none" href={`/budget/${group.initial.id}`}>
+                          <article className="border border-slate-200 rounded-md p-3.5 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className="text-amber-600 font-bold text-[10px] tracking-wider">01 当初予算（計画）</span>
+                            </div>
+                            <h4 className="text-[13px] font-bold text-slate-900 leading-snug">{group.initial.title}</h4>
+                          </article>
+                        </Link>
+                        {group.initialArchive && (
+                          <Link href={`/budget/${group.initialArchive.id}`} className="flex items-center gap-1.5 mt-2 ml-1 text-[10px] text-slate-500 hover:text-blue-600 transition-colors">
+                            <span>↳ 📂 情報収集アーカイブ</span>
+                          </Link>
+                        )}
                       </div>
                     </div>
-                  )
-                )}
+                  )}
+
+                  {/* --- 2. 補正予算 --- */}
+                  {group.supplementary ? (
+                    <div className="relative z-10 mb-6 flex gap-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-sky-400 mt-1.5 shrink-0 shadow-sm border border-white"></div>
+                      <div className="flex-1">
+                        <Link className="block group outline-none" href={`/budget/${group.supplementary.id}`}>
+                          <article className="border border-slate-200 rounded-md p-3.5 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className="text-sky-600 font-bold text-[10px] tracking-wider">02 補正予算（軌道修正）</span>
+                            </div>
+                            <h4 className="text-[13px] font-bold text-slate-900 leading-snug">{group.supplementary.title}</h4>
+                          </article>
+                        </Link>
+                        {group.supplementaryArchive && (
+                          <Link href={`/budget/${group.supplementaryArchive.id}`} className="flex items-center gap-1.5 mt-2 ml-1 text-[10px] text-slate-500 hover:text-blue-600 transition-colors">
+                            <span>↳ 📂 情報収集アーカイブ</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    // 補正予算のプレースホルダー
+                    group.initial && (
+                      <div className="relative z-10 mb-6 flex gap-4 opacity-50">
+                        <div className="w-2.5 h-2.5 rounded-full bg-slate-300 mt-1.5 shrink-0 border border-white"></div>
+                        <div className="flex-1">
+                          <div className="border border-dashed border-slate-300 rounded-md p-3 bg-slate-50/50 flex items-center">
+                            <span className="text-[10px] text-slate-400">02 補正予算 [期中の記録待ち]</span>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+
+                  {/* --- 3. 決算 --- */}
+                  {group.settlement ? (
+                    <div className="relative z-10 flex gap-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1.5 shrink-0 shadow-sm border border-white"></div>
+                      <div className="flex-1">
+                        <Link className="block group outline-none" href={`/budget/${group.settlement.id}`}>
+                          <article className="border border-slate-200 rounded-md p-3.5 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all">
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className="text-emerald-700 font-bold text-[10px] tracking-wider">03 決算（評価）</span>
+                            </div>
+                            <h4 className="text-[13px] font-bold text-slate-900 leading-snug">{group.settlement.title}</h4>
+                          </article>
+                        </Link>
+                        {group.settlementArchive && (
+                          <Link href={`/budget/${group.settlementArchive.id}`} className="flex items-center gap-1.5 mt-2 ml-1 text-[10px] text-slate-500 hover:text-blue-600 transition-colors">
+                            <span>↳ 📂 情報収集アーカイブ</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    // 決算のプレースホルダー
+                    group.initial && (
+                      <div className="relative z-10 flex gap-4 opacity-50">
+                        <div className="w-2.5 h-2.5 rounded-full bg-slate-300 mt-1.5 shrink-0 border border-white"></div>
+                        <div className="flex-1">
+                          <div className="border border-dashed border-slate-300 rounded-md p-3 bg-slate-50/50 flex items-center">
+                            <span className="text-[10px] text-slate-400">03 決算 [令和{nextYearNum}年秋 議会認定予定]</span>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
             </div>
           );

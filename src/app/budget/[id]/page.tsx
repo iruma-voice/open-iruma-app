@@ -30,6 +30,23 @@ export default async function BudgetDetailPage({ params }: { params: Promise<{ i
     notFound();
   }
 
+  const contentStr = budget.content || "データがありません。";
+  
+  // Extract H2 headings dynamically
+  const headingRegex = /^##\s+(.*)$/gm;
+  const headings = [];
+  let match;
+  while ((match = headingRegex.exec(contentStr)) !== null) {
+    const rawText = match[1].trim();
+    // Clean label (e.g. "【要約：3分でわかる】" -> "要約")
+    let label = rawText.replace(/[【】]/g, '');
+    if (label.includes('：')) {
+      label = label.split('：')[0].trim();
+    }
+    const id = encodeURIComponent(rawText);
+    headings.push({ id, label, rawText });
+  }
+
   return (
     <main className="min-h-screen bg-[#FAF9F5] pb-[160px] font-sans text-slate-900">
       {/* 帳簿ヘッダー（ミシン目の区切り） */}
@@ -48,12 +65,12 @@ export default async function BudgetDetailPage({ params }: { params: Promise<{ i
       </div>
 
       {/* Anchor Navigation */}
-      <AnchorNav />
+      {headings.length > 0 && <AnchorNav headings={headings} />}
 
       {/* コンテンツエリア（ルーズリーフ・ノートの1ページを表現した白いフラットな紙） */}
       <div className="px-4 mt-6">
         <div className="bg-white border border-slate-300 rounded-none p-5 md:p-8 space-y-6 break-words">
-          <MarkdownRenderer content={budget.content || "データがありません。"} />
+          <MarkdownRenderer content={contentStr} />
         </div>
       </div>
     </main>

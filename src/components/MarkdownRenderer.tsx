@@ -12,12 +12,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       components={{
         h2: ({node, ...props}) => {
           const text = String(props.children);
-          let id = "";
-          if (text.includes('要約') || text.includes('1.') || text.includes('まとめ')) id = 'summary';
-          else if (text.includes('生活') || text.includes('税金が生んだ成果') || text.includes('時系列') || text.includes('バトン') || text.includes('2.')) id = 'impact';
-          else if (text.includes('深く知る') || text.includes('3.')) id = 'deepdive';
-          else if (text.includes('議論のために') || text.includes('4.')) id = 'future';
-          
+          const id = encodeURIComponent(text.trim());
           return <h2 id={id} className="scroll-mt-[120px] text-xl font-bold border-b border-gray-200 pb-2 mt-10 mb-4" {...props} />;
         },
         p: ({node, children, ...props}) => {
