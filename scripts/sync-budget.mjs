@@ -165,7 +165,31 @@ function syncBudget() {
 
   // WikiLink transformer
   function transformWikiLinks(content) {
-    return content.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
+    // 1. まず href="[[...]]" のようなHTML属性内のWikiリンクを処理する（テキスト不要、URLパスのみ返す）
+    let tempContent = content.replace(/href="\[\[([^\]]+)\]\]"/g, (match, inner) => {
+      let linkPath = inner;
+      if (inner.includes('|')) {
+        linkPath = inner.split('|')[0].trim();
+      } else {
+        linkPath = inner.trim();
+      }
+      const linkBasename = linkPath.split('/').pop().replace('.md', '');
+
+      if (titleToIdMap[linkBasename]) {
+        const targetId = titleToIdMap[linkBasename];
+        const route = idToRouteMap[targetId] || '/budget';
+        return `href="${route}/${targetId}"`;
+      } else if (titleToIdMap[linkPath]) {
+        const targetId = titleToIdMap[linkPath];
+        const route = idToRouteMap[targetId] || '/budget';
+        return `href="${route}/${targetId}"`;
+      } else {
+        return `href="#"`;
+      }
+    });
+
+    // 2. 次に通常のMarkdownテキストとしての [[...]] を処理する
+    return tempContent.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
       let linkPath = inner;
       let linkText = '';
 
