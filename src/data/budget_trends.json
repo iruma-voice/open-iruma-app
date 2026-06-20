@@ -1,0 +1,297 @@
+{
+  "metadata": {
+    "title": "入間市 一般会計 当初予算の推移",
+    "scope": "一般会計のみ",
+    "unit_budget": "億円",
+    "unit_fund": "百万円",
+    "unit_ratio": "%",
+    "sources": [
+      "財政状況資料集（H30〜R06）",
+      "議会だより（R01〜R08）",
+      "各年度当初予算_情報収集.md"
+    ],
+    "notes": [
+      "R02(2020)の決算歳出はコロナ特別定額給付金を含む異常値",
+      "R07・R08は当初予算のみ（決算データなし）",
+      "R06の歳入詳細（市税・地方債内訳）は財政データに含まれていないため当初予算記事から参照"
+    ]
+  },
+  "years": [
+    {
+      "fiscalYear": "H30",
+      "displayLabel": "H30 (2018)",
+      "westernYear": 2018,
+      "isProjection": false,
+      "isReferenceOnly": true,
+      "initialBudget": null,
+      "settlementExpenditure": 412.5,
+      "revenue": {
+        "localTax": 212.9,
+        "localBonds": 34.2,
+        "localAllocationTax": 14.9,
+        "nationalSubsidy": 57.4,
+        "prefecturalSubsidy": 24.5
+      },
+      "expenditureByNature": {
+        "personnelCost": 67.0,
+        "welfareExpense": 107.6,
+        "debtService": 32.3,
+        "materialCost": 74.1,
+        "subsidies": 47.5,
+        "transfers": 45.9,
+        "constructionInvestment": 30.1
+      },
+      "funds": {
+        "financialAdjustmentFund": 2257,
+        "otherSpecificFunds": 746
+      },
+      "indicators": {
+        "realBalanceRatio": 2.70,
+        "singleYearBalanceRatio": -2.09,
+        "reserveFundRatio": 8.72
+      },
+      "debtBalance": null
+    },
+    {
+      "fiscalYear": "R01",
+      "displayLabel": "R01 (2019)",
+      "westernYear": 2019,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 421.3,
+      "settlementExpenditure": 410.6,
+      "yoyChange": 2.0,
+      "revenue": {
+        "localTax": 215.5,
+        "localBonds": 25.2,
+        "localAllocationTax": 16.8,
+        "nationalSubsidy": 65.3,
+        "prefecturalSubsidy": 32.3
+      },
+      "expenditureByNature": {
+        "personnelCost": 66.6,
+        "welfareExpense": 114.1,
+        "debtService": 34.5,
+        "materialCost": 76.4,
+        "subsidies": 42.6,
+        "transfers": 44.5,
+        "constructionInvestment": 25.3
+      },
+      "funds": {
+        "financialAdjustmentFund": 2040,
+        "otherSpecificFunds": 946
+      },
+      "indicators": {
+        "realBalanceRatio": 3.82,
+        "singleYearBalanceRatio": 0.30,
+        "reserveFundRatio": 7.83
+      },
+      "debtBalance": 31809
+    },
+    {
+      "fiscalYear": "R02",
+      "displayLabel": "R02 (2020)",
+      "westernYear": 2020,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 439.5,
+      "settlementExpenditure": 592.4,
+      "settlementNote": "コロナ特別定額給付金含む",
+      "yoyChange": 4.3,
+      "revenue": {
+        "localTax": 212.9,
+        "localBonds": 33.3,
+        "localAllocationTax": 16.6,
+        "nationalSubsidy": 237.8,
+        "prefecturalSubsidy": 33.6
+      },
+      "expenditureByNature": {
+        "personnelCost": 82.0,
+        "welfareExpense": 115.1,
+        "debtService": 36.5,
+        "materialCost": 74.9,
+        "subsidies": 193.2,
+        "transfers": 46.8,
+        "constructionInvestment": 35.3
+      },
+      "funds": {
+        "financialAdjustmentFund": 2191,
+        "otherSpecificFunds": 1159
+      },
+      "indicators": {
+        "realBalanceRatio": 4.48,
+        "singleYearBalanceRatio": 1.32,
+        "reserveFundRatio": 8.22
+      },
+      "debtBalance": 31615
+    },
+    {
+      "fiscalYear": "R03",
+      "displayLabel": "R03 (2021)",
+      "westernYear": 2021,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 441.7,
+      "settlementExpenditure": 490.6,
+      "yoyChange": 0.5,
+      "revenue": {
+        "localTax": 208.5,
+        "localBonds": 39.4,
+        "localAllocationTax": 28.0,
+        "nationalSubsidy": 123.1,
+        "prefecturalSubsidy": 34.1
+      },
+      "expenditureByNature": {
+        "personnelCost": 82.1,
+        "welfareExpense": 146.1,
+        "debtService": 38.2,
+        "materialCost": 77.6,
+        "subsidies": 46.5,
+        "transfers": 46.1,
+        "constructionInvestment": 30.1
+      },
+      "funds": {
+        "financialAdjustmentFund": 3886,
+        "otherSpecificFunds": 1379
+      },
+      "indicators": {
+        "realBalanceRatio": 7.20,
+        "singleYearBalanceRatio": 8.99,
+        "reserveFundRatio": 13.92
+      },
+      "debtBalance": 31836
+    },
+    {
+      "fiscalYear": "R04",
+      "displayLabel": "R04 (2022)",
+      "westernYear": 2022,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 450.1,
+      "settlementExpenditure": 472.0,
+      "yoyChange": 1.9,
+      "revenue": {
+        "localTax": 215.4,
+        "localBonds": 21.2,
+        "localAllocationTax": 29.6,
+        "nationalSubsidy": 102.8,
+        "prefecturalSubsidy": 32.8
+      },
+      "expenditureByNature": {
+        "personnelCost": 83.5,
+        "welfareExpense": 125.8,
+        "debtService": 38.9,
+        "materialCost": 84.5,
+        "subsidies": 50.6,
+        "transfers": 50.1,
+        "constructionInvestment": 27.1
+      },
+      "funds": {
+        "financialAdjustmentFund": 4098,
+        "otherSpecificFunds": 1698
+      },
+      "indicators": {
+        "realBalanceRatio": 5.72,
+        "singleYearBalanceRatio": -0.87,
+        "reserveFundRatio": 15.01
+      },
+      "debtBalance": 30142
+    },
+    {
+      "fiscalYear": "R05",
+      "displayLabel": "R05 (2023)",
+      "westernYear": 2023,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 480.1,
+      "settlementExpenditure": 482.6,
+      "yoyChange": 6.7,
+      "revenue": {
+        "localTax": 217.6,
+        "localBonds": 24.1,
+        "localAllocationTax": 31.9,
+        "nationalSubsidy": 100.1,
+        "prefecturalSubsidy": 33.8
+      },
+      "expenditureByNature": {
+        "personnelCost": 84.6,
+        "welfareExpense": 138.4,
+        "debtService": 37.0,
+        "materialCost": 73.7,
+        "subsidies": 44.5,
+        "transfers": 55.6,
+        "constructionInvestment": 38.4
+      },
+      "funds": {
+        "financialAdjustmentFund": 3894,
+        "otherSpecificFunds": 1954
+      },
+      "indicators": {
+        "realBalanceRatio": 3.58,
+        "singleYearBalanceRatio": -2.77,
+        "reserveFundRatio": 14.02
+      },
+      "debtBalance": 28923
+    },
+    {
+      "fiscalYear": "R06",
+      "displayLabel": "R06 (2024)",
+      "westernYear": 2024,
+      "isProjection": false,
+      "isReferenceOnly": false,
+      "initialBudget": 512.4,
+      "settlementExpenditure": 513.3,
+      "yoyChange": 6.7,
+      "revenue": null,
+      "expenditureByNature": {
+        "personnelCost": 89.9,
+        "welfareExpense": 145.1,
+        "debtService": 35.6,
+        "materialCost": 77.9,
+        "subsidies": 45.6,
+        "transfers": 57.9,
+        "constructionInvestment": 51.7
+      },
+      "funds": {
+        "financialAdjustmentFund": 3504,
+        "otherSpecificFunds": 1681
+      },
+      "indicators": {
+        "realBalanceRatio": 4.15,
+        "singleYearBalanceRatio": -0.71,
+        "reserveFundRatio": 12.31
+      },
+      "debtBalance": 28864
+    },
+    {
+      "fiscalYear": "R07",
+      "displayLabel": "R07 (2025)",
+      "westernYear": 2025,
+      "isProjection": true,
+      "isReferenceOnly": false,
+      "initialBudget": 553.1,
+      "settlementExpenditure": null,
+      "yoyChange": 8.0,
+      "revenue": null,
+      "expenditureByNature": null,
+      "funds": null,
+      "indicators": null,
+      "debtBalance": null
+    },
+    {
+      "fiscalYear": "R08",
+      "displayLabel": "R08 (2026)",
+      "westernYear": 2026,
+      "isProjection": true,
+      "isReferenceOnly": false,
+      "initialBudget": 564.2,
+      "settlementExpenditure": null,
+      "yoyChange": 2.0,
+      "revenue": null,
+      "expenditureByNature": null,
+      "funds": null,
+      "indicators": null,
+      "debtBalance": null
+    }
+  ]
+}

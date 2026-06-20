@@ -100,6 +100,22 @@ export default function BudgetPage() {
         </div>
       </div>
 
+      {/* 推移グラフページへのリンク */}
+      <div className="px-5 mb-8">
+        <Link href="/budget/trends" className="block group outline-none">
+          <div className="border border-slate-300 rounded-xl p-4 bg-gradient-to-r from-slate-50 to-white hover:border-sky-300 hover:shadow-md transition-all flex items-center gap-4">
+            <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center shrink-0 group-hover:bg-sky-200 transition-colors">
+              <span className="text-lg">📊</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[13px] font-bold text-slate-900 group-hover:text-sky-700 transition-colors">当初予算の推移グラフ</h3>
+              <p className="text-[10px] text-slate-500 mt-0.5">令和元年〜令和8年度の予算額・歳出構成・基金残高・財政指標をインタラクティブなグラフで可視化</p>
+            </div>
+            <span className="text-slate-400 group-hover:text-sky-600 transition-colors shrink-0">→</span>
+          </div>
+        </Link>
+      </div>
+
       {sortedYears.length > 0 ? (
         sortedYears.map((year) => {
           const group = groupedBudgets[year];
