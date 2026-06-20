@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function BudgetPage() {
   const dataPath = path.join(process.cwd(), 'src/data/budget_data.json');
   let budgets: any[] = [];
@@ -130,7 +132,7 @@ export default function BudgetPage() {
                     <div className="p-4.5">
                       <h3 className="text-[15px] font-extrabold text-slate-900 leading-snug mb-2">{group.summary.title}</h3>
                       <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                        {group.summary.content.replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
+                        {group.summary.content.replace(/<[^>]*>/g, '').replace(/[#*`>]/g, '').replace(/\[!.*?\]/g, '').replace(/\[|\]/g, '').slice(0, 150)}...
                       </p>
                       <div className="mt-4 flex items-center text-blue-600 text-xs font-bold gap-1">
                         <span>記事を読む</span>
