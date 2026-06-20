@@ -93,9 +93,13 @@ export default function BudgetPage() {
 
       {/* 説明文 */}
       <div className="px-5 mt-6 mb-6">
-        <div className="border-l-2 border-slate-400 pl-3.5 py-1">
+        <div className="border-l-2 border-slate-400 pl-3.5 py-1 relative">
           <p className="text-xs text-slate-600 leading-relaxed">
             行政の財政サイクル（計画・軌道修正・評価）と、市民生活への影響や負担増、議会での対立点について、市民の視点からフラットに整理した記録帳です。
+            <Link href="/budget/guide" className="inline-flex items-center gap-1 text-sky-600 font-bold ml-2 hover:underline">
+              <span className="text-[10px] bg-sky-100 text-sky-700 px-1.5 py-0.5 rounded shadow-sm border border-sky-200">?</span>
+              詳しくはこちら（見方・基礎知識）
+            </Link>
           </p>
         </div>
       </div>
