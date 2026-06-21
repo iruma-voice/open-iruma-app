@@ -21,6 +21,11 @@ export default function BudgetPage() {
   const groupedBudgets: Record<string, any> = {};
 
   budgets.forEach((b: any) => {
+    // 予算の推移まとめ記事（id: 391086d18a02）は年度別のタイムラインには含めない
+    if (b.id === '391086d18a02' || b.tags.includes('budget/推移')) {
+      return;
+    }
+
     const year = extractYear(b.title);
     if (!groupedBudgets[year]) {
       groupedBudgets[year] = {
@@ -102,6 +107,22 @@ export default function BudgetPage() {
             </Link>
           </p>
         </div>
+      </div>
+
+      {/* 予算の推移まとめ記事へのリンク */}
+      <div className="px-5 mb-4">
+        <Link href="/budget/391086d18a02" className="block group outline-none">
+          <div className="border border-slate-300 rounded-xl p-4 bg-gradient-to-r from-amber-50 to-white hover:border-amber-300 hover:shadow-md transition-all flex items-center gap-4">
+            <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center shrink-0 group-hover:bg-amber-200 transition-colors">
+              <span className="text-lg">📖</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[13px] font-bold text-slate-900 group-hover:text-amber-700 transition-colors">予算の推移（令和元年度〜令和8年度）</h3>
+              <p className="text-[10px] text-slate-500 mt-0.5">8年間で約143億円増加した入間市の予算。貯金（基金）や借金（市債）の推移を含め、データと文脈で分かりやすく解説</p>
+            </div>
+            <span className="text-slate-400 group-hover:text-amber-600 transition-colors shrink-0">→</span>
+          </div>
+        </Link>
       </div>
 
       {/* 推移グラフページへのリンク */}
