@@ -272,8 +272,22 @@
       "initialBudget": 553.1,
       "settlementExpenditure": null,
       "yoyChange": 8.0,
-      "revenue": null,
-      "expenditureByNature": null,
+      "revenue": {
+        "localTax": 219.7,
+        "localBonds": 75.2,
+        "localAllocationTax": 30.3,
+        "nationalSubsidy": 87.7,
+        "prefecturalSubsidy": 35.7
+      },
+      "expenditureByNature": {
+        "personnelCost": null,
+        "welfareExpense": null,
+        "debtService": 36.9,
+        "materialCost": null,
+        "subsidies": null,
+        "transfers": null,
+        "constructionInvestment": null
+      },
       "funds": null,
       "indicators": null,
       "debtBalance": null
@@ -287,8 +301,22 @@
       "initialBudget": 564.2,
       "settlementExpenditure": null,
       "yoyChange": 2.0,
-      "revenue": null,
-      "expenditureByNature": null,
+      "revenue": {
+        "localTax": 225.8,
+        "localBonds": 73.5,
+        "localAllocationTax": 30.3,
+        "nationalSubsidy": 92.5,
+        "prefecturalSubsidy": 42.1
+      },
+      "expenditureByNature": {
+        "personnelCost": null,
+        "welfareExpense": null,
+        "debtService": 38.7,
+        "materialCost": null,
+        "subsidies": null,
+        "transfers": null,
+        "constructionInvestment": null
+      },
       "funds": null,
       "indicators": null,
       "debtBalance": null
