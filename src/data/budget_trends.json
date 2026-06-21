@@ -33,7 +33,7 @@
         "prefecturalSubsidy": 24.5
       },
       "expenditureByNature": {
-        "personnelCost": 67.0,
+        "personnelCost": 67,
         "welfareExpense": 107.6,
         "debtService": 32.3,
         "materialCost": 74.1,
@@ -46,11 +46,20 @@
         "otherSpecificFunds": 746
       },
       "indicators": {
-        "realBalanceRatio": 2.70,
+        "realBalanceRatio": 2.7,
         "singleYearBalanceRatio": -2.09,
         "reserveFundRatio": 8.72
       },
-      "debtBalance": null
+      "debtBalance": null,
+      "expenditureByPurpose": {
+        "general": 47.8,
+        "welfare": 178.7,
+        "education": 34.6,
+        "civilWorks": 65.7,
+        "health": 31.4,
+        "debtService": 32.3,
+        "others": 22
+      }
     },
     {
       "fiscalYear": "R01",
@@ -60,7 +69,7 @@
       "isReferenceOnly": false,
       "initialBudget": 421.3,
       "settlementExpenditure": 410.6,
-      "yoyChange": 2.0,
+      "yoyChange": 2,
       "revenue": {
         "localTax": 215.5,
         "localBonds": 25.2,
@@ -83,10 +92,19 @@
       },
       "indicators": {
         "realBalanceRatio": 3.82,
-        "singleYearBalanceRatio": 0.30,
+        "singleYearBalanceRatio": 0.3,
         "reserveFundRatio": 7.83
       },
-      "debtBalance": 31809
+      "debtBalance": 31809,
+      "expenditureByPurpose": {
+        "general": 53.5,
+        "welfare": 178.3,
+        "education": 50.1,
+        "civilWorks": 42.1,
+        "health": 30.4,
+        "debtService": 34.5,
+        "others": 21.7
+      }
     },
     {
       "fiscalYear": "R02",
@@ -106,7 +124,7 @@
         "prefecturalSubsidy": 33.6
       },
       "expenditureByNature": {
-        "personnelCost": 82.0,
+        "personnelCost": 82,
         "welfareExpense": 115.1,
         "debtService": 36.5,
         "materialCost": 74.9,
@@ -123,7 +141,16 @@
         "singleYearBalanceRatio": 1.32,
         "reserveFundRatio": 8.22
       },
-      "debtBalance": 31615
+      "debtBalance": 31615,
+      "expenditureByPurpose": {
+        "general": 77.1,
+        "welfare": 187.4,
+        "education": 38,
+        "civilWorks": 28.1,
+        "health": 39.6,
+        "debtService": 36.5,
+        "others": 185.7
+      }
     },
     {
       "fiscalYear": "R03",
@@ -137,7 +164,7 @@
       "revenue": {
         "localTax": 208.5,
         "localBonds": 39.4,
-        "localAllocationTax": 28.0,
+        "localAllocationTax": 28,
         "nationalSubsidy": 123.1,
         "prefecturalSubsidy": 34.1
       },
@@ -155,11 +182,20 @@
         "otherSpecificFunds": 1379
       },
       "indicators": {
-        "realBalanceRatio": 7.20,
+        "realBalanceRatio": 7.2,
         "singleYearBalanceRatio": 8.99,
         "reserveFundRatio": 13.92
       },
-      "debtBalance": 31836
+      "debtBalance": 31836,
+      "expenditureByPurpose": {
+        "general": 63.7,
+        "welfare": 220.9,
+        "education": 66.7,
+        "civilWorks": 32.6,
+        "health": 41.8,
+        "debtService": 38.2,
+        "others": 26.7
+      }
     },
     {
       "fiscalYear": "R04",
@@ -168,7 +204,7 @@
       "isProjection": false,
       "isReferenceOnly": false,
       "initialBudget": 450.1,
-      "settlementExpenditure": 472.0,
+      "settlementExpenditure": 472,
       "yoyChange": 1.9,
       "revenue": {
         "localTax": 215.4,
@@ -195,7 +231,16 @@
         "singleYearBalanceRatio": -0.87,
         "reserveFundRatio": 15.01
       },
-      "debtBalance": 30142
+      "debtBalance": 30142,
+      "expenditureByPurpose": {
+        "general": 62,
+        "welfare": 211.1,
+        "education": 56.9,
+        "civilWorks": 35.6,
+        "health": 39.5,
+        "debtService": 38.9,
+        "others": 28
+      }
     },
     {
       "fiscalYear": "R05",
@@ -216,7 +261,7 @@
       "expenditureByNature": {
         "personnelCost": 84.6,
         "welfareExpense": 138.4,
-        "debtService": 37.0,
+        "debtService": 37,
         "materialCost": 73.7,
         "subsidies": 44.5,
         "transfers": 55.6,
@@ -231,7 +276,16 @@
         "singleYearBalanceRatio": -2.77,
         "reserveFundRatio": 14.02
       },
-      "debtBalance": 28923
+      "debtBalance": 28923,
+      "expenditureByPurpose": {
+        "general": 56.9,
+        "welfare": 220.9,
+        "education": 52.7,
+        "civilWorks": 44.3,
+        "health": 43.8,
+        "debtService": 37,
+        "others": 27
+      }
     },
     {
       "fiscalYear": "R06",
@@ -261,7 +315,16 @@
         "singleYearBalanceRatio": -0.71,
         "reserveFundRatio": 12.31
       },
-      "debtBalance": 28864
+      "debtBalance": 28864,
+      "expenditureByPurpose": {
+        "general": 64.5,
+        "welfare": 237.4,
+        "education": 64.6,
+        "civilWorks": 42.2,
+        "health": 42.6,
+        "debtService": 35.6,
+        "others": 25.4
+      }
     },
     {
       "fiscalYear": "R07",
@@ -271,7 +334,7 @@
       "isReferenceOnly": false,
       "initialBudget": 553.1,
       "settlementExpenditure": null,
-      "yoyChange": 8.0,
+      "yoyChange": 8,
       "revenue": {
         "localTax": 219.7,
         "localBonds": 75.2,
@@ -290,7 +353,16 @@
       },
       "funds": null,
       "indicators": null,
-      "debtBalance": null
+      "debtBalance": null,
+      "expenditureByPurpose": {
+        "general": 98.1,
+        "welfare": 226.5,
+        "education": 90,
+        "civilWorks": 35,
+        "health": 39.9,
+        "debtService": 36.9,
+        "others": 26.7
+      }
     },
     {
       "fiscalYear": "R08",
@@ -300,7 +372,7 @@
       "isReferenceOnly": false,
       "initialBudget": 564.2,
       "settlementExpenditure": null,
-      "yoyChange": 2.0,
+      "yoyChange": 2,
       "revenue": {
         "localTax": 225.8,
         "localBonds": 73.5,
@@ -319,7 +391,16 @@
       },
       "funds": null,
       "indicators": null,
-      "debtBalance": null
+      "debtBalance": null,
+      "expenditureByPurpose": {
+        "general": 114.5,
+        "welfare": 242.9,
+        "education": 59.8,
+        "civilWorks": 39.7,
+        "health": 40.8,
+        "debtService": 38.7,
+        "others": 27.8
+      }
     }
   ]
 }

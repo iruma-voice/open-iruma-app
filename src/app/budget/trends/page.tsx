@@ -21,14 +21,14 @@ const COLORS = {
   slate100: '#f1f5f9',     // slate-100
   projection: '#93c5fd',   // blue-300（見込み用）
   confirmed: '#475569',    // slate-600（確定用）
-  // 性質別歳出用
-  personnel: '#f59e0b',    // amber-500
-  welfare: '#ef4444',      // red-500
-  debt: '#6366f1',         // indigo-500
-  material: '#8b5cf6',     // violet-500
-  subsidies: '#14b8a6',    // teal-500
-  transfers: '#64748b',    // slate-500
-  construction: '#0ea5e9', // sky-500
+  // 目的別歳出用
+  welfare: '#ef4444',      // 民生費：赤
+  general: '#64748b',      // 総務費：グレー
+  education: '#0ea5e9',    // 教育費：スカイブルー
+  civilWorks: '#f59e0b',   // 土木費：アンバー
+  health: '#10b981',       // 衛生費：エメラルド
+  debtService: '#8b5cf6',  // 公債費：バイオレット
+  others: '#cbd5e1',       // その他：ライトグレー
 };
 
 // --- データ前処理 ---
@@ -45,21 +45,22 @@ const budgetChartData = trendsData.years
     isProjection: y.isProjection,
   }));
 
-// 性質別歳出推移グラフ用データ（決算ベース）
+// 目的別歳出推移グラフ用データ
+// H30〜R06は決算、R07〜R08は当初予算のデータが含まれている
 const expenditureChartData = trendsData.years
-  .filter((y: YearData) => y.expenditureByNature !== null && !y.isReferenceOnly)
+  .filter((y: YearData) => y.expenditureByPurpose !== null && !y.isReferenceOnly)
   .map((y: YearData) => {
-    const e = y.expenditureByNature!;
+    const e = y.expenditureByPurpose!;
     return {
       name: y.fiscalYear,
       displayLabel: y.displayLabel,
-      人件費: e.personnelCost,
-      扶助費: e.welfareExpense,
+      民生費: e.welfare,
+      総務費: e.general,
+      教育費: e.education,
+      土木費: e.civilWorks,
+      衛生費: e.health,
       公債費: e.debtService,
-      物件費: e.materialCost,
-      補助費等: e.subsidies,
-      繰出金: e.transfers,
-      投資的経費: e.constructionInvestment,
+      その他: e.others,
     };
   });
 
@@ -237,12 +238,17 @@ export default function BudgetTrendsPage() {
           </ChartSection>
         )}
 
-        {/* 2. 歳出の性質別構成の推移 */}
+        {/* 2. 歳出の目的別構成の推移 */}
         {activeTab === 'expenditure' && (
           <ChartSection
-            title="📊 歳出の性質別構成の推移（決算ベース）"
-            subtitle="義務的経費（人件費・扶助費・公債費）、投資的経費、その他の経費の内訳推移です。R02はコロナ給付金の影響で補助費等が急増しています。"
+            title="📊 歳出の目的別構成の推移"
+            subtitle="民生費（福祉）、総務費（管理）、教育費、衛生費（保健環境）、土木費（道路公園）、公債費（借金返済）、その他の内訳推移です。"
           >
+            <div className="mb-3 flex items-center gap-3 flex-wrap">
+              <span className="flex items-center gap-1 text-[9px] text-slate-500">
+                令和6年度（R06）までは決算額、令和7年度（R07）以降は当初予算額に基づいています。
+              </span>
+            </div>
             <ResponsiveContainer width="100%" height={320}>
               <BarChart data={expenditureChartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -250,21 +256,23 @@ export default function BudgetTrendsPage() {
                 <YAxis tick={{ fontSize: 10, fill: '#64748b' }} label={{ value: '億円', angle: -90, position: 'insideLeft', style: { fontSize: 10, fill: '#94a3b8' } }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
-                <Bar dataKey="扶助費" stackId="a" fill={COLORS.welfare} />
-                <Bar dataKey="人件費" stackId="a" fill={COLORS.personnel} />
-                <Bar dataKey="公債費" stackId="a" fill={COLORS.debt} />
-                <Bar dataKey="物件費" stackId="a" fill={COLORS.material} />
-                <Bar dataKey="補助費等" stackId="a" fill={COLORS.subsidies} />
-                <Bar dataKey="繰出金" stackId="a" fill={COLORS.transfers} />
-                <Bar dataKey="投資的経費" stackId="a" fill={COLORS.construction} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="民生費" stackId="a" fill={COLORS.welfare} />
+                <Bar dataKey="総務費" stackId="a" fill={COLORS.general} />
+                <Bar dataKey="教育費" stackId="a" fill={COLORS.education} />
+                <Bar dataKey="衛生費" stackId="a" fill={COLORS.health} />
+                <Bar dataKey="土木費" stackId="a" fill={COLORS.civilWorks} />
+                <Bar dataKey="公債費" stackId="a" fill={COLORS.debtService} />
+                <Bar dataKey="その他" stackId="a" fill={COLORS.others} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
 
             {/* 注釈 */}
-            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
-              <p className="text-[10px] text-amber-800 leading-relaxed">
-                <strong>⚠️ R02（2020年度）について</strong><br />
-                コロナ特別定額給付金（約150億円）が「補助費等」に計上されているため、R02の歳出総額は異常値となっています。時系列比較の際はご注意ください。
+            <div className="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-3">
+              <p className="text-[10px] text-slate-600 leading-relaxed">
+                <strong>📖 目的別歳出のポイント</strong><br />
+                最も大きな割合を占めるのは、高齢者福祉や子育て支援などを含む「民生費」で、全体で一貫して増加傾向にあります。
+                R02（2020年度）はコロナ特別定額給付金を含むため「その他」（災害復旧費や予備費などの分類に含まれるその他経費）が大幅に増加しています。
+                また、令和7年度以降は「当初予算」ベースであるため、決算で変動しやすい最終支出とは多少構成が異なる場合があります。
               </p>
             </div>
           </ChartSection>
