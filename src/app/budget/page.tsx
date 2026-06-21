@@ -133,7 +133,7 @@ export default function BudgetPage() {
               <span className="text-lg">📊</span>
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-[13px] font-bold text-slate-900 group-hover:text-sky-700 transition-colors">当初予算の推移グラフ</h3>
+              <h3 className="text-[13px] font-bold text-slate-900 group-hover:text-sky-700 transition-colors">予算・貯金・借金の推移グラフ</h3>
               <p className="text-[10px] text-slate-500 mt-0.5">令和元年〜令和8年度の予算額・歳出構成・基金残高・財政指標をインタラクティブなグラフで可視化</p>
             </div>
             <span className="text-slate-400 group-hover:text-sky-600 transition-colors shrink-0">→</span>
