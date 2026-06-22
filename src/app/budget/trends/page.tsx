@@ -46,7 +46,7 @@ const budgetChartData = trendsData.years
   }));
 
 // 目的別歳出推移グラフ用データ
-// H30〜R06は決算、R07〜R08は当初予算のデータが含まれている
+// H30〜R06は決算、令和7〜8年度（2025〜2026年度）は当初予算のデータが含まれている
 const expenditureChartData = trendsData.years
   .filter((y: YearData) => y.expenditureByPurpose !== null && !y.isReferenceOnly)
   .map((y: YearData) => {
@@ -246,7 +246,7 @@ export default function BudgetTrendsPage() {
           >
             <div className="mb-3 flex items-center gap-3 flex-wrap">
               <span className="flex items-center gap-1 text-[9px] text-slate-500">
-                令和6年度（R06）までは決算額、令和7年度（R07）以降は当初予算額に基づいています。
+                令和6年度（2024年度）までは決算額、令和7年度（2025年度）以降は当初予算額に基づいています。
               </span>
             </div>
             <ResponsiveContainer width="100%" height={320}>
@@ -271,7 +271,7 @@ export default function BudgetTrendsPage() {
               <p className="text-[10px] text-slate-600 leading-relaxed">
                 <strong>📖 目的別歳出のポイント</strong><br />
                 最も大きな割合を占めるのは、高齢者福祉や子育て支援などを含む「民生費」で、全体で一貫して増加傾向にあります。
-                R02（2020年度）はコロナ特別定額給付金を含むため「その他」（災害復旧費や予備費などの分類に含まれるその他経費）が大幅に増加しています。
+                令和2年度（2020年度）はコロナ特別定額給付金を含むため「その他」（災害復旧費や予備費などの分類に含まれるその他経費）が大幅に増加しています。
                 また、令和7年度以降は「当初予算」ベースであるため、決算で変動しやすい最終支出とは多少構成が異なる場合があります。
               </p>
             </div>
@@ -301,7 +301,7 @@ export default function BudgetTrendsPage() {
             <div className="mt-4 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
               <p className="text-[10px] text-emerald-800 leading-relaxed">
                 <strong>📖 読み解きポイント</strong><br />
-                R03（2021年度）にコロナ交付金等の余剰により基金残高が急増しましたが、R04以降は大型事業への支出や補填のため減少傾向に転じています。R06時点で財政調整基金は約35億円で、市の目標値（25億円）は上回っているものの、ピーク時（約41億円）からは約15%減少しています。
+                令和3年度（2021年度）にコロナ交付金等の余剰により基金残高が急増しましたが、令和4年度（2022年度）以降は大型事業への支出や補填のため減少傾向に転じています。令和6年度（2024年度）時点で財政調整基金は約35億円で、市の目標値（25億円）は上回っているものの、ピーク時（約41億円）からは約15%減少しています。
               </p>
             </div>
           </ChartSection>
