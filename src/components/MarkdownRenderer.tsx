@@ -220,8 +220,9 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
           const colCount = headers.length;
           const hasAmountCol = headers.some(h => h.includes('金額') || h.includes('値上げ') || h.includes('予算') || h.includes('費用') || h.includes('負担'));
+          const isTimelineTable = headers[0] === '年度';
 
-          if (colCount >= 4) {
+          if (colCount >= 4 && !isTimelineTable) {
             return (
               <div className="space-y-6 my-8 font-sans">
                 {rows.map((rowCells, rIdx) => {
