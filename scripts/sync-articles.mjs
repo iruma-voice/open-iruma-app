@@ -110,6 +110,21 @@ function syncArticles() {
     }
   }
 
+  // Build raw archive source_url map
+  const RAW_ARCHIVES_DIR = path.join(ROOT_DIR, '00.open-iruma/00_議事録原本_Raw_Archives');
+  const rawArchiveMap = {};
+  if (fs.existsSync(RAW_ARCHIVES_DIR)) {
+    const rawMarkdownFiles = findMarkdownFiles(RAW_ARCHIVES_DIR);
+    for (const filePath of rawMarkdownFiles) {
+      const rawContent = fs.readFileSync(filePath, 'utf-8');
+      const { data } = parseFrontmatter(rawContent);
+      if (data.source_url) {
+        const basename = path.basename(filePath, '.md');
+        rawArchiveMap[basename] = data.source_url;
+      }
+    }
+  }
+
   const markdownFiles = findMarkdownFiles(SOURCE_DIR);
   
   // First pass: build mapping and assign IDs to Markdowns
@@ -165,6 +180,10 @@ function syncArticles() {
 
       if (articleMap[linkBasename]) {
         return `[${linkText}](/issues/${articleMap[linkBasename]})`;
+      } else if (rawArchiveMap[linkBasename] || rawArchiveMap[linkPath]) {
+        const sourceUrl = rawArchiveMap[linkBasename] || rawArchiveMap[linkPath];
+        const displayText = inner.includes('|') ? linkText : `[${linkText}]`;
+        return `<a href="${sourceUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline decoration-blue-300 decoration-1 underline-offset-2">${displayText}</a>`;
       } else {
         const displayText = inner.includes('|') ? linkText : `[${linkText}]`;
         return `<span class="text-gray-500 text-sm bg-gray-100 px-1 py-0.5 rounded border border-gray-200" data-original-path="${linkPath}">${displayText}</span>`;
