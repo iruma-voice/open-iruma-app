@@ -222,7 +222,66 @@ export default function MarkdownRenderer({ content }: { content: string }) {
           const hasAmountCol = headers.some(h => h.includes('金額') || h.includes('値上げ') || h.includes('予算') || h.includes('費用') || h.includes('負担'));
           const isTimelineTable = headers[0] === '年度';
 
-          if (colCount >= 4 && !isTimelineTable) {
+          if (isTimelineTable) {
+            return (
+              <div className="relative border-l-2 border-slate-200 ml-3 md:ml-4 my-10 space-y-8 font-sans">
+                {rows.map((rowCells, rIdx) => {
+                   const yearTitle = rowCells[0];
+                   
+                   const highlightIdx = headers.findIndex(h => h.match(/金額|費用|予算|利用者数|人数|件数/));
+                   const highlightVal = highlightIdx !== -1 ? rowCells[highlightIdx] : null;
+
+                   return (
+                      <div key={rIdx} className="relative pl-6 md:pl-8">
+                        <div className="absolute w-4 h-4 bg-blue-600 rounded-full -left-[9px] top-1 ring-4 ring-slate-50 shadow-sm" />
+                        
+                        <div className="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="flex flex-wrap justify-between items-center gap-3 mb-3 border-b border-slate-100 pb-3">
+                            <h4 className="text-lg font-bold text-slate-900 leading-none">{yearTitle}</h4>
+                            {highlightVal && (
+                               <span className="font-mono font-bold text-blue-700 bg-blue-50/80 px-2.5 py-1 rounded-md text-sm border border-blue-100">
+                                 {highlightVal}
+                               </span>
+                            )}
+                          </div>
+                          
+                          <div className="space-y-4 text-sm">
+                            {headers.slice(1).map((header, cIdx) => {
+                               const actualIndex = cIdx + 1;
+                               if (actualIndex === highlightIdx) return null;
+                               
+                               const cellData = rowCells[actualIndex];
+                               if (!cellData || cellData === '─' || (Array.isArray(cellData) && cellData.length === 0)) return null;
+                               
+                               const isSource = header.includes('出典') || header.includes('根拠');
+                               
+                               if (isSource) {
+                                  return (
+                                     <div key={cIdx} className="text-right pt-2 mt-3 border-t border-dashed border-slate-200">
+                                        <div className="font-mono text-[11px] text-slate-400 [&_a]:text-slate-400 [&_a]:underline [&_span]:!bg-transparent [&_span]:!border-none [&_span]:!p-0 inline-block">
+                                           {cellData}
+                                        </div>
+                                     </div>
+                                  );
+                               }
+
+                               return (
+                                 <div key={cIdx} className="flex flex-col gap-1">
+                                   <span className="font-bold text-[11px] text-slate-400 uppercase tracking-wider">{header}</span>
+                                   <div className="text-slate-700 leading-relaxed [&_a]:text-blue-600 [&_a]:underline font-medium">
+                                     {cellData}
+                                   </div>
+                                 </div>
+                               );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                   );
+                })}
+              </div>
+            );
+          } else if (colCount >= 4) {
             return (
               <div className="space-y-6 my-8 font-sans">
                 {rows.map((rowCells, rIdx) => {
