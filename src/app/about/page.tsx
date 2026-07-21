@@ -1,5 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'このサイトについて',
+  description: 'いるまオープン議会は、入間市議会の議論をわかりやすく可視化する非公式の有志プロジェクトです。',
+  openGraph: {
+    title: 'このサイトについて | いるまオープン議会',
+    description: 'いるまオープン議会は、入間市議会の議論をわかりやすく可視化する非公式の有志プロジェクトです。',
+    images: [{ url: '/images/ogp/about.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'このサイトについて | いるまオープン議会',
+    description: 'いるまオープン議会は、入間市議会の議論をわかりやすく可視化する非公式の有志プロジェクトです。',
+  },
+};
 
 export default function AboutPage() {
   return (

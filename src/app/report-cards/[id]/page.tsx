@@ -6,12 +6,42 @@ import ExpandableImage from '../../../components/ExpandableImage';
 import fs from 'fs';
 import path from 'path';
 import reportData from '../../../data/report-cards.json';
+import { Metadata } from 'next';
+import { extractDescription } from '../../../lib/metadata';
 
 // Next.js static params generation
 export function generateStaticParams() {
   return reportData.members.map((member) => ({
     id: member.id,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const member = reportData.members.find((m) => m.id === resolvedParams.id);
+  
+  if (!member) return {};
+
+  const description = `${member.name}議員（会派：${member.faction}）の通信簿。公約の達成状況と議会での一般質問の傾向をデータから可視化します。`;
+
+  const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `report-card-${resolvedParams.id}.png`);
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/report-card-${resolvedParams.id}.png` : '/images/ogp-default.png';
+
+  return {
+    title: `${member.name}議員の通信簿`,
+    description,
+    openGraph: {
+      title: `${member.name}議員の通信簿 | いるまオープン議会`,
+      description,
+      type: 'article',
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${member.name}議員の通信簿`,
+      description,
+    },
+  };
 }
 
 async function getMemberData(id: string) {

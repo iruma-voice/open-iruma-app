@@ -14,9 +14,27 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "いるまオープン議会",
+  metadataBase: new URL("https://open-iruma.github.io"),
+  title: {
+    default: "いるまオープン議会",
+    template: "%s | いるまオープン議会",
+  },
   description: "入間市の地域課題と議論をわかりやすく",
   manifest: "/manifest.json",
+  openGraph: {
+    title: "いるまオープン議会",
+    description: "入間市議会の議論を、市民の手に。3分要約 × 議論の変遷 × 生の議事録",
+    siteName: "いるまオープン議会（非公式）",
+    type: "website",
+    locale: "ja_JP",
+    images: [{ url: "/images/ogp/top.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "いるまオープン議会",
+    description: "入間市議会の議論を、市民の手に。",
+    images: ["/images/ogp/top.png"],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

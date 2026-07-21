@@ -2,6 +2,22 @@ import React from 'react';
 import Link from 'next/link';
 import { Award, Target, MessageCircle, ChevronRight, ArrowRight } from 'lucide-react';
 import reportData from '../../data/report-cards.json';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '議員の通信簿',
+  description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+  openGraph: {
+    title: '議員の通信簿 | いるまオープン議会',
+    description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+    images: [{ url: '/images/ogp/report-cards-top.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '議員の通信簿 | いるまオープン議会',
+    description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+  },
+};
 
 export default function ReportCardsPage() {
   const members = reportData.members;

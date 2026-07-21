@@ -1,6 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '予算・財政',
+  description: '入間市の予算と財政の使い道・変遷をわかりやすく解説します。',
+  openGraph: {
+    title: '予算・財政 | いるまオープン議会',
+    description: '入間市の予算と財政の使い道・変遷をわかりやすく解説します。',
+    images: [{ url: '/images/ogp/budget.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '予算・財政 | いるまオープン議会',
+    description: '入間市の予算と財政の使い道・変遷をわかりやすく解説します。',
+  },
+};
 
 export default function BudgetPage() {
   const dataPath = path.join(process.cwd(), 'src/data/budget_data.json');

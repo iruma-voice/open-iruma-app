@@ -8,6 +8,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
+import { Metadata } from 'next';
+import { extractDescription } from '../../../lib/metadata';
 
 export async function generateStaticParams() {
   const dataPath = path.join(process.cwd(), 'src/data/issues_data.json');
@@ -17,6 +19,39 @@ export async function generateStaticParams() {
   return issues.map((issue: any) => ({
     id: issue.id,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const dataPath = path.join(process.cwd(), 'src/data/issues_data.json');
+  if (!fs.existsSync(dataPath)) return {};
+  
+  const fileContents = fs.readFileSync(dataPath, 'utf8');
+  const issues = JSON.parse(fileContents);
+  const issue = issues.find((i: any) => i.id === resolvedParams.id);
+  
+  if (!issue) return {};
+
+  const description = extractDescription(issue.content) || issue.title;
+
+  const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `issue-${resolvedParams.id}.png`);
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/issue-${resolvedParams.id}.png` : '/images/ogp-default.png';
+
+  return {
+    title: issue.title,
+    description,
+    openGraph: {
+      title: `${issue.title} | いるまオープン議会`,
+      description,
+      type: 'article',
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: issue.title,
+      description,
+    },
+  };
 }
 
 // In Next.js 15 App Router, params is an async promise

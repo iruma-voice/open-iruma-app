@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import AnchorNav from '../../../components/AnchorNav';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
+import { Metadata } from 'next';
+import { extractDescription } from '../../../lib/metadata';
 
 export async function generateStaticParams() {
   const dataPath = path.join(process.cwd(), 'src/data/budget_data.json');
@@ -13,6 +15,36 @@ export async function generateStaticParams() {
   return budgets.map((budget: any) => ({
     id: budget.id,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const dataPath = path.join(process.cwd(), 'src/data/budget_data.json');
+  if (!fs.existsSync(dataPath)) return {};
+  
+  const fileContents = fs.readFileSync(dataPath, 'utf8');
+  const budgets = JSON.parse(fileContents);
+  const budget = budgets.find((b: any) => b.id === resolvedParams.id);
+  
+  if (!budget) return {};
+
+  const description = extractDescription(budget.content) || budget.title;
+
+  return {
+    title: budget.title,
+    description,
+    openGraph: {
+      title: `${budget.title} | いるまオープン議会`,
+      description,
+      type: 'article',
+      images: [{ url: '/images/ogp-default.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: budget.title,
+      description,
+    },
+  };
 }
 
 // In Next.js 15 App Router, params is an async promise
