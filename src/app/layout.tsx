@@ -13,8 +13,15 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const getBaseUrl = () => {
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  if (process.env.NODE_ENV === 'development') return 'http://localhost:3000';
+  return 'https://open-iruma-app.vercel.app';
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://open-iruma.github.io"),
+  metadataBase: new URL(getBaseUrl()),
   title: {
     default: "いるまオープン議会",
     template: "%s | いるまオープン議会",
