@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PortalClient({ data }: { data: any }) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [activeStatus, setActiveStatus] = useState<string>('all');
 
   // 全アイテムをフラットな配列に展開
   const allItems = data.categories.flatMap((cat: any) => 
@@ -21,14 +20,6 @@ export default function PortalClient({ data }: { data: any }) {
     // カテゴリフィルター
     if (activeCategory !== 'all' && item.categoryTitle !== activeCategory) return false;
     
-    // ステータス（議論中・解決済）フィルター
-    if (activeStatus === 'ongoing') {
-      // important と warning を「議論中」とする
-      if (item.type !== 'important' && item.type !== 'warning') return false;
-    } else if (activeStatus === 'resolved') {
-      // tip と info を「解決済」とする
-      if (item.type !== 'tip' && item.type !== 'info') return false;
-    }
     return true;
   });
 
@@ -73,30 +64,6 @@ export default function PortalClient({ data }: { data: any }) {
               {cat}
             </button>
           ))}
-        </div>
-      </div>
-
-      {/* セグメントコントロール（議論状況の切り替え） */}
-      <div className="px-4 mt-2">
-        <div className="flex bg-slate-200/60 p-1.5 rounded-2xl backdrop-blur-sm">
-          <button 
-            onClick={() => setActiveStatus('all')}
-            className={`flex-1 py-2.5 text-[13px] font-bold rounded-xl transition-all duration-200 active:scale-[0.98] ${activeStatus === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-          >
-            すべて
-          </button>
-          <button 
-            onClick={() => setActiveStatus('ongoing')}
-            className={`flex-1 py-2.5 text-[13px] font-bold rounded-xl transition-all duration-200 active:scale-[0.98] ${activeStatus === 'ongoing' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-          >
-            🔥 議論中
-          </button>
-          <button 
-            onClick={() => setActiveStatus('resolved')}
-            className={`flex-1 py-2.5 text-[13px] font-bold rounded-xl transition-all duration-200 active:scale-[0.98] ${activeStatus === 'resolved' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-          >
-            ✅ 解決済
-          </button>
         </div>
       </div>
 
