@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "オープン議会",
   },
+  verification: {
+    google: "cnxQWXtHVy2qWRo98FKR58LOUAwKcRiASlndn2X8PWU",
+  },
 };
 
 export default function RootLayout({
