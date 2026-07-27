@@ -23,10 +23,10 @@ const getBaseUrl = () => {
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseUrl()),
   title: {
-    default: "いるまオープン議会",
+    default: "いるまオープン議会 | 入間市の地域課題と議論をわかりやすく",
     template: "%s | いるまオープン議会",
   },
-  description: "入間市の地域課題と議論をわかりやすく",
+  description: "「いるまオープン議会」は、入間市議会の議論や地域課題を市民にわかりやすく届けるためのアプリです。議事録の要約や課題の変遷を簡単に確認でき、市政への参加をサポートします。入間市の未来を一緒に考えましょう。",
   manifest: "/manifest.json",
   openGraph: {
     title: "いるまオープン議会",
