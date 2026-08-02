@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNav from "../components/BottomNav";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-BWS609N66P"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-BWS609N66P');
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.className} bg-gray-100 flex justify-center min-h-screen pb-20 text-gray-800 text-base`}>
         <div className="w-full max-w-md bg-white min-h-screen shadow-lg relative">
           {children}
