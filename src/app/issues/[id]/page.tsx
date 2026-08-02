@@ -10,6 +10,8 @@ import rehypeRaw from 'rehype-raw';
 import MarkdownRenderer from '../../../components/MarkdownRenderer';
 import { Metadata } from 'next';
 import { extractDescription } from '../../../lib/metadata';
+import ArticleReaction from '../../../components/ArticleReaction';
+import TallyFeedback from '../../../components/TallyFeedback';
 
 export async function generateStaticParams() {
   const dataPath = path.join(process.cwd(), 'src/data/issues_data.json');
@@ -109,6 +111,11 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
       {/* Content Area */}
       <div className="p-5 prose prose-slate prose-blockquote:not-italic prose-blockquote:font-normal max-w-none text-gray-800 text-base leading-relaxed space-y-6 break-words">
         <MarkdownRenderer content={contentStr} />
+      </div>
+      
+      <div className="px-5 pb-8">
+        <ArticleReaction articleId={resolvedParams.id} />
+        <TallyFeedback title={issue.title} />
       </div>
     </main>
   );
