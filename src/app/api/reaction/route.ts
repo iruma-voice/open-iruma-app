@@ -4,13 +4,17 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { article_id } = body;
+    const { article_id, type = 'attention', feedback_type } = body;
     
     if (!article_id) {
       return NextResponse.json({ error: 'Missing article_id' }, { status: 400 });
     }
     
-    const key = `reaction:${article_id}:attention`;
+    let key = `reaction:${article_id}:attention`;
+    if (type === 'feedback' && feedback_type) {
+      key = `feedback:${article_id}:${feedback_type}`;
+    }
+    
     const newCount = await kv.incr(key);
     
     return NextResponse.json({ count: newCount });

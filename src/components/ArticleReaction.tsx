@@ -60,6 +60,17 @@ export default function ArticleReaction({ articleId }: ArticleReactionProps) {
     setFeedbackSent(true);
     localStorage.setItem(`feedback_${articleId}`, feedbackType);
 
+    // API Call to KV for Feedback
+    fetch('/api/reaction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        article_id: articleId,
+        type: 'feedback',
+        feedback_type: feedbackType
+      }),
+    }).catch(console.error);
+
     // GA4 Event only
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
       (window as any).gtag('event', 'click_feedback', {

@@ -1,40 +1,88 @@
 import { kv } from '@vercel/kv';
+import fs from 'fs';
+import path from 'path';
 
+// --- Data Preparation ---
+let idToTitle = {};
+try {
+  const issuesDataPath = path.join(process.cwd(), 'src/data/issues_data.json');
+  const rawData = fs.readFileSync(issuesDataPath, 'utf8');
+  const issues = JSON.parse(rawData);
+  issues.forEach(issue => {
+    idToTitle[issue.id] = issue.title;
+  });
+} catch (error) {
+  console.warn("⚠️ 記事データの読み込みに失敗したため、タイトルが取得できませんでした。", error.message);
+}
+
+function getTitle(articleId) {
+  const decodedId = decodeURIComponent(articleId);
+  return idToTitle[articleId] || idToTitle[decodedId] || decodedId;
+}
+
+// --- Fetch from KV ---
 async function checkReactions() {
-  console.log('🔍 Upstash (Vercel KV) から現在のリアクション総数を取得しています...\n');
+  console.log('🔍 Upstash (Vercel KV) からデータを取得しています...\n');
   
   try {
-    // reaction: で始まるすべてのキーを取得
-    const keys = await kv.keys('reaction:*:attention');
+    // 1. Fetch Attention Keys (reaction:*:attention)
+    const attentionKeys = await kv.keys('reaction:*:attention');
     
-    if (keys.length === 0) {
-      console.log('まだリアクション（👀注目）が一つも登録されていません。');
+    // 2. Fetch Feedback Keys (feedback:*:*)
+    const feedbackKeys = await kv.keys('feedback:*:*');
+    
+    if (attentionKeys.length === 0 && feedbackKeys.length === 0) {
+      console.log('まだリアクションやフィードバックが一つも登録されていません。');
       return;
     }
 
-    // すべてのキーの値を一括取得
-    const values = await kv.mget(...keys);
-    
-    // 表示用のデータに整形
-    const results = keys.map((key, index) => {
-      // キー名（例: reaction:shinchosha:attention）から記事IDを抽出
-      const articleId = key.split(':')[1];
+    // データの集計用オブジェクト
+    const results = {};
+
+    // Attentionの集計
+    if (attentionKeys.length > 0) {
+      const attentionCounts = await kv.mget(...attentionKeys);
+      attentionKeys.forEach((key, index) => {
+        const articleId = key.split(':')[1];
+        if (!results[articleId]) results[articleId] = { attention: 0, clear: 0, needs_more: 0, alert: 0 };
+        results[articleId].attention = attentionCounts[index] || 0;
+      });
+    }
+
+    // Feedbackの集計
+    if (feedbackKeys.length > 0) {
+      const feedbackCounts = await kv.mget(...feedbackKeys);
+      feedbackKeys.forEach((key, index) => {
+        const parts = key.split(':');
+        const articleId = parts[1];
+        const feedbackType = parts[2]; // clear | needs_more | alert
+        
+        if (!results[articleId]) results[articleId] = { attention: 0, clear: 0, needs_more: 0, alert: 0 };
+        results[articleId][feedbackType] = feedbackCounts[index] || 0;
+      });
+    }
+
+    // --- Output Formatting ---
+    const tableData = Object.keys(results).map(articleId => {
+      const data = results[articleId];
       return {
-        '記事ID (Issue)': decodeURIComponent(articleId),
-        '👀 注目数': Number(values[index]) || 0
+        '記事タイトル': getTitle(articleId),
+        '👀注目': data.attention,
+        '👍分かりやすい': data.clear,
+        '📖もっと知りたい': data.needs_more,
+        '⚠️事実と違う': data.alert
       };
     });
 
-    // 注目数が多い順に並び替え
-    results.sort((a, b) => b['👀 注目数'] - a['👀 注目数']);
+    // 注目数で降順ソート
+    tableData.sort((a, b) => b['👀注目'] - a['👀注目']);
 
-    // ターミナルに表形式で出力
-    console.table(results);
+    console.table(tableData);
     
   } catch (error) {
     console.error('❌ データの取得に失敗しました。');
-    console.error('環境変数 (.env.local) が正しく読み込まれていない可能性があります。');
     console.error('詳細:', error.message);
+    console.log('\nヒント: .env.local に正しい KV_REST_API_URL と KV_REST_API_TOKEN が設定されているか確認してください。');
   }
 }
 
