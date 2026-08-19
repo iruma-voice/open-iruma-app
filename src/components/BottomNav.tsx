@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Info, ClipboardList, Coins } from 'lucide-react';
+import { Home, Info, ClipboardList, Coins, MessageSquare } from 'lucide-react';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -20,6 +20,10 @@ export default function BottomNav() {
       <Link href="/report-cards" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname?.startsWith('/report-cards') ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
         <ClipboardList className="w-5 h-5 mb-0.5" />
         <span className="text-[9px] font-bold">通信簿</span>
+      </Link>
+      <Link href="/proposals" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname?.startsWith('/proposals') ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
+        <MessageSquare className="w-5 h-5 mb-0.5" />
+        <span className="text-[9px] font-bold">あなたの声</span>
       </Link>
       <Link href="/about" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname === '/about' ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
         <Info className="w-5 h-5 mb-0.5" />
