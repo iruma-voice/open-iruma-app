@@ -56,3 +56,16 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- Revoke execute from public
 REVOKE EXECUTE ON FUNCTION increment_report(UUID) FROM PUBLIC;
+
+-- 5. Create Storage Bucket for Disclosure Documents
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('disclosure-documents', 'disclosure-documents', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- 6. Storage Security Policies
+-- Allow public read access to the disclosure-documents bucket
+CREATE POLICY "Allow public read access to disclosure-documents"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'disclosure-documents');
+
+-- (Service Role key will be used for uploads from the sync script, bypassing RLS)

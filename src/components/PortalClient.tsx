@@ -41,6 +41,7 @@ export default function PortalClient({ data }: { data: any }) {
 
   return (
     <div className="w-full">
+
       {/* カテゴリ・カルーセル（横スクロール） */}
       <div className="mt-6 px-4">
         <div 

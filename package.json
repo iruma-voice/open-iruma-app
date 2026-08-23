@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sync": "node scripts/sync-articles.mjs && node scripts/sync-budget.mjs",
-    "sync-articles": "node scripts/sync-articles.mjs",
-    "sync-budget": "node scripts/sync-budget.mjs"
+    "sync": "node --env-file=.env.local scripts/sync-articles.mjs && node --env-file=.env.local scripts/sync-budget.mjs && node --env-file=.env.local scripts/sync-disclosures.mjs",
+    "sync-articles": "node --env-file=.env.local scripts/sync-articles.mjs",
+    "sync-budget": "node --env-file=.env.local scripts/sync-budget.mjs",
+    "sync-disclosures": "node --env-file=.env.local scripts/sync-disclosures.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
