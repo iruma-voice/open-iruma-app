@@ -45,17 +45,17 @@ export default async function Image() {
           <div
             style={{
               display: 'flex',
-              backgroundColor: '#a89461',
-              color: '#ffffff',
-              padding: '6px 20px',
-              borderRadius: '30px',
+              border: '3px solid #4a5a4e',
+              color: '#4a5a4e',
+              padding: '6px 24px',
+              borderRadius: '999px',
               fontSize: 24,
               fontWeight: 900,
               letterSpacing: '0.05em',
               marginBottom: '20px',
             }}
           >
-            愚痴でOK
+            狭山茶シーシャ×みんなの市政
           </div>
           
           <div
