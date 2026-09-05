@@ -7,6 +7,11 @@ import { Home, Info, ClipboardList, Coins, MessageSquare } from 'lucide-react';
 export default function BottomNav() {
   const pathname = usePathname();
 
+  // /sawakai 関連の画面ではフッター（BottomNav）を非表示にする
+  if (pathname?.startsWith('/sawakai')) {
+    return null;
+  }
+
   return (
     <nav className="fixed left-1/2 -translate-x-1/2 w-[92vw] max-w-[400px] bottom-[calc(env(safe-area-inset-bottom)+1rem)] bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] rounded-full flex justify-around py-1.5 px-2 z-50">
       <Link href="/" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname === '/' ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>

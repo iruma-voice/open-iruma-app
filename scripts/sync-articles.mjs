@@ -134,9 +134,19 @@ function syncArticles() {
   for (const filePath of markdownFiles) {
     const rawContent = fs.readFileSync(filePath, 'utf-8');
     const { data, content, rawYaml } = parseFrontmatter(rawContent);
-    if (!data.title) continue;
 
     const basename = path.basename(filePath, '.md');
+    if (basename.includes('次期入間市総合計画')) {
+       console.log('--- DEBUG START ---');
+       console.log('File path:', filePath);
+       console.log('Parsed data:', data);
+       console.log('--- DEBUG END ---');
+    }
+
+    if (!data.title) {
+      if (basename.includes('次期入間市総合計画')) console.log('DEBUG: Skipped because NO TITLE');
+      continue;
+    }
 
     // Process files marked as published, archive, or unlisted
     if (!['published', 'archive', 'unlisted'].includes(data.status)) {
