@@ -68,6 +68,40 @@ export default function PortalClient({ data }: { data: any }) {
         </div>
       </div>
 
+      {/* ▼ 追加：モヤモヤ茶話会 イベントバナー ▼ */}
+      <div className="px-4 mt-8">
+        <Link href="/sawakai" className="block group">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-900 to-teal-800 p-6 text-white shadow-md transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+            {/* 背景の装飾 */}
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+            
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex-1 space-y-3">
+                <span className="inline-block rounded-full bg-emerald-100/20 px-3 py-1 text-xs font-semibold tracking-wider text-emerald-50 backdrop-blur-sm">
+                  🗓 2026年9月18日(金) 開催
+                </span>
+                <h2 className="text-2xl font-bold tracking-tight">いるまモヤモヤ茶話会</h2>
+                <p className="text-sm font-medium text-emerald-100">狭山茶シーシャ × 市政ダイアローグ</p>
+                
+                <ul className="text-sm text-emerald-50/90 space-y-1 mt-2">
+                  <li>✓ 事前にスマホのAIでモヤモヤを整理</li>
+                  <li>✓ 当日はお店またはオンラインでゆるく対話</li>
+                  <li>✓ 「正解」を出さず、違いを楽しむフラットな場</li>
+                </ul>
+              </div>
+              
+              <div className="mt-4 md:mt-0 flex shrink-0 items-center">
+                <span className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-emerald-900 transition-colors group-hover:bg-emerald-50">
+                  詳細を見て参加する
+                  <ChevronRight className="h-4 w-4 stroke-2" />
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </div>
+      {/* ▲ 追加終了 ▲ */}
+
       {/* 注目の地域課題リスト */}
       <div className="px-4 mt-8">
         <h2 className="text-base font-extrabold text-gray-900 mb-4 flex items-center tracking-tight">
