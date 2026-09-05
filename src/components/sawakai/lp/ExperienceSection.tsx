@@ -30,7 +30,7 @@ export default function ExperienceSection() {
         <div className="space-y-20 md:space-y-24">
           
           {/* Step 1 */}
-          <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+          <div className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-20">
             {/* 左側: SVGアニメーション */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -113,7 +113,7 @@ export default function ExperienceSection() {
               <div className="text-emerald-600 font-bold tracking-widest text-sm">STEP 1</div>
               <h3 className="text-3xl font-extrabold text-gray-900 leading-tight">
                 【事前】AIとの対話<br/>
-                <span className="text-2xl text-gray-500 font-bold">あなたの声を言葉にする</span>
+                <span className="text-2xl text-gray-500 font-bold">あなたのモヤモヤを言葉にする</span>
               </h3>
               <p className="text-gray-500 text-lg leading-relaxed">
                 いきなり人と話す必要はありません。まずは専用のAIに愚痴をこぼしてください。あなたの声がスッキリまとまった「関心事カード」に変換されます。
@@ -122,7 +122,7 @@ export default function ExperienceSection() {
           </div>
 
           {/* Step 2 */}
-          <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
+          <div className="flex flex-col-reverse md:flex-row-reverse items-center gap-8 md:gap-20">
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -202,6 +202,19 @@ export default function ExperienceSection() {
                     <path d="M -10 -15 h 20 a 5 5 0 0 1 5 5 v 10 a 5 5 0 0 1 -5 5 h -5 l -5 5 l -2 -5 h -8 a 5 5 0 0 1 -5 -5 v -10 a 5 5 0 0 1 5 -5 z" fill="#3b82f6" />
                   </motion.g>
 
+                  {/* 3. 吹き出しのキャッチボール逆方向 (緑から青へ) */}
+                  <motion.g
+                    animate={{
+                      x: [70, 70, 80, 95, 110, 115, 115],
+                      y: [140, 140, 90, 75, 90, 120, 120],
+                      scale: [0, 0, 1.2, 1.5, 1.2, 0.5, 0],
+                      opacity: [0, 0, 1, 1, 0.8, 0, 0]
+                    }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", times: [0, 0.3, 0.4, 0.6, 0.7, 0.8, 1], delay: 2.5 }}
+                  >
+                    <path d="M -10 -15 h 20 a 5 5 0 0 1 5 5 v 10 a 5 5 0 0 1 -5 5 h -5 l -5 5 l 2 -5 h 8 a 5 5 0 0 1 5 -5 v -10 a 5 5 0 0 1 -5 -5 z" fill="#10b981" />
+                  </motion.g>
+
                 </svg>
               </div>
             </motion.div>
@@ -242,7 +255,7 @@ export default function ExperienceSection() {
           </div>
 
           {/* Step 3 */}
-          <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+          <div className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-20">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -255,7 +268,8 @@ export default function ExperienceSection() {
                   
                   {/* パズルピースのグループ（前半で集まり、後半で消える） */}
                   <motion.g
-                    animate={{ opacity: [1, 1, 1, 0, 0, 1] }}
+                    animate={{ scale: [1.3, 1.3, 1.3, 0, 0, 1.3], opacity: [1, 1, 1, 0, 0, 1] }}
+                    style={{ transformOrigin: "100px 100px" }}
                     transition={{ duration: 6, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.95, 1] }}
                   >
                     {/* ピース1 (左上) */}

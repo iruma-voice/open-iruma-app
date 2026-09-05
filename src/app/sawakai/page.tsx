@@ -2,6 +2,7 @@ import HeroSection from '@/components/sawakai/lp/HeroSection';
 import ProblemSection from '@/components/sawakai/lp/ProblemSection';
 import ExperienceSection from '@/components/sawakai/lp/ExperienceSection';
 import RulesSection from '@/components/sawakai/lp/RulesSection';
+import EventInfoSection from '@/components/sawakai/lp/EventInfoSection';
 import ClosingSection from '@/components/sawakai/lp/ClosingSection';
 import FloatingCTA from '@/components/sawakai/lp/FloatingCTA';
 
@@ -17,6 +18,7 @@ export default function SawakaiLP() {
       <ProblemSection />
       <ExperienceSection />
       <RulesSection />
+      <EventInfoSection />
       <ClosingSection />
       
       <FloatingCTA />
