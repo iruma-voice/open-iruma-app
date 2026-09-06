@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
     if (!difyApiKey) {
       console.error('DIFY_API_KEY is not set');
-      return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+      return NextResponse.json({ error: 'Internal Server Error: DIFY_API_KEY is missing in environment variables.' }, { status: 500 });
     }
 
     // Dify APIへのリクエスト
@@ -65,8 +65,8 @@ export async function POST(request: Request) {
     const difyData = await difyResponse.json();
     return NextResponse.json(difyData);
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('API Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: `Internal Server Error: ${error.message || String(error)}` }, { status: 500 });
   }
 }
