@@ -295,7 +295,7 @@ export default function ChatPage() {
                 当日の案内や、他の方のアジェンダなどをオープンチャットで共有します。ぜひご参加ください。
               </p>
               <a
-                href="https://line.me/ti/g2/..." // TODO: 本番用URLに差し替え
+                href="https://line.me/ti/g2/XlbGmBC-j_x04U9-ftylZa9Slox2KN1fZjp8KA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block w-full bg-[#06C755] text-white font-bold py-3 px-4 rounded-xl shadow hover:opacity-90 transition-opacity"
