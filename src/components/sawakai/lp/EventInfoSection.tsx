@@ -59,6 +59,11 @@ export default function EventInfoSection() {
                   <p className="text-2xl font-extrabold text-gray-900">
                     2026年9月18日<span className="text-xl ml-1">(金)</span>
                   </p>
+                  <div className="mt-3 text-sm text-gray-600 font-medium space-y-1 bg-stone-50/50 p-3 rounded-xl border border-stone-100">
+                    <p className="flex items-center"><span className="w-16 inline-block text-gray-400 text-xs tracking-wider">お昼の部</span> 12:00 ～ 15:00</p>
+                    <p className="flex items-center"><span className="w-16 inline-block text-gray-400 text-xs tracking-wider">夜の部</span> 18:00 ～ 21:00</p>
+                    <p className="text-xs text-emerald-600 font-bold pt-1">※途中参加・退出OK</p>
+                  </div>
                 </div>
               </div>
 
