@@ -35,6 +35,7 @@ export default function ChatPage() {
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 初回マウント時にセッションIDを発行・取得し、初期メッセージを表示
   useEffect(() => {
@@ -83,6 +84,9 @@ export default function ChatPage() {
     const userMessage: Message = { id: crypto.randomUUID(), role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'; // 高さをリセット
+    }
     setIsLoading(true);
 
     try {
@@ -187,7 +191,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:max-w-md md:mx-auto md:border-x md:border-gray-200 md:shadow-xl relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-gray-50 flex flex-col md:max-w-md md:mx-auto md:border-x md:border-gray-200 md:shadow-xl relative overflow-hidden">
       
       {/* 画面切り替えのアニメーション管理 */}
       <AnimatePresence mode="wait">
@@ -200,7 +204,7 @@ export default function ChatPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
-            className="flex flex-col h-screen"
+            className="flex flex-col h-[100dvh]"
           >
             {/* ヘッダー */}
             <header className="bg-emerald-600 text-white p-4 shadow-md z-10">
@@ -236,20 +240,28 @@ export default function ChatPage() {
             </div>
 
             {/* 入力エリア */}
-            <div className="p-4 bg-white border-t border-gray-100 flex gap-2">
-              <input
-                type="text"
+            <div className="p-4 bg-white border-t border-gray-200 flex gap-2 items-end">
+              <textarea
+                ref={textareaRef}
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                rows={1}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  if (textareaRef.current) {
+                    textareaRef.current.style.height = 'auto';
+                    textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+                  }
+                }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                  if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
                     e.preventDefault();
                     handleSendMessage();
                   }
                 }}
                 disabled={isLoading}
                 placeholder="メッセージを入力..."
-                className="flex-1 bg-gray-100 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50"
+                className="flex-1 bg-white border border-gray-300 text-gray-900 font-medium rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50 resize-none overflow-y-auto"
+                style={{ minHeight: '48px', maxHeight: '120px' }}
               />
               <button
                 onClick={handleSendMessage}
@@ -268,7 +280,7 @@ export default function ChatPage() {
             key="thanks-view"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col h-screen items-center justify-center p-6 bg-emerald-50"
+            className="flex flex-col h-[100dvh] items-center justify-center p-6 bg-emerald-50"
           >
             <CheckCircle2 className="text-emerald-500 w-20 h-20 mb-6" />
             <h2 className="text-2xl font-bold text-gray-800 mb-2">投稿完了！</h2>
@@ -304,7 +316,7 @@ export default function ChatPage() {
             key="preview-view"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col h-screen bg-gray-50 overflow-y-auto"
+            className="flex flex-col h-[100dvh] bg-gray-50 overflow-y-auto"
           >
             <div className="p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-2">アジェンダの確認</h2>
