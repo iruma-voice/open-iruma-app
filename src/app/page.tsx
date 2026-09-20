@@ -18,6 +18,21 @@ export default function Home() {
         <h1 className="text-lg font-extrabold tracking-tight text-gray-900">地域課題と議論（入間市）</h1>
       </section>
 
+      {/* 📢 更新履歴・お知らせ */}
+      <div className="px-4 mt-6">
+        <div className="bg-blue-50/70 rounded-2xl p-4 border border-blue-100 shadow-sm">
+          <h3 className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-1.5">
+            <span className="text-lg">📢</span> 更新履歴・お知らせ
+          </h3>
+          <ul className="text-xs text-blue-800 space-y-2 pl-1 leading-relaxed">
+            <li className="flex flex-col gap-0.5">
+              <span className="text-blue-500 font-mono font-semibold text-[10px]">2026.09.20</span>
+              <span>6月議会の内容を6記事（新庁舎、西武中、水道、給食、茶畑、総合計画）に追記しました。</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       {/* インタラクティブなポータルUI */}
       <PortalClient data={data} />
       
