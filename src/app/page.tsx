@@ -22,10 +22,15 @@ export default function Home() {
 
       {/* 📢 更新履歴・お知らせ */}
       <div className="px-4 mt-6">
-        <section className="bg-white border border-gray-300 border-l-[4px] border-l-gray-900 p-4 sm:p-5 rounded-sm">
-          <div className="flex items-center gap-2 mb-2 sm:mb-3">
-            <Megaphone className="w-5 h-5 text-gray-900" strokeWidth={2} />
-            <h2 className="font-bold text-gray-900 tracking-tight text-lg">更新履歴・お知らせ</h2>
+        <section className="bg-white border border-gray-300 border-l-[4px] border-l-gray-900 p-4 sm:p-5 rounded-sm relative">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="flex items-center gap-2">
+              <Megaphone className="w-5 h-5 text-gray-900" strokeWidth={2} />
+              <h2 className="font-bold text-gray-900 tracking-tight text-lg">更新履歴・お知らせ</h2>
+            </div>
+            <Link href="/news" className="text-xs font-bold text-gray-500 hover:text-gray-900 transition-colors uppercase tracking-widest border-b border-transparent hover:border-gray-900">
+              View All
+            </Link>
           </div>
           <div className="flex flex-col gap-1 sm:gap-2">
             <time className="text-sm font-medium text-gray-500">2026.09.20</time>
@@ -37,7 +42,7 @@ export default function Home() {
               <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/0991ba104335">給食</Link>、
               <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/01aebbf78e03">茶畑</Link>、
               <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/2d86710d46ca">総合計画</Link>
-              ）：6月議会の議論内容を元にアップデートしました。
+              ）：6月議会の議論内容を元にアップデートしました。詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news">こちら</Link>。
             </p>
           </div>
         </section>
