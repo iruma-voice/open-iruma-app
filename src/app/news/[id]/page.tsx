@@ -23,14 +23,15 @@ export async function generateStaticParams() {
   return [];
 }
 
-export default function NewsDetailPage({ params }: { params: { id: string } }) {
+export default async function NewsDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   const dataPath = path.join(process.cwd(), 'src/data/news_data.json');
   let newsItem = null;
   
   try {
     if (fs.existsSync(dataPath)) {
       const newsList = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-      newsItem = newsList.find((item: any) => item.id === params.id);
+      newsItem = newsList.find((item: any) => item.id === resolvedParams.id);
     }
   } catch (e) {
     console.error('Failed to load news_data.json');
