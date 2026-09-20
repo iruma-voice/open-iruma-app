@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import PortalClient from '../components/PortalClient';
+import { Megaphone } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   const dataPath = path.join(process.cwd(), 'src/data/top_page_data.json');
@@ -20,17 +22,25 @@ export default function Home() {
 
       {/* 📢 更新履歴・お知らせ */}
       <div className="px-4 mt-6">
-        <div className="bg-blue-50/70 rounded-2xl p-4 border border-blue-100 shadow-sm">
-          <h3 className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-1.5">
-            <span className="text-lg">📢</span> 更新履歴・お知らせ
-          </h3>
-          <ul className="text-xs text-blue-800 space-y-2 pl-1 leading-relaxed">
-            <li className="flex flex-col gap-0.5">
-              <span className="text-blue-500 font-mono font-semibold text-[10px]">2026.09.20</span>
-              <span>6月議会の内容を6記事（新庁舎、西武中、水道、給食、茶畑、総合計画）に追記しました。</span>
-            </li>
-          </ul>
-        </div>
+        <section className="bg-white border border-gray-300 border-l-[4px] border-l-gray-900 p-4 sm:p-5 rounded-sm">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <Megaphone className="w-5 h-5 text-gray-900" strokeWidth={2} />
+            <h2 className="font-bold text-gray-900 tracking-tight text-lg">更新履歴・お知らせ</h2>
+          </div>
+          <div className="flex flex-col gap-1 sm:gap-2">
+            <time className="text-sm font-medium text-gray-500">2026.09.20</time>
+            <p className="text-gray-800 leading-relaxed text-sm sm:text-base">
+              以下の記事を更新しました（
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/14cfec1930f9">新庁舎</Link>、
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/918b74e27810">西武中</Link>、
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/c412ed17c087">水道</Link>、
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/0991ba104335">給食</Link>、
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/01aebbf78e03">茶畑</Link>、
+              <Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/2d86710d46ca">総合計画</Link>
+              ）：6月議会の議論内容を元にアップデートしました。
+            </p>
+          </div>
+        </section>
       </div>
 
       {/* インタラクティブなポータルUI */}
