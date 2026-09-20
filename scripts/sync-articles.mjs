@@ -267,6 +267,10 @@ function syncArticles() {
     // 3. Transform WikiLinks using the articleMap
     processedContent = transformWikiLinks(processedContent);
 
+    // 4. Downgrade GitHub Alerts to plain blockquotes
+    // Matches > [!NOTE], > [!TIP], > [!info] etc and removes the tag
+    processedContent = processedContent.replace(/^>\s*\[![A-Za-z]+\]\s*(.*)$/gm, '> $1');
+
     const issueEntry = {
       id: id,
       title: data.title,
