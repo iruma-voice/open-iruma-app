@@ -88,6 +88,16 @@ function syncNews() {
     }
   }
 
+  const ISSUES_JSON_PATH = path.join(MOBILE_DIR, 'src/data/issues_data.json');
+  let issuesData = [];
+  if (fs.existsSync(ISSUES_JSON_PATH)) {
+    try {
+      issuesData = JSON.parse(fs.readFileSync(ISSUES_JSON_PATH, 'utf-8'));
+    } catch (e) {
+      console.error('Failed to parse issues_data.json', e);
+    }
+  }
+
   const files = fs.readdirSync(SOURCE_DIR);
   const finalNewsData = [];
 
@@ -110,15 +120,25 @@ function syncNews() {
     // Downgrade GitHub Alerts to plain blockquotes
     let processedContent = content.replace(/^>\s*\[![A-Za-z]+\]\s*(.*)$/gm, '> $1');
 
-    // WikiLinkは一旦外部リンク化またはテキスト化する（内部リンクを正しくパースするマップがないため）
+    // WikiLinkをパースし、対応する記事IDがあればMarkdownリンクに変換する
     processedContent = processedContent.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
       let linkText = '';
+      let targetTitle = '';
       if (inner.includes('|')) {
-        linkText = inner.split('|')[1].trim();
+        const parts = inner.split('|');
+        targetTitle = parts[0].trim().split('/').pop().replace('.md', '');
+        linkText = parts[1].trim();
       } else {
-        linkText = inner.trim().split('/').pop().replace('.md', '');
+        targetTitle = inner.trim().split('/').pop().replace('.md', '');
+        linkText = targetTitle;
       }
-      return `**${linkText}**`; // 一旦太字のテキストとして扱う
+      
+      // issues_data.jsonからタイトルでIDを検索
+      const matchedIssue = issuesData.find(issue => issue.title === targetTitle);
+      if (matchedIssue) {
+        return `[**${linkText}**](/issues/${matchedIssue.id})`;
+      }
+      return `**${linkText}**`;
     });
 
     finalNewsData.push({
