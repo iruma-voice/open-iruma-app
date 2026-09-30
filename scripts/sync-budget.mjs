@@ -303,6 +303,9 @@ function syncBudget() {
       return match;
     });
 
+    // Downgrade GitHub Alerts
+    processedContent = processedContent.replace(/^>\s*\[![A-Za-z]+\]\s*(.*)$/gm, '> $1');
+
     // Transform WikiLinks
     processedContent = transformWikiLinks(processedContent);
 
