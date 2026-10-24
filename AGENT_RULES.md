@@ -7,7 +7,8 @@
 `D:\open-iruma\99_システム管理_System_Settings\04_モバイルアプリ運用ルール`
 
 ## 主な設計方針（概要）
-1. **データの同期**: `sync_mobile_data.js` を用いて、Obsidian特有の記法（Dataview, Wikiリンク等）をアプリで扱えるプレーンな状態へクレンジングしています。
-2. **UI/UXのモダン化**: `components/MarkdownRenderer.tsx` を用いて、議事録のQ&Aテキストを「TheyWorkForYou」スタイルのモダン・エディトリアルUI（発言者と本文の上下分離、カギ括弧の排除、Calloutデザイン等）へと動的に変換しています。
+1. **データの同期（AIの自律実行義務）**: `00.open-iruma` 配下で記事の新規作成・更新（`status: published`）を行った場合、AIエージェントは自律的に `cd mobile && npm run sync`（または `npm run sync-articles`）を実行し、`src/data/` 配下のJSONデータを最新化してください。また、Markdownフロントマターに固定ID（`id`）が正しく書き込まれたかを検証してください。
+2. **Gitプッシュ権限の境界**: AIエージェントにはGitプッシュ権限がないため、同期完了後は必ずユーザーに対してGitコミット＆プッシュ（本番デプロイ）の実行を依頼してください。
+3. **UI/UXのモダン化**: `components/MarkdownRenderer.tsx` を用いて、議事録のQ&Aテキストを「TheyWorkForYou」スタイルのモダン・エディトリアルUI（発言者と本文の上下分離、カギ括弧の排除、Calloutデザイン等）へと動的に変換しています。
 
 上記に反するレガシーなUI（単なるテキストの流し込み等）への先祖返りや、ルールを無視した直書きのスタイル修正は行わないでください。常に上記フォルダのルールを読み、意図を理解した上で改修を提案・実行してください。
