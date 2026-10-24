@@ -37,10 +37,11 @@ export default function Home() {
             <div className="flex flex-col gap-1 pb-3 border-b border-gray-100">
               <time className="text-sm font-medium text-gray-500">2026.10.24</time>
               <p className="text-gray-800 leading-relaxed text-sm sm:text-base">
-                新着記事を公開しました：
+                新着記事：
                 <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/1b42f31f69de">入間市パーパス（策定編）</Link>、
                 <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/3e2ef1b80a7d">入間市パーパス（運用編）</Link>
-                。開示請求公文書原本（博報堂随意契約見積書、決裁起案書22名押印原本、全庁職員アンケート561名原本等）と議事録に基づく徹底検証記事です。詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news">こちら</Link>。
+                <br />
+                詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news">こちら</Link>。
               </p>
             </div>
 
