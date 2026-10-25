@@ -17,6 +17,10 @@
     },
     {
       "completed": false,
+      "text": "生活や健康など女性のための制度づくり"
+    },
+    {
+      "completed": false,
       "text": "一人暮らしでも一人にさせない見守り支援"
     },
     {
@@ -29,19 +33,15 @@
     },
     {
       "completed": false,
+      "text": "官民連携など、価値を生み出す行財政改革"
+    },
+    {
+      "completed": false,
       "text": "女性、赤ちゃんが困らずに安心して避難できる環境整備"
     },
     {
       "completed": false,
       "text": "災害時と平時を区切らない災害対策を推進"
-    },
-    {
-      "completed": false,
-      "text": "官民連携など、価値を生み出す行政改革"
-    },
-    {
-      "completed": false,
-      "text": "生活や健康など女性のための制度づくり"
     }
   ],
   "timeline": []

@@ -8,7 +8,7 @@
       "progressRate": 8,
       "manifestoTotal": 13,
       "manifestoProgressed": 1,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "住宅リフォーム助成制度の創設を",
         "上下水道事業について（防災対策・料金改定）",
@@ -28,10 +28,10 @@
       "name": "安道佳子",
       "seatNumber": 2,
       "faction": "日本共産党入間市議団",
-      "progressRate": 23,
+      "progressRate": 31,
       "manifestoTotal": 13,
-      "manifestoProgressed": 3,
-      "questionCount": 4,
+      "manifestoProgressed": 4,
+      "questionCount": 5,
       "themes": [
         "学童保育の充実 / 要援護高齢者等タクシー利用券の存続",
         "学童保育室の一括民営化 / 給食費無償化と給食室のエアコン整備",
@@ -51,10 +51,10 @@
       "name": "田山雅子",
       "seatNumber": 3,
       "faction": "日本共産党入間市議団",
-      "progressRate": 31,
+      "progressRate": 23,
       "manifestoTotal": 13,
-      "manifestoProgressed": 4,
-      "questionCount": 4,
+      "manifestoProgressed": 3,
+      "questionCount": 5,
       "themes": [
         "住み続けられる高倉地区に / 高倉分館の存続",
         "こどもの教育環境改善 / 国民健康保険税額の引き下げ",
@@ -77,7 +77,7 @@
       "progressRate": 33,
       "manifestoTotal": 9,
       "manifestoProgressed": 3,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "入間市駅前の美化 / 不登校児童生徒問題",
         "オンライン不登校支援プログラム / 広報誌（市報）の配布方法",
@@ -100,15 +100,17 @@
       "progressRate": 9,
       "manifestoTotal": 11,
       "manifestoProgressed": 1,
-      "questionCount": 2,
+      "questionCount": 3,
       "themes": [
         "雨水の排水対策 / 保育所の待機児童と入所配慮",
-        "災害協定と災害用指定井戸について"
+        "災害協定と災害用指定井戸について",
+        "生活応援商品券配付事業の課題と改善"
       ],
       "categories": [
         "都市基盤・防災",
         "福祉・子育て",
-        "行政運営"
+        "行政運営",
+        "生活支援・福祉"
       ]
     },
     {
@@ -136,11 +138,12 @@
       "progressRate": 50,
       "manifestoTotal": 6,
       "manifestoProgressed": 3,
-      "questionCount": 3,
+      "questionCount": 4,
       "themes": [
         "自転車の安全利用 / 廃校備品の有効活用（循環型社会）",
         "マイナンバーカード更新対応 / 窪堀の治水対策と水のう活用",
-        "給付金事務のDX化 / （仮称）金子保育所のモデル化"
+        "給付金事務のDX化 / （仮称）金子保育所のモデル化",
+        "特殊詐欺対策（国際電話対策） / 火山噴火・降灰への備え / 街路樹点検と安全確保"
       ],
       "categories": [
         "交通安全",
@@ -158,7 +161,7 @@
       "progressRate": 50,
       "manifestoTotal": 4,
       "manifestoProgressed": 2,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "高齢者向け「地域の足」推進 / おくやみ窓口の設置",
         "高齢者の熱中症対策支援 / ファミリー・サポート・センター事業",
@@ -174,6 +177,25 @@
       ]
     },
     {
+      "id": "tange-atsuko",
+      "name": "丹下敦子",
+      "seatNumber": 8,
+      "faction": "自由民主党入間市議団",
+      "progressRate": 8,
+      "manifestoTotal": 12,
+      "manifestoProgressed": 1,
+      "questionCount": 1,
+      "themes": [
+        "防災訓練（避難所運営・要支援者支援） / 市内小中学校のトイレ洋式化（公共施設マネジメント）"
+      ],
+      "categories": [
+        "都市基盤・防災",
+        "教育・学校環境",
+        "公共施設・まちづくり",
+        "医療・福祉"
+      ]
+    },
+    {
       "id": "yoshida-kenichi",
       "name": "吉田賢一",
       "seatNumber": 9,
@@ -181,7 +203,7 @@
       "progressRate": 33,
       "manifestoTotal": 3,
       "manifestoProgressed": 1,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "ごみ分別 / EV活用再生可能エネルギーマネジメント / 児童発達支援",
         "働く環境づくり / 圏央道周辺開発 / 庁舎内の政治活動",
@@ -201,10 +223,10 @@
       "name": "大野勉",
       "seatNumber": 10,
       "faction": "自由民主党入間市議団",
-      "progressRate": 45,
+      "progressRate": 55,
       "manifestoTotal": 11,
-      "manifestoProgressed": 5,
-      "questionCount": 4,
+      "manifestoProgressed": 6,
+      "questionCount": 5,
       "themes": [
         "危機管理体制の充実 / 彩の森入間公園の防災機能 / 緑の基金",
         "圏央道IC周辺の開発 / リチウムイオン電池の回収・火災対策",
@@ -224,9 +246,9 @@
       "name": "池畠司",
       "seatNumber": 11,
       "faction": "自由民主党入間市議団",
-      "progressRate": 33,
-      "manifestoTotal": 3,
-      "manifestoProgressed": 1,
+      "progressRate": 50,
+      "manifestoTotal": 4,
+      "manifestoProgressed": 2,
       "questionCount": 1,
       "themes": [
         "精神障害者支援の拡大 / いじめ対策 / 朝の子どもの居場所づくり"
@@ -242,10 +264,10 @@
       "name": "双木小百合",
       "seatNumber": 12,
       "faction": "自由民主党入間市議団",
-      "progressRate": 40,
+      "progressRate": 60,
       "manifestoTotal": 5,
-      "manifestoProgressed": 2,
-      "questionCount": 4,
+      "manifestoProgressed": 3,
+      "questionCount": 5,
       "themes": [
         "二地域居住 / 自治会DX / 有害鳥獣対策",
         "狭山茶業の振興方針 / 発達支援における人材育成体制",
@@ -268,7 +290,7 @@
       "progressRate": 33,
       "manifestoTotal": 12,
       "manifestoProgressed": 4,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "中学校の校則公開 / 手話言語条例 / 中高生の居場所づくり",
         "自殺対策 / カーボンニュートラル / 起立性調節障害の支援",
@@ -291,7 +313,7 @@
       "progressRate": 50,
       "manifestoTotal": 4,
       "manifestoProgressed": 2,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "ケアラー（家族介護者）支援 / こども・若者の居場所づくり",
         "下校時の安全対策 / インクルーシブ公園 / 視覚的支援ツールの提供",
@@ -314,7 +336,7 @@
       "progressRate": 66,
       "manifestoTotal": 3,
       "manifestoProgressed": 2,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "小・中学校体育館へのエアコン設置 / 災害用指定井戸 / グランドピアノ活用",
         "外国籍住民のごみ分別 / 投票所の環境整備 / 給食室の熱中症対策",
@@ -364,10 +386,10 @@
       "name": "内村忠久",
       "seatNumber": 18,
       "faction": "自由民主党入間市議団",
-      "progressRate": 46,
+      "progressRate": 54,
       "manifestoTotal": 13,
-      "manifestoProgressed": 6,
-      "questionCount": 4,
+      "manifestoProgressed": 7,
+      "questionCount": 5,
       "themes": [
         "中心市街地活性化 / 地区センターの機能 / 万博への参加",
         "豪雨災害への対応 / 受援計画 / ダイアプラン（広域連携）",
@@ -390,7 +412,7 @@
       "progressRate": 40,
       "manifestoTotal": 5,
       "manifestoProgressed": 2,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "立体都市公園のコスト / 分館の不安解消 / 諸証明書発行業務",
         "西武中建替え等公共施設マネジメント / 外国ルーツの子どもへの支援",
@@ -437,7 +459,7 @@
       "progressRate": 25,
       "manifestoTotal": 4,
       "manifestoProgressed": 1,
-      "questionCount": 4,
+      "questionCount": 5,
       "themes": [
         "幹線道路と踏切の整備 / 小・中学校の環境教育",
         "生活道路の交通安全対策 / 発明家・高林謙三氏の業績",

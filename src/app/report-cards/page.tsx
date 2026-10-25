@@ -6,16 +6,16 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: '議員の通信簿',
-  description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+  description: '入間市議会議員23人の公約達成状況や議会での活動データ（2025年6月以降）を可視化した通信簿です。',
   openGraph: {
     title: '議員の通信簿 | いるまオープン議会',
-    description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+    description: '入間市議会議員23人の公約達成状況や議会での活動データ（2025年6月以降）を可視化した通信簿です。',
     images: [{ url: '/images/ogp/report-cards-top.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: '議員の通信簿 | いるまオープン議会',
-    description: '入間市議会議員22人の公約達成状況や議会での活動データを可視化した通信簿です。',
+    description: '入間市議会議員23人の公約達成状況や議会での活動データ（2025年6月以降）を可視化した通信簿です。',
   },
 };
 
@@ -50,7 +50,7 @@ export default function ReportCardsPage() {
             市議会議員通信簿
           </h1>
           <p className="text-blue-50 text-[11px] leading-relaxed opacity-95">
-            一般質問とは、議員が市の行政全般に対して疑問や方針を問いただす場です。各議員は定例会ごとに、年間最大4回登壇して質問する機会があります。本ページでは各議員の実績や公約の進捗状況を可視化しています。
+            一般質問とは、議員が市の行政全般に対して疑問や方針を問いただす場です。各議員は定例会ごとに登壇して質問する機会があります。本ページでは2025年6月定例会以降における全23名の活動実績や公約の進捗状況を可視化しています。
           </p>
         </div>
       </div>
@@ -93,10 +93,16 @@ export default function ReportCardsPage() {
                        {member.faction && (
                          <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded border border-gray-200">{member.faction}</span>
                        )}
+                       {member.id === 'masuda-hidetoshi' && (
+                         <span className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200 font-medium">※2026年5月辞任</span>
+                       )}
+                       {member.id === 'tange-atsuko' && (
+                         <span className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-200 font-medium">※2026年6月登壇</span>
+                       )}
                      </div>
                      <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
                        <MessageCircle className="w-3 h-3" />
-                       <span>年間質問: <span className="font-semibold text-gray-700">{member.questionCount}回</span></span>
+                       <span>登壇回数: <span className="font-semibold text-gray-700">{member.questionCount}回</span></span>
                      </div>
                    </div>
                  </div>
@@ -163,6 +169,25 @@ export default function ReportCardsPage() {
              </Link>
            );
         })}
+
+        {/* Notes Area */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 text-xs text-gray-600 leading-relaxed space-y-2.5 mt-6">
+          <div className="font-bold text-gray-800 flex items-center gap-1.5">
+            <span>📌</span>
+            <span>対象期間および掲載議員について</span>
+          </div>
+          <p className="text-[11px] text-gray-500 leading-relaxed">
+            本通信簿は、<strong>2025年6月定例会以降</strong>（全5定例会）における一般質問の実績および選挙公報の公約達成状況を全23名分集計・可視化しています。
+          </p>
+          <ul className="list-disc pl-4 space-y-1.5 text-[11px] text-gray-600">
+            <li>
+              <strong>益田英主 氏</strong>：2026年5月に議員辞任されたため、在任期間（2025年6月〜2026年3月）の活動実績および公約進捗を掲載しています。
+            </li>
+            <li>
+              <strong>丹下敦子 議員</strong>：2026年6月定例会より初登壇されたため、同定例会以降の活動実績および公約進捗を掲載しています。
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

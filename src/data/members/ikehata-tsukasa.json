@@ -3,9 +3,9 @@
   "name": "池畠司",
   "seatNumber": 11,
   "faction": "自由民主党入間市議団",
-  "progressRate": 33,
-  "manifestoTotal": 3,
-  "manifestoProgressed": 1,
+  "progressRate": 50,
+  "manifestoTotal": 4,
+  "manifestoProgressed": 2,
   "questionCount": 1,
   "themes": [
     "精神障害者支援の拡大 / いじめ対策 / 朝の子どもの居場所づくり"
@@ -20,6 +20,10 @@
     {
       "completed": true,
       "text": "幼保小中の滑らかな連携による小１プロブレム・中１ギャップの未然防止・安心安全な通学の実現"
+    },
+    {
+      "completed": true,
+      "text": "年齢性別、個々人の特性を問わず、誰もが生きやすく、機会が平等なまちを（ソーシャルインクルージョンの実現）"
     },
     {
       "completed": false,

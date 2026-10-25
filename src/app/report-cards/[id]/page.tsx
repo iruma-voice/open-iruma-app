@@ -83,11 +83,23 @@ export default async function MemberReportCardPage(props: { params: Promise<{ id
           </div>
           <div>
             <h1 className="text-2xl font-extrabold text-gray-900 leading-tight">{member.name}</h1>
-            {member.faction && (
-              <span className="inline-block mt-1 text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md border border-gray-200 font-semibold">
-                {member.faction}
-              </span>
-            )}
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {member.faction && (
+                <span className="inline-block text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md border border-gray-200 font-semibold">
+                  {member.faction}
+                </span>
+              )}
+              {member.id === 'masuda-hidetoshi' && (
+                <span className="inline-block text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-md border border-amber-200 font-medium">
+                  ※2026年5月辞任（在任期間の実績）
+                </span>
+              )}
+              {member.id === 'tange-atsuko' && (
+                <span className="inline-block text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md border border-blue-200 font-medium">
+                  ※2026年6月登壇（初登壇以降の実績）
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
