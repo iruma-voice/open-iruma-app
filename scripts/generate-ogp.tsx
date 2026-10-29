@@ -990,18 +990,27 @@ async function main() {
     count++;
   }
 
-  // 5. お知らせ個別記事（2件）のOGP画像
+  // 5. お知らせ個別記事のOGP画像
   console.log(`5. Generating all ${newsData.length} News Detail OGP images...`);
   for (const news of newsData) {
-    const isPurpose = news.title.includes('パーパス');
+    let lines = [news.title.slice(0, 12), news.title.slice(12, 24)].filter(Boolean);
+    let impact = 'いるまオープン議会 新着検証記事・データ更新情報';
+
+    if (news.id === 'update-2026-10-29' || news.title.includes('地区センター')) {
+      lines = ['新着：地区センター4分館', '廃止検証と開示文書45件'];
+      impact = '30年計画の急転と10月20日市長指示・説明会全記録';
+    } else if (news.id === 'update-2026-10-24' || news.title.includes('パーパス')) {
+      lines = ['新着：入間市パーパス', '検証記事2部作を公開'];
+      impact = '開示公文書とアンケートから策定・運用を検証';
+    } else if (news.id === 'update-2026-09-20') {
+      lines = ['2026年9月 更新情報', '（令和8年6月議会反映分）'];
+      impact = '新庁舎・西武中・水道・給食など6記事を更新';
+    }
+
     await generateSplitOgpImage(`news-${news.id}.png`, {
       category: `更新情報（${news.date.replace(/-/g, '.')}）`,
-      lines: isPurpose
-        ? ['新着：入間市パーパス', '検証記事2部作を公開']
-        : ['2026年9月 更新情報', '（令和8年6月議会反映分）'],
-      impact: isPurpose
-        ? '開示公文書とアンケートから策定・運用を検証'
-        : '新庁舎・西武中・水道・給食など6記事を更新',
+      lines,
+      impact,
       theme: 'news',
     });
     count++;

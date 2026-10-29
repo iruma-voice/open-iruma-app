@@ -98,6 +98,29 @@ function syncNews() {
     }
   }
 
+  // Build basename -> id map from 02_地域課題と議論_Issues_Debates markdown files
+  const ISSUES_SOURCE_DIR = path.join(ROOT_DIR, '00.open-iruma/02_地域課題と議論_Issues_Debates');
+  const basenameToIdMap = {};
+  const basenameToTitleMap = {};
+  function scanIssueFiles(dir) {
+    if (!fs.existsSync(dir)) return;
+    for (const entry of fs.readdirSync(dir)) {
+      const fullPath = path.join(dir, entry);
+      if (fs.statSync(fullPath).isDirectory()) {
+        scanIssueFiles(fullPath);
+      } else if (entry.endsWith('.md')) {
+        const raw = fs.readFileSync(fullPath, 'utf-8');
+        const { data } = parseFrontmatter(raw);
+        const basename = path.basename(fullPath, '.md');
+        if (data.id) {
+          basenameToIdMap[basename] = data.id;
+          if (data.title) basenameToTitleMap[basename] = data.title;
+        }
+      }
+    }
+  }
+  scanIssueFiles(ISSUES_SOURCE_DIR);
+
   const files = fs.readdirSync(SOURCE_DIR);
   const finalNewsData = [];
 
@@ -133,10 +156,11 @@ function syncNews() {
         linkText = targetTitle;
       }
       
-      // issues_data.jsonからタイトルでIDを検索
+      // issues_data.jsonからタイトルまたはファイル名（basename）でIDを検索
       const matchedIssue = issuesData.find(issue => issue.title === targetTitle);
-      if (matchedIssue) {
-        return `[**${linkText}**](/issues/${matchedIssue.id})`;
+      const matchedId = matchedIssue ? matchedIssue.id : basenameToIdMap[targetTitle];
+      if (matchedId) {
+        return `[**${linkText}**](/issues/${matchedId})`;
       }
       return `**${linkText}**`;
     });
