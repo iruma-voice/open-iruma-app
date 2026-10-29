@@ -1,6 +1,23 @@
 import Link from 'next/link';
 import fs from 'fs';
 import path from 'path';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '地域課題と議論一覧',
+  description: '入間市議会で議論されている地域課題の3分要約・時系列の変遷・一次資料アーカイブ一覧です。',
+  openGraph: {
+    title: '地域課題と議論一覧 | いるまオープン議会',
+    description: '入間市議会で議論されている地域課題の3分要約・時系列の変遷・一次資料アーカイブ一覧です。',
+    images: [{ url: '/images/ogp/issues-top.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '地域課題と議論一覧 | いるまオープン議会',
+    description: '入間市議会で議論されている地域課題の3分要約・時系列の変遷・一次資料アーカイブ一覧です。',
+    images: ['/images/ogp/issues-top.png'],
+  },
+};
 
 export default function Home() {
   const dataPath = path.join(process.cwd(), 'src/data/issues_data.json');

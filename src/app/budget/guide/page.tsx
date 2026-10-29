@@ -1,4 +1,21 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '予算・財政ページの活用ガイド',
+  description: '当初予算・補正予算・決算・財政指標の読み方と、いるまオープン議会の制作基準を解説します。',
+  openGraph: {
+    title: '予算・財政ページの活用ガイド | いるまオープン議会',
+    description: '当初予算・補正予算・決算・財政指標の読み方と、いるまオープン議会の制作基準を解説します。',
+    images: [{ url: '/images/ogp/budget-guide.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '予算・財政ページの活用ガイド | いるまオープン議会',
+    description: '当初予算・補正予算・決算・財政指標の読み方と、いるまオープン議会の制作基準を解説します。',
+    images: ['/images/ogp/budget-guide.png'],
+  },
+};
 
 export default function BudgetGuidePage() {
   return (

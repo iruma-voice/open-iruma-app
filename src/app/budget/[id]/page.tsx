@@ -29,6 +29,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!budget) return {};
 
   const description = extractDescription(budget.content) || budget.title;
+  const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `budget-${resolvedParams.id}.png`);
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/budget-${resolvedParams.id}.png` : '/images/ogp/budget.png';
 
   return {
     title: budget.title,
@@ -37,12 +39,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       title: `${budget.title} | いるまオープン議会`,
       description,
       type: 'article',
-      images: [{ url: '/images/ogp-default.png', width: 1200, height: 630 }],
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: budget.title,
+      title: `${budget.title} | いるまオープン議会`,
       description,
+      images: [imageUrl],
     },
   };
 }

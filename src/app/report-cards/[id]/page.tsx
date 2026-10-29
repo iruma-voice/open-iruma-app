@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const description = `${member.name}議員（会派：${member.faction}）の通信簿。公約の達成状況と議会での一般質問の傾向をデータから可視化します。`;
 
   const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `report-card-${resolvedParams.id}.png`);
-  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/report-card-${resolvedParams.id}.png` : '/images/ogp-default.png';
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/report-card-${resolvedParams.id}.png` : '/images/ogp/report-cards-top.png';
 
   return {
     title: `${member.name}議員の通信簿`,
@@ -38,8 +38,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${member.name}議員の通信簿`,
+      title: `${member.name}議員の通信簿 | いるまオープン議会`,
       description,
+      images: [imageUrl],
     },
   };
 }

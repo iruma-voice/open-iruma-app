@@ -6,6 +6,36 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const dataPath = path.join(process.cwd(), 'src/data/news_data.json');
+  if (!fs.existsSync(dataPath)) return {};
+  const newsList = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  const newsItem = newsList.find((item: any) => item.id === resolvedParams.id);
+  if (!newsItem) return {};
+
+  const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `news-${resolvedParams.id}.png`);
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/news-${resolvedParams.id}.png` : '/images/ogp/news-top.png';
+
+  return {
+    title: newsItem.title,
+    description: `${newsItem.date.replace(/-/g, '.')} 公開：${newsItem.title}`,
+    openGraph: {
+      title: `${newsItem.title} | いるまオープン議会`,
+      description: `${newsItem.date.replace(/-/g, '.')} 公開：${newsItem.title}`,
+      type: 'article',
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${newsItem.title} | いるまオープン議会`,
+      description: `${newsItem.date.replace(/-/g, '.')} 公開：${newsItem.title}`,
+      images: [imageUrl],
+    },
+  };
+}
 
 // Fetch all news IDs for static generation
 export async function generateStaticParams() {

@@ -5,6 +5,27 @@ import fs from 'fs';
 import path from 'path';
 import MarkdownRenderer from '../../../../components/MarkdownRenderer';
 import TallyFeedback from '../../../../components/TallyFeedback';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const decodedTitle = decodeURIComponent(resolvedParams.id).replace(/^\d+_/, '');
+  return {
+    title: `${decodedTitle}（議員の通信簿）`,
+    description: `いるまオープン議会「議員の通信簿」の${decodedTitle}に関する説明ページです。`,
+    openGraph: {
+      title: `${decodedTitle} | いるまオープン議会`,
+      description: `いるまオープン議会「議員の通信簿」の${decodedTitle}に関する説明ページです。`,
+      images: [{ url: '/images/ogp/report-cards-top.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${decodedTitle} | いるまオープン議会`,
+      description: `いるまオープン議会「議員の通信簿」の${decodedTitle}に関する説明ページです。`,
+      images: ['/images/ogp/report-cards-top.png'],
+    },
+  };
+}
 
 export function generateStaticParams() {
   const docsDir = path.join(process.cwd(), 'src/data/docs');

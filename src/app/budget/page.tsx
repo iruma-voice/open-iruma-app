@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '予算・財政 | いるまオープン議会',
     description: '入間市の予算と財政の使い道・変遷をわかりやすく解説します。',
+    images: ['/images/ogp/budget.png'],
   },
 };
 

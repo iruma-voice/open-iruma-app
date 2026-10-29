@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '議員の通信簿 | いるまオープン議会',
     description: '入間市議会議員23人の公約達成状況や議会での活動データ（2025年6月以降）を可視化した通信簿です。',
+    images: ['/images/ogp/report-cards-top.png'],
   },
 };
 

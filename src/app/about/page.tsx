@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'このサイトについて | いるまオープン議会',
     description: 'いるまオープン議会は、入間市議会の議論をわかりやすく可視化する非公式の有志プロジェクトです。',
+    images: ['/images/ogp/about.png'],
   },
 };
 

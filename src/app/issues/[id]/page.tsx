@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const description = extractDescription(issue.content) || issue.title;
 
   const dynamicImagePath = path.join(process.cwd(), 'public', 'images', 'ogp', `issue-${resolvedParams.id}.png`);
-  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/issue-${resolvedParams.id}.png` : '/images/ogp-default.png';
+  const imageUrl = fs.existsSync(dynamicImagePath) ? `/images/ogp/issue-${resolvedParams.id}.png` : '/images/ogp/top.png';
 
   return {
     title: issue.title,
@@ -50,8 +50,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     },
     twitter: {
       card: 'summary_large_image',
-      title: issue.title,
+      title: `${issue.title} | いるまオープン議会`,
       description,
+      images: [imageUrl],
     },
   };
 }

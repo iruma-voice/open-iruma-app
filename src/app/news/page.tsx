@@ -5,6 +5,23 @@ import { ArrowLeft, Megaphone } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '更新履歴・お知らせ',
+  description: 'いるまオープン議会の新着検証記事やデータ更新のお知らせ一覧です。',
+  openGraph: {
+    title: '更新履歴・お知らせ | いるまオープン議会',
+    description: 'いるまオープン議会の新着検証記事やデータ更新のお知らせ一覧です。',
+    images: [{ url: '/images/ogp/news-top.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '更新履歴・お知らせ | いるまオープン議会',
+    description: 'いるまオープン議会の新着検証記事やデータ更新のお知らせ一覧です。',
+    images: ['/images/ogp/news-top.png'],
+  },
+};
 
 // News List Page
 export default function NewsPage() {
