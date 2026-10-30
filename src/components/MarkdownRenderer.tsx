@@ -223,28 +223,45 @@ export default function MarkdownRenderer({ content }: { content: string }) {
           const isTimelineTable = headers[0] === '年度';
 
           if (colCount >= 4 && !isTimelineTable) {
+            const isPolicyTypeHeader = (h: string) =>
+              h === '種類' || h === '反対の種類' || h === '指摘の性質' || h === '指摘の種類';
+            const isSourceHeader = (h: string) =>
+              h === '根拠' || h === '根拠（議事録）' || h.startsWith('根拠（') || h.startsWith('出典') || h === '議事録' || h === '議事録原本PDF';
+
+            const policyTypeIdx = headers.findIndex(isPolicyTypeHeader);
+            const sourceIdx = headers.findIndex(isSourceHeader);
+
+            const formatBadgeLabel = (rawHeader: string) => {
+              const cleaned = rawHeader.replace(/（.*?）/g, '').replace(/\[.*?\]/g, '').trim();
+              if (cleaned === '市の計画・賛成意見') return '市の計画';
+              if (cleaned === '反対意見・懸念事項') return '反対・懸念';
+              if (cleaned.length <= 8) return cleaned;
+              return cleaned.slice(0, 8);
+            };
+
             return (
               <div className="space-y-6 my-8 font-sans">
                 {rows.map((rowCells, rIdx) => {
                    const titleCell = rowCells[0];
-                   const policyType = headers[4] ? rowCells[4] : '';
-                   const sourceNode = headers[5] ? rowCells[5] : '';
+                   const policyType = policyTypeIdx >= 0 ? rowCells[policyTypeIdx] : '';
+                   const sourceNode = sourceIdx >= 0 ? rowCells[sourceIdx] : '';
                    
                    return (
                       <div key={rIdx} className="border-2 border-slate-300 p-4 bg-white relative space-y-4 shadow-sm rounded-sm">
                         <div className="flex justify-between items-baseline border-b border-dashed border-slate-300 pb-2 gap-2">
                           <h4 className="text-base font-bold text-slate-900 leading-snug">{titleCell}</h4>
                           {policyType && (
-                            <span className="font-mono text-[10px] bg-slate-900 text-white px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                            <span className="font-mono text-[10px] bg-slate-900 !text-white [&_strong]:!text-white [&_a]:!text-white px-1.5 py-0.5 rounded-sm whitespace-nowrap">
                               {policyType}
                             </span>
                           )}
                         </div>
                         <div className="space-y-3 text-xs">
                           {headers.slice(1).map((header, cIdx) => {
-                             const cellData = rowCells[cIdx + 1];
+                             const colIdx = cIdx + 1;
+                             const cellData = rowCells[colIdx];
                              if (!cellData || (Array.isArray(cellData) && cellData.length === 0) || cellData === '─') return null;
-                             if (header === '種類' || header === '反対の種類' || header === '根拠' || header === '根拠（議事録）') return null;
+                             if (colIdx === policyTypeIdx || colIdx === sourceIdx) return null;
                              
                              let badgeBg = "bg-slate-100";
                              let badgeText = "text-slate-700";
@@ -253,9 +270,9 @@ export default function MarkdownRenderer({ content }: { content: string }) {
                              else if (header.includes('要望') || header.includes('警告') || header.includes('条件')) { badgeBg = "bg-amber-50"; badgeText = "text-amber-800"; }
 
                              return (
-                               <div key={cIdx} className="grid grid-cols-[60px_1fr] gap-2 border-t border-slate-100 pt-3 first:border-0 first:pt-0">
-                                 <span className={`font-bold px-1 text-center self-start rounded-sm ${badgeBg} ${badgeText} leading-snug`}>
-                                   {header.replace(/（.*?）/g, '').slice(0, 4)}
+                               <div key={cIdx} className="grid grid-cols-[84px_1fr] gap-2.5 border-t border-slate-100 pt-3 first:border-0 first:pt-0">
+                                 <span className={`font-bold px-1.5 py-0.5 text-center self-start rounded-sm ${badgeBg} ${badgeText} leading-snug break-words`}>
+                                   {formatBadgeLabel(header)}
                                  </span>
                                  <div className="text-slate-700 leading-relaxed [&_a]:text-blue-600 [&_a]:underline [&_span]:!bg-transparent [&_span]:!border-none [&_span]:!p-0 [&_span]:!text-current">
                                    {cellData}
@@ -266,7 +283,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
                         </div>
                         {sourceNode && (
                            <div className="text-right pt-2 border-t border-slate-100 mt-2">
-                             <div className="font-mono text-[10px] text-slate-400 [&_a]:text-slate-400 [&_span]:!bg-transparent [&_span]:!border-none [&_span]:!p-0 [&_span]:!text-slate-400 inline-block">
+                             <div className="font-mono text-[11px] text-slate-500 [&_a]:text-blue-600 [&_a]:underline [&_span]:!bg-transparent [&_span]:!border-none [&_span]:!p-0 [&_span]:!text-slate-500 inline-block">
                                {sourceNode}
                              </div>
                            </div>
