@@ -33,8 +33,22 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex flex-col gap-3">
-            {/* 2026.10.29 新着 */}
+            {/* 2026.11.21 最新更新 */}
             <div className="flex flex-col gap-1 pb-3 border-b border-gray-100">
+              <time className="text-sm font-medium text-gray-500">2026.11.21</time>
+              <p className="text-gray-800 leading-relaxed text-sm sm:text-base">
+                令和8年9月定例会の内容を全12テーマに反映：
+                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/14cfec1930f9">新庁舎建て替え</Link>、
+                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/918b74e27810">西武中建て替え</Link>、
+                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/2d86710d46ca">第7次総合計画</Link>、
+                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/037b5ba67b5e">財政の逼迫</Link> ほか全12テーマを更新。
+                <br />
+                詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news/update-2026-11-21">こちら</Link>。
+              </p>
+            </div>
+
+            {/* 2026.10.29 前回更新 */}
+            <div className="flex flex-col gap-1">
               <time className="text-sm font-medium text-gray-500">2026.10.29</time>
               <p className="text-gray-800 leading-relaxed text-sm sm:text-base">
                 新着記事：
@@ -42,18 +56,6 @@ export default function Home() {
                 <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/acfd14b0cbd1">開示公文書アーカイブ（全45件）</Link>
                 <br />
                 詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news/update-2026-10-29">こちら</Link>。
-              </p>
-            </div>
-
-            {/* 2026.10.24 前回更新 */}
-            <div className="flex flex-col gap-1">
-              <time className="text-sm font-medium text-gray-500">2026.10.24</time>
-              <p className="text-gray-800 leading-relaxed text-sm sm:text-base">
-                新着記事：
-                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/1b42f31f69de">入間市パーパス（策定編）</Link>、
-                <Link className="text-blue-700 hover:text-blue-900 font-bold underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors" href="/issues/3e2ef1b80a7d">入間市パーパス（運用編）</Link>
-                <br />
-                詳細は<Link className="text-blue-700 hover:text-blue-900 underline underline-offset-4 decoration-blue-200 hover:decoration-blue-700 transition-colors font-bold" href="/news/update-2026-10-24">こちら</Link>。
               </p>
             </div>
           </div>
