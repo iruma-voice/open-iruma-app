@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import IrumaMapHeroBanner from './IrumaMapHeroBanner';
@@ -11,8 +12,10 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   ClipboardList,
   Clock,
+  ExternalLink,
   FileText,
   HeartHandshake,
   Info,
@@ -372,7 +375,10 @@ function GaugeVisualChart({ chartType }: { chartType: string }) {
   );
 }
 
-// 1枚ずつ大きく読める全画面ライトボックスモーダル（複数資料の切替＆拡大対応）
+const ZOOM_LEVELS = [1, 1.8, 2.6] as const;
+type ZoomLevel = (typeof ZOOM_LEVELS)[number];
+
+// 1枚ずつ大きく見られる全画面ライトボックスモーダル（PortalでBottomNavより最前面描画）
 function DocumentLightboxModal({
   lightbox,
   onChangeIndex,
@@ -382,14 +388,22 @@ function DocumentLightboxModal({
   onChangeIndex: (newIndex: number) => void;
   onClose: () => void;
 }) {
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [zoomIndex, setZoomIndex] = useState(0);
+  const [showInfo, setShowInfo] = useState(false);
 
+  const zoomLevel: ZoomLevel = ZOOM_LEVELS[zoomIndex] || 1;
   const currentDoc = lightbox
     ? lightbox.docs[lightbox.index] || lightbox.docs[0]
     : null;
 
   useEffect(() => {
-    setIsZoomed(false);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    setZoomIndex(0);
+    setShowInfo(false);
   }, [lightbox?.index, currentDoc?.image]);
 
   useEffect(() => {
@@ -415,152 +429,221 @@ function DocumentLightboxModal({
     };
   }, [lightbox, onChangeIndex, onClose]);
 
-  if (!lightbox || !currentDoc) return null;
+  if (!mounted || !lightbox || !currentDoc) return null;
 
   const hasMultiple = lightbox.docs.length > 1;
   const isPortrait = currentDoc.orientation === 'portrait';
 
-  return (
+  // 画像タップで 100% → 180% → 260% → 100% へ順送り
+  const cycleZoom = () => {
+    setZoomIndex((prev) => (prev + 1) % ZOOM_LEVELS.length);
+  };
+
+  // 倍率に応じた画像サイズクラス（m-auto + shrink-0 により上下左右中央揃え＆全方向スクロール）
+  const getImageContainerClass = () => {
+    if (zoomLevel === 1.8) {
+      return 'm-auto shrink-0 w-[180vw] sm:w-[min(150vw,1600px)] max-w-none bg-white rounded-lg p-1 shadow-2xl';
+    }
+    if (zoomLevel === 2.6) {
+      return 'm-auto shrink-0 w-[260vw] sm:w-[min(220vw,2200px)] max-w-none bg-white rounded-lg p-1 shadow-2xl';
+    }
+    return isPortrait
+      ? 'm-auto shrink-0 w-[96vw] sm:w-[88vw] max-w-[920px] bg-white rounded-xl p-1 shadow-2xl'
+      : 'm-auto shrink-0 w-[98vw] sm:w-[92vw] max-w-[1280px] bg-white rounded-xl p-1 shadow-2xl';
+  };
+
+  const modalContent = (
     <div
-      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex flex-col justify-between p-2.5 sm:p-5"
+      className="fixed inset-0 z-[100] h-[100dvh] w-screen bg-black/95 flex flex-col overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={currentDoc.title}
       onClick={onClose}
     >
-      {/* 上部バー：資料タイトル ＋ 拡大・閉じるボタン */}
+      {/* 上部バー（極小化して画像領域を最大化） */}
       <div
-        className="flex items-start justify-between gap-2 bg-[#1A1E1B]/90 border border-white/15 rounded-2xl px-3.5 py-2.5 text-white max-w-4xl w-full mx-auto"
+        className="shrink-0 px-3 pt-2.5 pb-1.5 flex items-center justify-between gap-2 bg-black/70 border-b border-white/10 text-white"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span className="inline-block text-[10px] font-bold bg-[#2E7D5B] text-white px-2 py-0.5 rounded-full">
-              📄 引用資料（非公式まとめ内参考表示）
-            </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#8FE0B8] mb-0.5">
+            <span>📄 引用資料</span>
             {hasMultiple && (
-              <span className="text-[10.5px] font-mono font-bold text-[#FFF0B3]">
-                {lightbox.index + 1} / {lightbox.docs.length} 枚目
+              <span className="font-mono text-[#FFF0B3]">
+                （{lightbox.index + 1}/{lightbox.docs.length}枚目）
               </span>
             )}
           </div>
-          <h3 className="text-xs sm:text-sm font-black leading-snug">
+          <h3 className="text-[11.5px] sm:text-xs font-black truncate">
             {currentDoc.title}
           </h3>
         </div>
-        <div className="flex items-center gap-1.5 shrink-0">
+
+        {/* ズーム段階操作 ＋ 閉じるボタン */}
+        <div className="flex items-center gap-1 shrink-0">
           <button
             type="button"
-            onClick={() => setIsZoomed((z) => !z)}
-            className="inline-flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-full transition-colors"
+            onClick={() => setZoomIndex((z) => Math.max(0, z - 1))}
+            disabled={zoomIndex === 0}
+            aria-label="縮小"
+            className="w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 disabled:opacity-35 flex items-center justify-center transition-colors"
           >
-            {isZoomed ? (
-              <>
-                <ZoomOut className="w-3.5 h-3.5" />
-                <span>幅に合わせる</span>
-              </>
-            ) : (
-              <>
-                <ZoomIn className="w-3.5 h-3.5" />
-                <span>さらに拡大</span>
-              </>
-            )}
+            <ZoomOut className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={cycleZoom}
+            className="px-2 py-1 rounded-full bg-white/15 hover:bg-white/25 text-[10.5px] font-mono font-bold min-w-[44px] text-center"
+            title="タップで倍率切替"
+          >
+            {Math.round(zoomLevel * 100)}%
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setZoomIndex((z) => Math.min(ZOOM_LEVELS.length - 1, z + 1))
+            }
+            disabled={zoomIndex === ZOOM_LEVELS.length - 1}
+            aria-label="拡大"
+            className="w-7 h-7 rounded-full bg-white/15 hover:bg-white/25 disabled:opacity-35 flex items-center justify-center transition-colors"
+          >
+            <ZoomIn className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="w-8 h-8 rounded-full bg-white text-[#1E221F] flex items-center justify-center font-bold hover:bg-slate-200 transition-colors"
+            className="ml-1 w-8 h-8 rounded-full bg-white text-[#1E221F] flex items-center justify-center font-bold hover:bg-slate-200 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* 中央画像ビューア：1枚を横幅いっぱいに表示（縦長A4は自然な縦スクロール閲覧に対応） */}
+      {/* 中央画像ステージ：常に上下左右中央（m-auto）＋ 拡大時は全方向スクロール */}
       <div
-        className="flex-1 my-2.5 overflow-auto flex items-start sm:items-center justify-center max-w-4xl w-full mx-auto rounded-2xl"
-        onClick={(e) => e.stopPropagation()}
+        className="flex-1 min-h-0 overflow-auto flex p-1.5 sm:p-4"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
       >
         <div
-          className={
-            isZoomed
-              ? 'w-[175%] sm:w-[145%] max-w-none bg-white rounded-xl p-1 shadow-2xl mx-auto'
-              : 'w-full max-w-3xl bg-white rounded-xl p-1 shadow-2xl mx-auto'
-          }
+          className={getImageContainerClass()}
+          onClick={(e) => e.stopPropagation()}
         >
           <img
             src={currentDoc.image}
             alt={currentDoc.title}
-            onClick={() => setIsZoomed((z) => !z)}
-            className={`w-full h-auto rounded-lg ${
-              isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'
-            } ${!isPortrait && !isZoomed ? 'max-h-[62vh] object-contain mx-auto' : ''}`}
+            onClick={cycleZoom}
+            className={`w-full h-auto rounded-md select-none ${
+              zoomIndex < ZOOM_LEVELS.length - 1
+                ? 'cursor-zoom-in'
+                : 'cursor-zoom-out'
+            } ${
+              zoomLevel === 1 && !isPortrait
+                ? 'max-h-[78dvh] object-contain mx-auto'
+                : ''
+            }`}
           />
         </div>
       </div>
 
-      {/* 下部解説・複数資料切替バー */}
+      {/* 下部コントロール＆折りたたみ式解説ドロワー（BottomNavに絶対に隠れない最前面配置） */}
       <div
-        className="bg-white rounded-2xl p-3 sm:p-4 max-w-4xl w-full mx-auto shadow-xl"
+        className="shrink-0 bg-[#1A1E1B]/95 border-t border-white/15 text-white px-3 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
         onClick={(e) => e.stopPropagation()}
       >
-        {hasMultiple && (
-          <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-[#EFECE2]">
-            <button
-              type="button"
-              onClick={() =>
-                onChangeIndex(
-                  (lightbox.index - 1 + lightbox.docs.length) %
-                    lightbox.docs.length
-                )
-              }
-              className="inline-flex items-center gap-1 bg-[#FAF8F2] hover:bg-[#EFECE2] border border-[#DFD8C4] text-[#262A27] text-[11px] font-extrabold px-3 py-1.5 rounded-full"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>前の資料</span>
-            </button>
-            <span className="text-[11px] font-extrabold text-[#236247] truncate px-2">
-              {currentDoc.shortTitle}
-            </span>
-            <button
-              type="button"
-              onClick={() =>
-                onChangeIndex((lightbox.index + 1) % lightbox.docs.length)
-              }
-              className="inline-flex items-center gap-1 bg-[#FAF8F2] hover:bg-[#EFECE2] border border-[#DFD8C4] text-[#262A27] text-[11px] font-extrabold px-3 py-1.5 rounded-full"
-            >
-              <span>次の資料</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
-
-        <p className="text-[10.5px] font-extrabold text-[#236247] mb-1">
-          {currentDoc.source}
-        </p>
-        <p className="text-[11.5px] sm:text-xs font-bold text-[#2E332F] leading-relaxed mb-2.5">
-          {currentDoc.note}
-        </p>
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <span className="text-[10.5px] text-[#6B706C] font-medium">
-            ※画像をタップまたはピンチ操作で拡大・スクロールできます
-          </span>
-          <div className="flex items-center gap-2">
+        {showInfo && (
+          <div className="mb-2.5 bg-white text-[#262A27] rounded-2xl p-3.5 max-h-[34dvh] overflow-y-auto shadow-xl">
+            <p className="text-[10.5px] font-extrabold text-[#236247] mb-1">
+              {currentDoc.source}
+            </p>
+            <p className="text-[12px] font-bold text-[#2E332F] leading-relaxed mb-2.5">
+              {currentDoc.note}
+            </p>
             {lightbox.linkUrl && lightbox.linkTitle && (
               <Link
                 href={lightbox.linkUrl}
                 onClick={onClose}
-                className="inline-flex items-center gap-1 bg-[#2E7D5B] hover:bg-[#236247] text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full transition-colors"
+                className="inline-flex items-center gap-1.5 bg-[#2E7D5B] hover:bg-[#236247] text-white text-[11px] font-extrabold px-3 py-1.5 rounded-full transition-colors"
               >
                 <span>{lightbox.linkTitle}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             )}
+          </div>
+        )}
+
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-1.5">
+          {/* 左：複数資料の切替（または戻る余白） */}
+          <div className="flex items-center gap-1">
+            {hasMultiple ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onChangeIndex(
+                      (lightbox.index - 1 + lightbox.docs.length) %
+                        lightbox.docs.length
+                    )
+                  }
+                  className="inline-flex items-center gap-0.5 bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-full"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>前</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onChangeIndex((lightbox.index + 1) % lightbox.docs.length)
+                  }
+                  className="inline-flex items-center gap-0.5 bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-full"
+                >
+                  <span>次</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </>
+            ) : (
+              <span className="text-[10.5px] text-white/70 font-medium pl-1">
+                画像タップで拡大切替
+              </span>
+            )}
+          </div>
+
+          {/* 右：解説トグル ＋ 別タブ原寸表示 ＋ 閉じる */}
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setShowInfo((s) => !s)}
+              className={`inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-colors ${
+                showInfo
+                  ? 'bg-[#FFF0B3] text-[#1E221F]'
+                  : 'bg-white/15 hover:bg-white/25 text-white'
+              }`}
+            >
+              <span>{showInfo ? '解説を閉じる' : '解説を見る'}</span>
+              {showInfo ? (
+                <ChevronDown className="w-3.5 h-3.5" />
+              ) : (
+                <ChevronUp className="w-3.5 h-3.5" />
+              )}
+            </button>
+
+            <a
+              href={currentDoc.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-full"
+              title="画像を別タブで開く"
+            >
+              <span>原寸</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+
             <button
               type="button"
               onClick={onClose}
-              className="bg-[#EFECE2] hover:bg-[#E2DDD0] text-[#262A27] text-[11px] font-extrabold px-3 py-1.5 rounded-full"
+              className="bg-white text-[#1E221F] hover:bg-slate-200 text-[11px] font-black px-3 py-1.5 rounded-full"
             >
               閉じる
             </button>
@@ -569,6 +652,8 @@ function DocumentLightboxModal({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
 
 export default function OverviewVisualClient({ data }: { data: VisualData }) {
