@@ -5,6 +5,12 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import IrumaTimelinePanoramaBanner from './IrumaTimelinePanoramaBanner';
 import {
+  DocItem,
+  DocumentDeck,
+  DocumentLightboxModal,
+  LightboxState,
+} from './DocumentViewerKit';
+import {
   ArrowRight,
   BarChart3,
   ChevronRight,
@@ -53,6 +59,7 @@ interface OverviewData {
       subValue: string;
       description: string;
     }[];
+    docs: DocItem[];
     ctas: {
       label: string;
       url: string;
@@ -74,6 +81,7 @@ interface OverviewData {
       after: string;
       badge: string;
       detail: string;
+      docs: DocItem[];
     }[];
     links: {
       title: string;
@@ -92,8 +100,14 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
   const [activeAgendaId, setActiveAgendaId] = useState<string>(
     data.agendas[0]?.id || 'agenda-01'
   );
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const [lightbox, setLightbox] = useState<LightboxState | null>(null);
 
-  // スクロール位置に応じてマップ・固定タブのアクティブ項目を同期する
+  const handleImageError = (src: string) => {
+    setFailedImages((prev) => ({ ...prev, [src]: true }));
+  };
+
+  // スクロール位置に応じて固定タブのアクティブ項目を同期する
   useEffect(() => {
     const elements = data.agendas
       .map((a) => document.getElementById(a.id))
@@ -127,17 +141,17 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
 
   return (
     <main className="min-h-screen bg-[#FAF8F2] pb-36 text-[#262A27] font-sans">
-      {/* 最上部モード切替スイッチャー（実資料Q&A版 ⇄ 文章でじっくり読む） */}
+      {/* 最上部モード切替スイッチャー（要点まとめLP ⇄ 全論点・全資料版） */}
       <div className="sticky top-0 z-40 bg-[#FAF8F2]/95 backdrop-blur-md border-b border-[#E6E1D3] px-3 py-2 flex items-center justify-between gap-2">
         <div className="flex bg-[#EAE5D7] p-0.5 rounded-full border border-[#DDD6C3] w-full max-w-xl mx-auto">
           <Link
             href="/overview/visual"
             className="flex-1 text-center py-1.5 px-2 rounded-full text-[#4C524D] hover:text-[#1E221F] text-[11px] font-bold transition-colors"
           >
-            📄 実資料とQ&Aで見る
+            📄 要点まとめ版
           </Link>
           <span className="flex-1 text-center py-1.5 px-2 rounded-full bg-[#2E7D5B] text-white text-[11px] font-black shadow-2xs">
-            📖 文章でじっくり読む
+            📖 全論点・全資料版
           </span>
         </div>
       </div>
@@ -150,7 +164,7 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
         </p>
       </div>
 
-      {/* Section 01: First View（10年見取り図×入間市街並みバナー ＋ 文章版イントロ） */}
+      {/* Section 01: First View（10年見取り図×入間市街並みバナー ＋ 詳細版イントロ） */}
       <section className="px-3.5 pt-4 max-w-2xl mx-auto">
         <div className="bg-white rounded-3xl border border-[#E6E1D3] shadow-xs overflow-hidden">
           <IrumaTimelinePanoramaBanner onJumpToSection={scrollToSection} />
@@ -189,7 +203,7 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
 
             <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#666B67]">
               <Clock className="w-3.5 h-3.5 text-[#2E7D5B] shrink-0" />
-              <span>読了目安：約2分 ｜ {data.hero.updatedAt}</span>
+              <span>情報公開請求資料25ページ分収録 ｜ {data.hero.updatedAt}</span>
             </div>
           </div>
         </div>
@@ -235,7 +249,7 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
         </div>
       </section>
 
-      {/* Section 03: Financial Reality（30秒でわかる入間市の家計簿） */}
+      {/* Section 03: Financial Reality（数字でみる入間市の家計簿 ＋ 家計資料2枚デッキ） */}
       <section
         id="financial-reality"
         className="scroll-mt-36 px-3.5 pt-6 max-w-2xl mx-auto"
@@ -281,6 +295,23 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
             ))}
           </div>
 
+          {/* 家計計器盤の一次資料（1枚ずつ切替・拡大対応） */}
+          <div className="mb-4">
+            <DocumentDeck
+              docs={data.financialShock.docs}
+              failedImages={failedImages}
+              onImageError={handleImageError}
+              onOpenLightbox={(index) =>
+                setLightbox({
+                  docs: data.financialShock.docs,
+                  index,
+                  linkUrl: '/budget',
+                  linkTitle: '市の予算・決算データへ',
+                })
+              }
+            />
+          </div>
+
           <div className="flex flex-col gap-2.5">
             {data.financialShock.ctas.map((cta) => (
               <Link
@@ -314,12 +345,12 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
             <HeartHandshake className="w-4 h-4" />
           </div>
           <p className="text-[12px] font-bold text-[#234737] leading-relaxed">
-            下の4つのタブから気になるテーマへジャンプして、議事録と開示資料に基づく両面ファクトを順番にじっくりお読みいただけます。
+            下の4つのタブから気になるテーマへジャンプして、議事録と開示資料（タップ拡大対応・全25ページ）に基づく両面ファクトをじっくりお読みいただけます。
           </p>
         </div>
       </section>
 
-      {/* Sticky Agenda Bar（4テーマ固定ナビ：OverviewVisualClientと完全統一） */}
+      {/* Sticky Agenda Bar（4テーマ固定ナビ） */}
       <nav
         aria-label="市政の現状ナビゲーション"
         className="sticky top-[48px] z-30 bg-[#FAF8F2]/95 backdrop-blur-md border-y border-[#E6E1D3] py-2.5 px-3.5 mt-5"
@@ -345,7 +376,7 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
         </div>
       </nav>
 
-      {/* Section 04: The 4 Detailed Agendas（縦スクロール詳細レポート） */}
+      {/* Section 04: The 4 Detailed Agendas（縦スクロール詳細レポート ＋ 各論点実資料デッキ） */}
       <section className="px-3.5 pt-5 max-w-2xl mx-auto space-y-6">
         {data.agendas.map((agenda) => (
           <article
@@ -367,7 +398,6 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
                 {agenda.title}
               </h2>
 
-              {/* 市民としての問い */}
               <div className="border-l-4 border-l-[#2E7D5B] bg-[#FAF8F2] border border-[#E6E1D3] px-3.5 py-2.5 rounded-r-xl mb-3">
                 <div className="text-[10.5px] font-extrabold text-[#236247] mb-0.5">
                   💬 市民としての問い
@@ -377,7 +407,6 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
                 </p>
               </div>
 
-              {/* 両面ファクト要約 */}
               <div className="bg-[#FFFBEB] border border-[#EFE1A8] rounded-2xl px-3.5 py-2.5">
                 <div className="flex items-center gap-1 text-[10.5px] font-extrabold text-[#8A5A00] mb-0.5">
                   <Zap className="w-3.5 h-3.5 text-[#C68900]" />
@@ -389,50 +418,70 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
               </div>
             </div>
 
-            {/* Before -> After 数字対比 ＋ 詳細解説群 */}
-            <div className="p-5 space-y-6">
-              {agenda.items.map((item, idx) => (
-                <div
-                  key={idx}
-                  className={
-                    idx > 0 ? 'pt-5 border-t border-dashed border-[#DFD8C4]' : ''
-                  }
-                >
-                  <div className="flex items-start justify-between gap-2 flex-wrap mb-2.5">
-                    <h3 className="text-[15.5px] font-black text-[#1E221F] leading-snug">
-                      {item.topic}
-                    </h3>
-                    <span className="flex-shrink-0 text-[10.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF8E1] text-[#8A5A00] border border-[#F2DC96]">
-                      {item.badge}
-                    </span>
-                  </div>
-
-                  {/* 2段対比ビジュアルボックス */}
-                  <div className="rounded-2xl border border-[#DFD8C4] overflow-hidden mb-3">
-                    <div className="bg-[#FAF8F2] px-3.5 py-2.5 border-b border-[#E6E1D3]">
-                      <span className="block text-[10px] font-extrabold text-[#6B706C] mb-0.5">
-                        これまで・当初見込み
-                      </span>
-                      <span className="text-xs font-bold text-[#4C524D]">
-                        {item.before}
+            {/* Before -> After 数字対比 ＋ 詳細解説 ＋ 一次資料デッキ */}
+            <div className="p-5 space-y-7">
+              {agenda.items.map((item, idx) => {
+                const relatedLink = agenda.links[idx] || agenda.links[0];
+                return (
+                  <div
+                    key={idx}
+                    className={
+                      idx > 0
+                        ? 'pt-6 border-t border-dashed border-[#DFD8C4]'
+                        : ''
+                    }
+                  >
+                    <div className="flex items-start justify-between gap-2 flex-wrap mb-2.5">
+                      <h3 className="text-[15.5px] font-black text-[#1E221F] leading-snug">
+                        {item.topic}
+                      </h3>
+                      <span className="flex-shrink-0 text-[10.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF8E1] text-[#8A5A00] border border-[#F2DC96]">
+                        {item.badge}
                       </span>
                     </div>
-                    <div className="bg-[#EEF5F0] px-3.5 py-2.5">
-                      <span className="block text-[10px] font-extrabold text-[#236247] mb-0.5">
-                        最新の事実・議会の論点
-                      </span>
-                      <span className="text-[13px] font-black text-[#1E3B2E]">
-                        {item.after}
-                      </span>
-                    </div>
-                  </div>
 
-                  {/* 省略なしのファクト解説 */}
-                  <p className="text-[13px] text-[#373D38] leading-[1.75] font-medium">
-                    {item.detail}
-                  </p>
-                </div>
-              ))}
+                    <div className="rounded-2xl border border-[#DFD8C4] overflow-hidden mb-3">
+                      <div className="bg-[#FAF8F2] px-3.5 py-2.5 border-b border-[#E6E1D3]">
+                        <span className="block text-[10px] font-extrabold text-[#6B706C] mb-0.5">
+                          これまで・当初見込み
+                        </span>
+                        <span className="text-xs font-bold text-[#4C524D]">
+                          {item.before}
+                        </span>
+                      </div>
+                      <div className="bg-[#EEF5F0] px-3.5 py-2.5">
+                        <span className="block text-[10px] font-extrabold text-[#236247] mb-0.5">
+                          最新の事実・議会の論点
+                        </span>
+                        <span className="text-[13px] font-black text-[#1E3B2E]">
+                          {item.after}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-[13px] text-[#373D38] leading-[1.75] font-medium mb-3.5">
+                      {item.detail}
+                    </p>
+
+                    {/* 各トピックの開示請求資料デッキ（全25ページ網羅） */}
+                    {item.docs && item.docs.length > 0 && (
+                      <DocumentDeck
+                        docs={item.docs}
+                        failedImages={failedImages}
+                        onImageError={handleImageError}
+                        onOpenLightbox={(docIndex) =>
+                          setLightbox({
+                            docs: item.docs,
+                            index: docIndex,
+                            linkUrl: relatedLink?.url,
+                            linkTitle: relatedLink?.title,
+                          })
+                        }
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* マイクロCTA群：気になった詳細記事へ */}
@@ -470,64 +519,52 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
         ))}
       </section>
 
-      {/* Section 05: さらに詳しく調べる（OverviewVisualClientと完全統一） */}
+      {/* Section 05: さらに詳しく調べる */}
       <section className="px-3.5 mt-10 max-w-2xl mx-auto">
-        <div className="bg-white border border-[#E6E1D3] rounded-3xl p-5 shadow-xs mb-4">
-          <span className="text-[11px] font-extrabold text-[#2E7D5B] block mb-1">
-            🔎 さらに詳しく調べる
-          </span>
-          <h2 className="text-base font-black text-[#1E221F] leading-snug mb-1.5">
-            一次資料の事実をもとに、街の優先順位を確かめる
-          </h2>
-          <p className="text-xs text-[#4C524D] font-medium leading-relaxed mb-4">
-            行政の決断にも理由があり、議会や市民の指摘にも根拠があります。実資料の原本や予算の推移・議員ごとの働きぶり・みんなの意見を通じて、気になる選択肢を確かめてみてください。
-          </p>
+        <div className="flex flex-col gap-2.5 mb-5">
+          <Link
+            href="/overview/visual"
+            className="flex items-center justify-between bg-[#2E7D5B] hover:bg-[#236247] text-white rounded-2xl p-4 font-black text-xs transition-all active:scale-[0.98]"
+          >
+            <span className="flex items-center gap-2">
+              <FileText className="w-4 h-4 shrink-0 text-[#FFF0B3]" />
+              <span>📄 要点まとめ版へ戻る</span>
+            </span>
+            <ArrowRight className="w-4 h-4 shrink-0" />
+          </Link>
 
-          <div className="flex flex-col gap-2.5">
-            <Link
-              href="/overview/visual"
-              className="flex items-center justify-between bg-[#2E7D5B] hover:bg-[#236247] text-white rounded-xl p-3.5 font-extrabold text-xs transition-all active:scale-[0.98]"
-            >
-              <span className="flex items-center gap-2">
-                <FileText className="w-4 h-4 shrink-0 text-[#FFF0B3]" />
-                <span>📄 実資料とQ&Aで見る（拡大画像付きコンパクト版）</span>
-              </span>
-              <ArrowRight className="w-4 h-4 shrink-0" />
-            </Link>
+          <Link
+            href="/proposals"
+            className="flex items-center justify-between bg-[#FFF8E1] hover:bg-[#FFF0C2] text-[#1E221F] border border-[#F2DC96] rounded-2xl p-3.5 font-black text-xs transition-all active:scale-[0.98]"
+          >
+            <span className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#C68900] shrink-0" />
+              <span>みんなの「一般質問」アイデアボード</span>
+            </span>
+            <ArrowRight className="w-4 h-4 text-[#8A5A00] shrink-0" />
+          </Link>
 
-            <Link
-              href="/proposals"
-              className="flex items-center justify-between bg-[#FFF8E1] hover:bg-[#FFF0C2] text-[#1E221F] border border-[#F2DC96] rounded-xl p-3 font-black text-xs transition-all active:scale-[0.98]"
-            >
-              <span className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-[#C68900] shrink-0" />
-                <span>みんなの「一般質問」アイデアボード</span>
-              </span>
-              <ArrowRight className="w-4 h-4 text-[#8A5A00] shrink-0" />
-            </Link>
+          <Link
+            href="/budget"
+            className="flex items-center justify-between bg-white hover:bg-[#FAF8F2] border border-[#E6E1D3] text-[#262A27] rounded-2xl p-3.5 font-extrabold text-xs transition-all active:scale-[0.98]"
+          >
+            <span className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-[#2E7D5B] shrink-0" />
+              <span>市の家計簿（予算・決算・推移グラフ）を見る</span>
+            </span>
+            <ArrowRight className="w-4 h-4 text-[#6B706C] shrink-0" />
+          </Link>
 
-            <Link
-              href="/budget"
-              className="flex items-center justify-between bg-[#FAF8F2] hover:bg-[#EFECE2] border border-[#E6E1D3] text-[#262A27] rounded-xl p-3 font-extrabold text-xs transition-all active:scale-[0.98]"
-            >
-              <span className="flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-[#2E7D5B] shrink-0" />
-                <span>市の家計簿（予算・決算・推移グラフ）を見る</span>
-              </span>
-              <ArrowRight className="w-4 h-4 text-[#6B706C] shrink-0" />
-            </Link>
-
-            <Link
-              href="/report-cards"
-              className="flex items-center justify-between bg-[#FAF8F2] hover:bg-[#EFECE2] border border-[#E6E1D3] text-[#262A27] rounded-xl p-3 font-extrabold text-xs transition-all active:scale-[0.98]"
-            >
-              <span className="flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-[#2E7D5B] shrink-0" />
-                <span>市議会議員23人の「通信簿」（公約・質問実績）</span>
-              </span>
-              <ArrowRight className="w-4 h-4 text-[#6B706C] shrink-0" />
-            </Link>
-          </div>
+          <Link
+            href="/report-cards"
+            className="flex items-center justify-between bg-white hover:bg-[#FAF8F2] border border-[#E6E1D3] text-[#262A27] rounded-2xl p-3.5 font-extrabold text-xs transition-all active:scale-[0.98]"
+          >
+            <span className="flex items-center gap-2">
+              <ClipboardList className="w-4 h-4 text-[#2E7D5B] shrink-0" />
+              <span>市議会議員23人の「通信簿」（公約・質問実績）</span>
+            </span>
+            <ArrowRight className="w-4 h-4 text-[#6B706C] shrink-0" />
+          </Link>
         </div>
 
         {/* その他の個別議論リンク */}
@@ -577,6 +614,15 @@ export default function OverviewClient({ data }: { data: OverviewData }) {
           </p>
         </div>
       </section>
+
+      {/* 全画面ライトボックスモーダル */}
+      <DocumentLightboxModal
+        lightbox={lightbox}
+        onChangeIndex={(newIndex) =>
+          setLightbox((prev) => (prev ? { ...prev, index: newIndex } : null))
+        }
+        onClose={() => setLightbox(null)}
+      />
     </main>
   );
 }

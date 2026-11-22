@@ -33,7 +33,7 @@ export default function Home() {
           <Link href="/overview/visual" className="block group outline-none active:scale-[0.99] transition-transform">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="inline-block font-mono text-[10px] font-black tracking-wider bg-amber-300 text-slate-950 px-2 py-0.5 rounded">
-                NEW // 図解・イラストでサクッと把握（推奨）
+                NEW // まずは要点と開示資料から（推奨）
               </span>
               <ArrowRight className="w-4 h-4 text-amber-300 group-hover:translate-x-1 transition-transform shrink-0" />
             </div>
@@ -41,7 +41,7 @@ export default function Home() {
               1枚でわかる入間市のいま（納税者向け・市政の現状レポート）
             </h2>
             <p className="text-[12px] text-slate-300 leading-relaxed mb-3">
-              イラスト・グラフ・左右比較で、いまの黒字と10年後の課題、全主要議論のつながりを1分で直感把握できます。
+              情報公開請求の一次資料（引用）と数字をもとに、いまの黒字と10年後の課題、暮らしに直結する主要議論をわかりやすく整理しました。
             </p>
           </Link>
           <div className="pt-2.5 border-t border-slate-800 flex items-center justify-between gap-2 text-[11px]">
@@ -49,14 +49,14 @@ export default function Home() {
               href="/overview/visual"
               className="font-extrabold text-amber-300 hover:underline flex items-center gap-1"
             >
-              <span>🖼️ 図解・イラストで見る</span>
+              <span>📄 要点まとめ版を見る</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
             <Link
               href="/overview"
               className="font-bold text-slate-300 hover:text-white flex items-center gap-1"
             >
-              <span>📄 文章でじっくり読む</span>
+              <span>📖 全論点・全資料版を読む</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
