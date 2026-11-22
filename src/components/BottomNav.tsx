@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Info, ClipboardList, Coins, MessageSquare } from 'lucide-react';
+import { Home, Compass, ClipboardList, Coins, MessageSquare } from 'lucide-react';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -18,6 +18,10 @@ export default function BottomNav() {
         <Home className="w-5 h-5 mb-0.5" />
         <span className="text-[9px] font-bold">トップ</span>
       </Link>
+      <Link href="/overview/visual" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname?.startsWith('/overview') ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
+        <Compass className="w-5 h-5 mb-0.5" />
+        <span className="text-[9px] font-bold">市の現状</span>
+      </Link>
       <Link href="/budget" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname?.startsWith('/budget') ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
         <Coins className="w-5 h-5 mb-0.5" />
         <span className="text-[9px] font-bold">予算・財政</span>
@@ -29,10 +33,6 @@ export default function BottomNav() {
       <Link href="/proposals" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname?.startsWith('/proposals') ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
         <MessageSquare className="w-5 h-5 mb-0.5" />
         <span className="text-[9px] font-bold">あなたの声</span>
-      </Link>
-      <Link href="/about" className={`flex flex-col items-center justify-center min-w-[50px] min-h-[50px] rounded-full transition-all active:scale-[0.92] ${pathname === '/about' ? 'text-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-900'}`}>
-        <Info className="w-5 h-5 mb-0.5" />
-        <span className="text-[9px] font-bold">アバウト</span>
       </Link>
     </nav>
   );

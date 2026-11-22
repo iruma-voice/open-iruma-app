@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import PortalClient from '../components/PortalClient';
-import { Megaphone } from 'lucide-react';
+import { Megaphone, Info, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -15,10 +15,53 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50 pb-36">
-      {/* ヒーローセクション（ミニマル化） */}
-      <section className="pt-6 pb-3 px-5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-white/40 flex items-center justify-center shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
-        <h1 className="text-lg font-extrabold tracking-tight text-gray-900">地域課題と議論（入間市）</h1>
+      {/* ヒーローセクション（左：サイトタイトル、右：移設したアバウト導線） */}
+      <section className="pt-5 pb-3 px-4 sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between gap-2 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.02)]">
+        <h1 className="text-base font-extrabold tracking-tight text-gray-900 truncate">地域課題と議論（入間市）</h1>
+        <Link
+          href="/about"
+          className="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold transition-colors active:scale-95"
+        >
+          <Info className="w-3.5 h-3.5 text-slate-600" />
+          <span>このサイトについて</span>
+        </Link>
       </section>
+
+      {/* 📊 新設LP（1枚でわかる入間市のいま）への誘導バナー */}
+      <div className="px-4 mt-5">
+        <div className="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 shadow-md border border-slate-800 relative overflow-hidden">
+          <Link href="/overview/visual" className="block group outline-none active:scale-[0.99] transition-transform">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="inline-block font-mono text-[10px] font-black tracking-wider bg-amber-300 text-slate-950 px-2 py-0.5 rounded">
+                NEW // 図解・イラストでサクッと把握（推奨）
+              </span>
+              <ArrowRight className="w-4 h-4 text-amber-300 group-hover:translate-x-1 transition-transform shrink-0" />
+            </div>
+            <h2 className="text-[16px] font-black leading-snug text-white mb-1.5">
+              1枚でわかる入間市のいま（納税者向け・市政の現状レポート）
+            </h2>
+            <p className="text-[12px] text-slate-300 leading-relaxed mb-3">
+              イラスト・グラフ・左右比較で、いまの黒字と10年後の課題、全主要議論のつながりを1分で直感把握できます。
+            </p>
+          </Link>
+          <div className="pt-2.5 border-t border-slate-800 flex items-center justify-between gap-2 text-[11px]">
+            <Link
+              href="/overview/visual"
+              className="font-extrabold text-amber-300 hover:underline flex items-center gap-1"
+            >
+              <span>🖼️ 図解・イラストで見る</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+            <Link
+              href="/overview"
+              className="font-bold text-slate-300 hover:text-white flex items-center gap-1"
+            >
+              <span>📄 文章でじっくり読む</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* 📢 更新履歴・お知らせ */}
       <div className="px-4 mt-6">
@@ -83,6 +126,20 @@ export default function Home() {
             ></iframe>
           </div>
         </div>
+      </div>
+
+      {/* フッター移設に伴う「このサイトについて（アバウト）」案内リンク */}
+      <div className="px-4 mt-4">
+        <Link
+          href="/about"
+          className="flex items-center justify-between bg-white border border-slate-200 hover:border-slate-400 rounded-xl px-4 py-3 shadow-2xs transition-all active:scale-[0.98]"
+        >
+          <span className="flex items-center gap-2 text-xs font-bold text-slate-700">
+            <Info className="w-4 h-4 text-slate-500 shrink-0" />
+            <span>いるまオープン議会とは（マニフェスト・制作方針・免責事項）</span>
+          </span>
+          <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
+        </Link>
       </div>
 
       <div className="mt-8 px-5 text-center">
