@@ -464,6 +464,18 @@ const CURATED_ISSUES: Record<string, CuratedOgpItem> = {
   },
 
   // --- 議会の透明性とガバナンス ---
+  'd875f86c2442': {
+    category: '行政評価・行政改革',
+    lines: ['行政評価・いるまドック', '市民のための改革か検証'],
+    impact: '延べ101事業・負担増と推進委批判の一次検証',
+    theme: 'governance',
+  },
+  '49e50b7d021b': {
+    category: '一次資料・議事録アーカイブ',
+    lines: ['行政評価・いるまドック', '情報収集・議事録アーカイブ'],
+    impact: '2019〜2026年 全36会議録と一次資料を収録',
+    theme: 'archive',
+  },
   '1b42f31f69de': {
     category: '市政運営・ガバナンス',
     lines: ['入間市パーパス（策定編）', '職員の合言葉から最上位へ'],
@@ -996,7 +1008,10 @@ async function main() {
     let lines = [news.title.slice(0, 12), news.title.slice(12, 24)].filter(Boolean);
     let impact = 'いるまオープン議会 新着検証記事・データ更新情報';
 
-    if (news.id === 'update-2026-10-29' || news.title.includes('地区センター')) {
+    if (news.id === 'update-2026-11-23' || news.title.includes('いるまドック')) {
+      lines = ['新着：行政評価・', 'いるまドック検証記事を公開'];
+      impact = '全101事業・全36会議録と推進委会議録から検証';
+    } else if (news.id === 'update-2026-10-29' || news.title.includes('地区センター')) {
       lines = ['新着：地区センター4分館', '廃止検証と開示文書45件'];
       impact = '30年計画の急転と10月20日市長指示・説明会全記録';
     } else if (news.id === 'update-2026-10-24' || news.title.includes('パーパス')) {
